@@ -1,3 +1,5 @@
-export default function Home() {
-  return <h2>Hello world</h2>;
+import LoginForm from "@/components/LoginForm";
+
+export default async function Home() {
+  return <LoginForm />;
 }
