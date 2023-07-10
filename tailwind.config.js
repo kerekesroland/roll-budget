@@ -11,16 +11,29 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       backgroundImage: {
         "login-card-left": "url(/images/login_image.jpg",
       },
 
+      screens: {
+        xxs: "350px",
+        xs: "400px",
+        s: "530px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+        "3xl": "1920px",
+        "4xl": "2500px",
+      },
+
       colors: {
+        textPrimary: "#fff",
+        textGray: "#79889D",
+        bgCustomDark: "#010808",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
