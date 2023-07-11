@@ -1,3 +1,4 @@
+import DashboardChart from "@/components/Charts/DashboardChart";
 import CustomProgressbar from "@/components/CustomProgressbar";
 import DashboardItemCard from "@/components/DashboardItemCard";
 import Image from "next/image";
@@ -40,11 +41,30 @@ const Dashboard = () => {
       spent: 2000000,
     },
   ];
+
+  const FAKE_FINANCIAL = [
+    {
+      name: "Total income",
+      amount: 600000,
+      color: "text-green-500",
+    },
+    {
+      name: "Total expense",
+      amount: 280000,
+      color: "text-red-500",
+    },
+    {
+      name: "Total balance",
+      amount: 320000,
+      color: "text-green-500",
+    },
+  ];
+
   return (
-    <div className="min-h-screen py-12 w-[calc(100%-364px)] pr-16">
+    <div className="min-h-screen overflow-hidden p-12 md:py-12 w-full md:w-[calc(100%-364px)] md:pr-16">
       <h2 className="font-semibold text-2xl">Dashboard</h2>
-      <div className="h-full w-full mt-8 rounded-[10px] gap-16 flex flex-col 3xl:flex-row justify-between items-start ">
-        <div className="flex flex-col w-full 3xl:w-2/3 ">
+      <div className="w-full mt-8 rounded-[10px] gap-16 flex flex-col 2xl:flex-row justify-between items-start ">
+        <div className="flex flex-col w-full 2xl:w-2/3 ">
           <div className="h-[200px] flex items-center justify-between gap-8 px-8 py-4 bg-[#1C293A] rounded-[15px]">
             <div className="flex w-full items-center gap-16">
               <Image
@@ -65,30 +85,54 @@ const Dashboard = () => {
               </div>
             </div>
             <Image
+              className="hidden lg:block"
               src={"/images/BalanceUp.svg"}
               alt="profile"
               width="250"
               height="125"
             />
           </div>
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-8 flex flex-wrap gap-4 items-center justify-start xl:justify-between">
             {DASHBOARD_ITEMS.map((item) => (
               <DashboardItemCard key={item.name} {...item} />
             ))}
           </div>
+          <div className="flex w-full">
+            <DashboardChart />
+          </div>
         </div>
-        <div className="h-full w-1/3 flex flex-col bg-[#1C293A] p-8 rounded-[10px]">
-          <h3 className="text-2xl font-semibold text-textPrimary mb-8">
-            Exceeded Budgets
-          </h3>
-          <div className="flex flex-col gap-8">
-            {FAKE_PROGRESS.map((progress) => (
-              <CustomProgressbar
-                name={progress.name}
-                value={progress.spent}
-                key={progress.name}
-              />
-            ))}
+        <div className="h-auto w-full 2xl:w-1/3 flex flex-col xl:flex-row 2xl:flex-col xl:gap-16 2xl:gap-0 justify-start bg-[#1C293A] p-8 rounded-[10px]">
+          <div className="w-full">
+            <h3 className="text-2xl font-semibold text-textPrimary mb-8">
+              Exceeded Budgets
+            </h3>
+            <div className="flex flex-col gap-8 w-full">
+              {FAKE_PROGRESS.map((progress) => (
+                <CustomProgressbar
+                  name={progress.name}
+                  value={progress.spent}
+                  key={progress.name}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="w-full">
+            <h3 className="text-2xl font-semibold text-textPrimary my-8 2xl:mb-8 xl:mt-0 2xl:my-8">
+              Financial information
+            </h3>
+            <div className="flex flex-col gap-8 w-full">
+              {FAKE_FINANCIAL.map((fn) => (
+                <div
+                  key={fn.name}
+                  className="flex justify-between items-center"
+                >
+                  <span className="text-lg font-medium">{fn.name}</span>
+                  <span className={`text-xl font-medium ${fn.color}`}>
+                    {fn.amount} HUF
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

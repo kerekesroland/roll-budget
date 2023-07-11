@@ -1,4 +1,5 @@
 import LeftSideBar from "@/components/LeftSideBar";
+import MobileNavbar from "@/components/MobileNavbar";
 
 export const metadata = {
   title: "Dashboard|Roll",
@@ -11,8 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex items-center gap-16 w-full bg-[#030711] text-textPrimary">
+    <div className="min-h-screen flex gap-16 w-full bg-[#030711] text-textPrimary">
       <LeftSideBar />
+      <MobileNavbar />
       {children}
     </div>
   );
