@@ -36,8 +36,10 @@ const SideNavItem = ({ name, icon, active }: Props) => {
       }}
     >
       <div className="flex items-center gap-4 px-4">
-        <Image src={icon} alt={name} width="28" height="40" quality={100} />
-        <span className="text-[16px] mt-[2px] font-medium">{name}</span>
+        <Image src={icon} alt={name} width="28" height="40" />
+        <span className="hidden md:block text-[16px] mt-[2px] font-medium">
+          {name}
+        </span>
       </div>
     </div>
   );
