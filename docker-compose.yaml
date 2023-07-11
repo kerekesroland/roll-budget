@@ -8,6 +8,13 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - postgres-data:/var/lib/postgresql/data
+  mailhog:
+    platform: linux/amd64
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
 
 volumes:
   postgres-data:
