@@ -13,7 +13,7 @@ type TValuta = "HUF" | "USD";
 const DashboardItemCard = ({ name, icon, price }: Props) => {
   const [valuta, setValuta] = useState<TValuta>("HUF");
   return (
-    <div className="h-[171px] min-w-[200px] bg-textPrimary rounded-[15px] relative">
+    <div className="h-[161px] min-w-full s:h-[251px] s:min-w-[290px] md:h-[161px] md:min-w-[180px] xl:h-[171px] xl:min-w-[200px] bg-textPrimary rounded-[15px] relative">
       <Image
         className="absolute top-0 left-0 rounded-tl-[15px] rounded-br-[15px]"
         src={icon}

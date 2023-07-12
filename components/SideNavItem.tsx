@@ -28,7 +28,9 @@ const SideNavItem = ({ name, icon, active }: Props) => {
   return (
     <div
       onClick={name !== "Logout" ? handleNavigate : handleLogout}
-      className="rounded-[15px] p-4 py-6 cursor-pointer transition-background-color duration-300 ease-in-out "
+      className={`rounded-[15px] p-4 py-6 cursor-pointer transition-background-color duration-300 ease-in-out ${
+        !active && "hover:!bg-neutral-900"
+      }`}
       style={{
         background: active
           ? "linear-gradient(47deg, #4131FF 0%, rgba(142, 91, 249, 0.70) 100%)"
