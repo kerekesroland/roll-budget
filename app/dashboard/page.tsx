@@ -1,8 +1,12 @@
+"use client";
+
 import DashboardChart from "@/components/Charts/DashboardChart";
 import CustomProgressbar from "@/components/CustomProgressbar";
 import DashboardItemCard from "@/components/DashboardItemCard";
+import { Chart, registerables } from "chart.js";
 import Image from "next/image";
 
+Chart.register(...registerables);
 const Dashboard = () => {
   const DASHBOARD_ITEMS = [
     {
@@ -61,18 +65,19 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen overflow-hidden p-12 md:py-12 w-full md:w-[calc(100%-364px)] md:pr-16">
+    <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)] ">
       <h2 className="font-semibold text-2xl">Dashboard</h2>
       <div className="w-full mt-8 rounded-[10px] gap-16 flex flex-col 2xl:flex-row justify-between items-start ">
         <div className="flex flex-col w-full 2xl:w-2/3 ">
-          <div className="h-[200px] flex items-center justify-between gap-8 px-8 py-4 bg-[#1C293A] rounded-[15px]">
-            <div className="flex w-full items-center gap-16">
+          <div className="h-auto lg:h-[200px] flex flex-row items-center justify-between gap-8 px-8 py-4 bg-[#1C293A] rounded-[15px]">
+            <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row w-full items-center justify-center lg:justify-start gap-8 lg:gap-16">
               <Image
                 src={"/images/profile.jpeg"}
                 alt="profile"
                 width="125"
                 height="125"
-                className="rounded-full"
+                quality={90}
+                className="rounded-full !w-[200px] !h-[200px] lg:!w-[125px] lg:!h-[125px] object-cover"
               />
               <div className="flex flex-col gap-4">
                 <h3 className="text-xl font-semibold text-textPrimary/70">
@@ -85,19 +90,19 @@ const Dashboard = () => {
               </div>
             </div>
             <Image
-              className="hidden lg:block"
+              className="hidden xl:block"
               src={"/images/BalanceUp.svg"}
               alt="profile"
               width="250"
               height="125"
             />
           </div>
-          <div className="mt-8 flex flex-wrap gap-4 items-center justify-start xl:justify-between">
+          <div className="mt-8 flex flex-wrap gap-4 items-center justify-between s:justify-center md:justify-between">
             {DASHBOARD_ITEMS.map((item) => (
               <DashboardItemCard key={item.name} {...item} />
             ))}
           </div>
-          <div className="flex w-full">
+          <div className="flex w-full mt-8">
             <DashboardChart />
           </div>
         </div>

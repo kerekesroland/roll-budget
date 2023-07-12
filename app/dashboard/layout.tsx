@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex gap-16 w-full bg-[#030711] text-textPrimary">
+    <div className="min-h-screen flex w-full bg-[#030711] text-textPrimary">
       <LeftSideBar />
       <MobileNavbar />
       {children}
