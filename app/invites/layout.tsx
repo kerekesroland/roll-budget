@@ -1,8 +1,9 @@
 import LeftSideBar from "@/components/LeftSideBar";
 import MobileNavbar from "@/components/MobileNavbar";
+import InviteModal from "@/components/modals/InviteModal";
 
 export const metadata = {
-  title: "Imvites|Roll",
+  title: "Invites|Roll",
   description: "The Invite menu to invite members",
 };
 
