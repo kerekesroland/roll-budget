@@ -12,11 +12,22 @@ datasource db {
 
 
 model User {
-  id          String @id @default(uuid()) @db.Uuid
-  email       String @unique
-  password    String
-  activated   Boolean
-  activatedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String   @unique
+  password      String?
+  activated     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  activateToken ActivateToken?
+}
+
+model ActivateToken {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token         String   @unique
+  email         String   // Add the email field
+  activatedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  user          User?    @relation(fields: [userId], references: [id])
+  userId        String?  @db.Uuid @unique
 }
