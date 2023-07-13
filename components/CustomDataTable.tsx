@@ -1,11 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -40,74 +36,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EditIcon } from "lucide-react";
-
-const data: Status[] = [
-  {
-    id: "m5gr84i9",
-    status: "accepted",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    status: "accepted",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    status: "pending",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    status: "accepted",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    status: "pending",
-    email: "carmella@hotmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    status: "accepted",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    status: "pending",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    status: "accepted",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    status: "pending",
-    email: "carmella@hotmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    status: "accepted",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    status: "pending",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    status: "accepted",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    status: "pending",
-    email: "carmella@hotmail.com",
-  },
-];
 
 export type Status = {
   id: string;
@@ -186,7 +114,7 @@ export const columns: ColumnDef<Status>[] = [
   },
 ];
 
-export default function DataTable() {
+export default function DataTable({ data }: { data: Status[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -239,7 +167,7 @@ export default function DataTable() {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className="capitalize cursor-pointer"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)

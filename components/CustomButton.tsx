@@ -7,7 +7,7 @@ type Props = {
   type?: "button" | "reset" | "submit";
   loading?: boolean;
   loadingTitle?: string;
-  onClick?: () => void;
+  onClick?: () => void | Promise<void>;
 };
 
 const CustomButton = ({
