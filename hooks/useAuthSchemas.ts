@@ -28,14 +28,6 @@ export const useAuthSchemas = () => {
   };
 
   const registerSchema = yup.object({
-    username: yup
-      .string()
-      .min(4, errors.userNameMinLengthError)
-      .required(errors.userNameRequiredError),
-    email: yup
-      .string()
-      .email(errors.userEmailFormatError)
-      .required(errors.userEmailRequiredError),
     password: yup
       .string()
       .required(errors.passwordRequiredError)
