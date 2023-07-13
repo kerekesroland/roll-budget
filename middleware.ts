@@ -10,7 +10,7 @@ export const config = {
      * - favicon.ico
      * - fonts
      */
-    "/((?!api|_next/static|_next/image|images|favicon.ico|fonts).*)",
+    "/((?!api|_next/static|_next/image|images|favicon.ico|fonts|activate-account).*)",
   ],
 };
 
