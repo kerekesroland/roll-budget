@@ -1,41 +1,19 @@
-import DataTable, { Status, columns } from "@/components/CustomDataTable";
+import DataTable, { Status } from "@/components/CustomDataTable";
 import InviteForm from "@/components/InviteForm";
-import Image from "next/image";
+import { prisma } from "@/lib/prisma";
 
 async function getData(): Promise<Status[]> {
   // Fetch data from your API here.
-  return [
-    {
-      email: "valaki@gmail.com",
-      id: "32123asdadsads",
-      status: "accepted",
-    },
-    {
-      email: "rolca@gmail.com",
-      id: "32sds123asdadsads",
-      status: "pending",
-    },
-    {
-      email: "sthsdd@gmail.com",
-      id: "zzxxx",
-      status: "accepted",
-    },
-    {
-      email: "martino@gmail.com",
-      id: "22212zzz",
-      status: "pending",
-    },
-    {
-      email: "hollokutya@gmail.com",
-      id: "321xxxzx23asdadsads",
-      status: "accepted",
-    },
-    {
-      email: "menomano@gmail.com",
-      id: "32123asdadsads",
-      status: "accepted",
-    },
-  ];
+  "use server";
+  const tokens = await prisma.activateToken.findMany();
+
+  return tokens?.map((token) => {
+    return {
+      id: token?.id,
+      email: token?.email,
+      status: token?.userId ? "accepted" : "pending",
+    };
+  });
 }
 
 const Invites = async () => {
