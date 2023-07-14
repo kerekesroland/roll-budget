@@ -21,9 +21,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -35,7 +32,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EditIcon } from "lucide-react";
+import Image from "next/image";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export type Status = {
   id: string;
@@ -44,25 +44,25 @@ export type Status = {
 };
 
 export const columns: ColumnDef<Status>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -83,38 +83,13 @@ export const columns: ColumnDef<Status>[] = [
     header: "Status",
     cell: ({ row }) => <div className="capitalize">{row.original.status}</div>,
   },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const invite = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <EditIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(invite.id)}
-            >
-              Copy invite ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View invite details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
 ];
 
-export default function DataTable({ data }: { data: Status[] }) {
+interface IDataTable {
+  data: Array<Status>;
+}
+
+export default function DataTable({ data }: IDataTable) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -122,7 +97,17 @@ export default function DataTable({ data }: { data: Status[] }) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
+  const router = useRouter();
+  const handleDeleteToken = async (id: string) => {
+    try {
+      const res = await axios.delete(`/api/invitation/${id}`);
+      toast.success(res.data.message);
+      router.refresh();
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
   const table = useReactTable({
     data,
     columns,
@@ -197,6 +182,7 @@ export default function DataTable({ data }: { data: Status[] }) {
                     </TableHead>
                   );
                 })}
+                <TableHead key={"delete"}>Actions</TableHead>
               </TableRow>
             ))}
           </TableHeader>
@@ -216,6 +202,22 @@ export default function DataTable({ data }: { data: Status[] }) {
                       )}
                     </TableCell>
                   ))}
+                  <TableCell>
+                    <Button
+                      onClick={() => handleDeleteToken(row.original.id)}
+                      variant="ghost"
+                      className="h-8 w-8 p-0"
+                    >
+                      <span className="sr-only">Open menu</span>
+                      <Image
+                        src={"/images/DeleteIcon.svg"}
+                        alt="Delete"
+                        width={30}
+                        height={30}
+                        className="h-4 w-4"
+                      />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
