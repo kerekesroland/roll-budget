@@ -18,10 +18,12 @@ const ActivateAccount = async ({ params: { token } }: IActivateParams) => {
       },
     });
 
+  // If the token itself doesn't exist
   if (!accountToken) {
     return <NotFound />;
   }
 
+  // If it is already registered to a user
   if (accountToken?.userId) {
     return <AlreadyActivated />;
   }

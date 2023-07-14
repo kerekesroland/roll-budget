@@ -3,15 +3,15 @@ import React from "react";
 
 type Props = {};
 
-const Budget = (props: Props) => {
+const Analytics = (props: Props) => {
   return (
     <>
       <div className="fixed top-5 right-5 z-[99999]">
         <MobileNavbar />
       </div>
-      <h2>Budget</h2>
+      <div>Analytics</div>
     </>
   );
 };
 
-export default Budget;
+export default Analytics;
