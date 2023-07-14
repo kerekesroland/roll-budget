@@ -42,13 +42,20 @@ const RegisterForm = ({ accountToken }: IRegisterForm) => {
 
   const onSubmit: SubmitHandler<IRegisterFormInputs> = async (data) => {
     try {
-      const user = await axios.post("/api/register", {
+      setIsLoading(true);
+      await axios.post("/api/register", {
         ...data,
         email: accountToken?.email,
         token: accountToken,
       });
+      toast.success(`Successfully registered ${accountToken?.email}`);
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     } catch (error: any) {
       toast.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

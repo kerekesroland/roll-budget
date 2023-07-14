@@ -2,8 +2,8 @@ import LeftSideBar from "@/components/LeftSideBar";
 import MobileNavbar from "@/components/MobileNavbar";
 
 export const metadata = {
-  title: "Budget|Roll",
-  description: "The dashboard for your account",
+  title: "Budget|Analytics",
+  description: "The analytics of your budget",
 };
 
 export default function RootLayout({
