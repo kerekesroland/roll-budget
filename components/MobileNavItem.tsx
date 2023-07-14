@@ -22,10 +22,11 @@ const MobileNavItem = ({ name, index, toggleState }: Props) => {
     toast.success(
       "Successfully signed out, you will be redirected to the login page in a second!"
     );
+    toggleState(false);
     setTimeout(async () => {
       await signOut();
     }, 2000);
-  }, []);
+  }, [toggleState]);
 
   return (
     <motion.button
