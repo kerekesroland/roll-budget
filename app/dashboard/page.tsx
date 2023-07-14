@@ -3,6 +3,7 @@
 import DashboardChart from "@/components/Charts/DashboardChart";
 import CustomProgressbar from "@/components/CustomProgressbar";
 import DashboardItemCard from "@/components/DashboardItemCard";
+import MobileNavbar from "@/components/MobileNavbar";
 import { Chart, registerables } from "chart.js";
 import Image from "next/image";
 
@@ -66,7 +67,10 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)] ">
-      <h2 className="font-semibold text-2xl">Dashboard</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="font-semibold text-2xl">Dashboard</h2>
+        <MobileNavbar />
+      </div>
       <div className="w-full mt-8 rounded-[10px] gap-16 flex flex-col 2xl:flex-row justify-between items-start ">
         <div className="flex flex-col w-full 2xl:w-2/3 ">
           <div className="h-auto lg:h-[200px] flex flex-row items-center justify-between gap-8 px-8 py-4 bg-[#1C293A] rounded-[15px]">

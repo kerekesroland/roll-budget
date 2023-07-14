@@ -1,5 +1,4 @@
 import LeftSideBar from "@/components/LeftSideBar";
-import MobileNavbar from "@/components/MobileNavbar";
 
 export const metadata = {
   title: "Budget|Analytics",
@@ -14,7 +13,6 @@ export default function RootLayout({
   return (
     <div className="min-h-screen flex items-center w-full bg-[#030711] text-textPrimary">
       <LeftSideBar />
-      <MobileNavbar />
       {children}
     </div>
   );
