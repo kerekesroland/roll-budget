@@ -1,8 +1,8 @@
 import LeftSideBar from "@/components/LeftSideBar";
 
 export const metadata = {
-  title: "Invites|Roll",
-  description: "The Invite menu to invite members",
+  title: "Reminders|Roll",
+  description: "The Reminders menu to make scheduled notifications",
 };
 
 export default function RootLayout({
