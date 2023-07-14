@@ -6,11 +6,12 @@ import axios from "axios";
 import CustomButton from "../CustomButton";
 import GeneralHeader from "../GeneralHeader";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const InviteModal = () => {
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const router = useRouter();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the email state
     setEmail(e.target.value);
@@ -22,6 +23,7 @@ const InviteModal = () => {
       await axios.post(`/api/invitation`, { email });
       toast.success("Invitation sent successfully!");
       setEmail("");
+      router.refresh();
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message);
