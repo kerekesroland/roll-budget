@@ -18,13 +18,9 @@ export const useAuthSchemas = () => {
     passwordLowerCaseError: "Password must have an lower case character",
     passwordSpecialCharacterError: "Password must have a special character",
     passwordNumberRequiredError: "Password must have a number included",
-    propertyTypeRequiredError: "You must select a property type",
-    countryRequiredError: "You must select a country",
-    propertyImageRequiredError: "You must upload an image for your property",
-    propertyTitleRequiredError: "You must have a title for your property",
-    propertyDescriptionRequiredError:
-      "You must have a description for your property",
-    propertyPriceRequiredError: "You must have a price for your property",
+    categoryNameRequiredError: "Category name is required",
+    categoryPriceRequiredError: "Category price is required",
+    categoryIconRequiredError: "Category icon is required",
   };
 
   const registerSchema = yup.object({
@@ -103,8 +99,15 @@ export const useAuthSchemas = () => {
     password: yup.string().required(errors.passwordRequiredError),
   });
 
+  const categorySchema = yup.object({
+    name: yup.string().required(errors.categoryNameRequiredError),
+    price: yup.number().required(errors.categoryPriceRequiredError),
+    icon: yup.string().required(errors.categoryIconRequiredError),
+  });
+
   return {
     registerSchema,
     loginSchema,
+    categorySchema,
   };
 };
