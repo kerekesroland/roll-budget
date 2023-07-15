@@ -5,11 +5,9 @@ import { IInputController } from "@/models/Inputs";
 const InputController = ({
   label,
   type,
-  isTouched,
   error,
   register,
   placeholder,
-  value,
   defaultName,
 }: IInputController) => {
   return (
