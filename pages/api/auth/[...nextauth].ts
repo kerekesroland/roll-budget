@@ -31,15 +31,16 @@ export const authOptions: AuthOptions = {
 
         //Check if user password is correct
 
-        const password = await argon2.verify(
-          user.password,
-          credentials.password
-        );
+        if (user.password) {
+          const password = await argon2.verify(
+            user.password,
+            credentials.password
+          );
 
-        if (!password) {
-          throw new Error("Invalid credentials");
+          if (!password) {
+            throw new Error("Invalid credentials");
+          }
         }
-
         //Check if user is activated
 
         if (!user.activated) {
