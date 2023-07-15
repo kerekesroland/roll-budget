@@ -7,4 +7,12 @@ export interface IInputController {
   placeholder: string;
   defaultName?: string;
   value: string | number;
+  extraStyle?: string;
+  valuta?: boolean;
+  valutaOptions?: Array<Option>;
 }
+
+type Option = {
+  label: string;
+  value: string;
+};
