@@ -1,5 +1,5 @@
 "use client";
-import { inviteModelOpen } from "@/app/store";
+import { inviteModalOpen } from "@/app/store";
 import Image from "next/image";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
@@ -10,7 +10,7 @@ import MobileNavbar from "./MobileNavbar";
 type Props = {};
 
 const InviteForm = (props: Props) => {
-  const [isModalOpened, setIsModalOpened] = useRecoilState(inviteModelOpen);
+  const [isModalOpened, setIsModalOpened] = useRecoilState(inviteModalOpen);
 
   const toggleState = useCallback(
     (value: boolean) => {
