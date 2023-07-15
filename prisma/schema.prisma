@@ -10,24 +10,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email         String   @unique
-  password      String?
-  activated     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-  activateToken ActivateToken?
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email             String        @unique
+  password          String?
+  activated         Boolean       @default(false)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @default(now())
+  activateToken     ActivateToken?
+  categories        Category[]    
+  budgets           Budget[]      
 }
 
 model ActivateToken {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  token         String   @unique
-  email         String   // Add the email field
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token         String       @unique
+  email         String       
   activatedAt   DateTime?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-  user          User?    @relation(fields: [userId], references: [id])
-  userId        String?  @db.Uuid @unique
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now())
+  user          User?        @relation(fields: [userId], references: [id])
+  userId        String?      @db.Uuid @unique
+}
+
+model Category {
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  limit         Int
+  userId        String       @db.Uuid
+  user          User         @relation(fields: [userId], references: [id])
+  budgets       Budget[]    
+}
+
+model Budget {
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  price         Int
+  type          String
+  date          DateTime
+  icon          String
+  userId        String       @db.Uuid
+  user          User         @relation(fields: [userId], references: [id])
+  categoryId    String?      @db.Uuid
+  category      Category?    @relation(fields: [categoryId], references: [id])
 }
