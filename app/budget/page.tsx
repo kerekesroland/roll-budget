@@ -1,16 +1,14 @@
-import MobileNavbar from "@/components/MobileNavbar";
-import React from "react";
+import BudgetList from "@/components/BudgetList";
+import { getCategories } from "@/lib/getCategories";
+import getCurrentUser from "@/lib/getCurrentUser";
 
-type Props = {};
-
-const Budget = (props: Props) => {
+const Budget = async () => {
+  const user = await getCurrentUser();
+  const categories = await getCategories(user?.id as string);
   return (
-    <>
-      <div className="fixed top-5 right-5 z-[99999]">
-        <MobileNavbar />
-      </div>
-      <h2>Budget</h2>
-    </>
+    <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)]">
+      <BudgetList user={user} categories={categories} />
+    </div>
   );
 };
 

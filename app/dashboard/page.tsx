@@ -66,7 +66,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)] ">
+    <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)]">
       <div className="flex justify-between items-center">
         <h2 className="font-semibold text-2xl">Dashboard</h2>
         <MobileNavbar />
