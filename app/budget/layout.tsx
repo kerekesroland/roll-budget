@@ -1,3 +1,4 @@
+import BudgetCategories from "@/components/BudgetCategories";
 import LeftSideBar from "@/components/LeftSideBar";
 
 export const metadata = {
@@ -11,9 +12,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex items-center w-full bg-[#030711] text-textPrimary">
+    <div className="min-h-screen flex items-start w-full bg-[#030711] text-textPrimary">
       <LeftSideBar />
       {children}
+      <BudgetCategories />
     </div>
   );
 }
