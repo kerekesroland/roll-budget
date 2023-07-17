@@ -28,7 +28,13 @@ const FormSchema = z.object({
   }),
 });
 
-export function DatePickerForm() {
+export function DatePickerForm({
+  extraStyle,
+  callback,
+}: {
+  extraStyle?: string;
+  callback?: any;
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -47,12 +53,13 @@ export function DatePickerForm() {
   const handleDateSelect = (date: Date | null) => {
     if (date !== null) {
       form.setValue("dob", date);
+      callback(date);
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
           name="dob"
@@ -64,7 +71,7 @@ export function DatePickerForm() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] min-h-[50px] pl-3 text-left font-normal !border-[#1C293A] hover:bg-gray-300",
+                        `w-[240px] min-h-[50px] pl-3 text-left font-normal !border-[#1C293A] hover:bg-gray-300 ${extraStyle}`,
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -94,7 +101,7 @@ export function DatePickerForm() {
             </FormItem>
           )}
         />
-      </form>
+      </div>
     </Form>
   );
 }

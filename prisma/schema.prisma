@@ -37,6 +37,7 @@ model Category {
   id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String
   limit         Int
+  icon          String
   userId        String       @db.Uuid
   user          User         @relation(fields: [userId], references: [id])
   budgets       Budget[]    
@@ -44,10 +45,10 @@ model Category {
 
 model Budget {
   id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
   price         Int
-  type          String
-  date          DateTime
-  icon          String
+  type          String       
+  date          DateTime     @default(now())
   userId        String       @db.Uuid
   user          User         @relation(fields: [userId], references: [id])
   categoryId    String?      @db.Uuid

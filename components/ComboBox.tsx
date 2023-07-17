@@ -22,15 +22,22 @@ interface IComboBox {
   title?: string;
   options?: Array<Option>;
   extraStyle?: string;
+  callback?: Function;
 }
 type Option = {
   value: string;
   label: string;
 };
 
-export function Combobox({ title, options, extraStyle }: IComboBox) {
+export function Combobox({ title, options, extraStyle, callback }: IComboBox) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+
+  const handleSelect = (data: any) => {
+    setValue(data === value ? "" : data);
+    callback?.(data);
+    setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -49,15 +56,14 @@ export function Combobox({ title, options, extraStyle }: IComboBox) {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search..." />
           <CommandEmpty>No results.</CommandEmpty>
           <CommandGroup>
             {options?.map((option) => (
               <CommandItem
                 key={option?.value}
                 onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
+                  handleSelect(currentValue);
                 }}
               >
                 <Check

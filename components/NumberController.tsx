@@ -21,6 +21,7 @@ const NumberController = ({
           className={`bg-[#010808] text-textPrimary border-[#1C293A] border-2 py-4 px-5 w-full outline-none rounded-[5px] ${extraStyle}`}
           {...register}
           type="number"
+          step="any"
           minLength={4}
           placeholder={placeholder || defaultName}
           required

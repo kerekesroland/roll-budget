@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 
 export async function POST(req: Request) {
   const body = await req.json();
+
   if (!body.email === undefined || body.email === null || body.email === "") {
     return NextResponse.json(
       {

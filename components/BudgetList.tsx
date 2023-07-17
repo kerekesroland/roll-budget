@@ -3,22 +3,27 @@
 import Image from "next/image";
 import MobileNavbar from "./MobileNavbar";
 import { budgetCategories, budgetModalOpen } from "@/app/store";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useRecoilState } from "recoil";
 import { DatePickerForm } from "./CustomCalendar";
 import { Combobox } from "./ComboBox";
 import { BudgetOptions } from "@/constants/BudgetOptions";
-import { IUser } from "@/models/User";
+import { IUser, TBudget } from "@/models/User";
 import { Category } from "@prisma/client";
+import { AnimatePresence, motion } from "framer-motion";
+import AddBudgetModal from "./modals/AddBudgetModal";
+import BudgetCard from "./BudgetCard";
+import BudgetInfo from "./BudgetInfo";
 
 type Props = {
   user: IUser | null;
-  categories: Category[];
+  categories: Category[] | null;
+  budgets: TBudget[] | null;
 };
 
-const BudgetList = ({ user, categories }: Props) => {
-  const [__, setIsModalOpened] = useRecoilState(budgetModalOpen);
-  const [_, setBCategories] = useRecoilState(budgetCategories);
+const BudgetList = ({ user, categories, budgets }: Props) => {
+  const [isModalOpened, setIsModalOpened] = useRecoilState(budgetModalOpen);
+  const [bCategories, setBCategories] = useRecoilState(budgetCategories);
 
   const toggleState = useCallback(
     (value: boolean) => {
@@ -30,13 +35,29 @@ const BudgetList = ({ user, categories }: Props) => {
   const categoryLabelValues = categories?.map((category) => {
     return {
       label: category?.name,
-      value: category?.name,
+      value: category?.name.toLowerCase(),
     };
   });
 
   useEffect(() => {
-    setBCategories(categories);
+    if (categories) {
+      setBCategories(categories);
+    }
   }, [categories, setBCategories]);
+
+  const getBudgetCategory = (categoryId: string) => {
+    return bCategories.find((category) => category.id === categoryId);
+  };
+
+  const budgetValue = useMemo(() => {
+    return budgets?.reduce((acc, curr) => {
+      if (curr.type === "income") {
+        return acc + curr.price;
+      } else {
+        return acc - curr.price;
+      }
+    }, 0);
+  }, [budgets]);
 
   return (
     <>
@@ -61,6 +82,52 @@ const BudgetList = ({ user, categories }: Props) => {
         <Combobox title="Price" options={BudgetOptions.price} />
         <Combobox title="Category" options={categoryLabelValues} />
       </div>
+      <BudgetInfo
+        numberOfTransactions={budgets?.length || 0}
+        value={budgetValue || 0}
+      />
+      <div className="flex flex-col gap-12">
+        {budgets?.map((budget) => (
+          <BudgetCard
+            getBudgetCategory={getBudgetCategory}
+            key={budget?.id}
+            {...budget}
+            categoryId={budget.categoryId}
+          />
+        ))}
+      </div>
+      <AnimatePresence>
+        {isModalOpened && (
+          <div className="bg-gray-900 backdrop-brightness-50 backdrop-blur-sm bg-opacity-50 fixed inset-0 flex items-center justify-center z-[100]">
+            <motion.div
+              initial={{
+                scale: 0,
+                opacity: 0,
+              }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.5,
+                ease: "easeInOut",
+              }}
+              exit={{
+                scale: 0,
+                opacity: 0,
+              }}
+              onClick={() => toggleState(false)}
+              className="fixed inset-0 flex items-center justify-center z-[100]"
+            >
+              <AddBudgetModal
+                toggleState={toggleState}
+                userId={user?.id as string}
+                categories={bCategories}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

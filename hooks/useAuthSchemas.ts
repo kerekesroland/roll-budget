@@ -21,6 +21,11 @@ export const useAuthSchemas = () => {
     categoryNameRequiredError: "Category name is required",
     categoryPriceRequiredError: "Category price is required",
     categoryIconRequiredError: "Category icon is required",
+    budgetNameRequiredError: "Budget Name is required",
+    budgetPriceRequiredError: "Budget price is required",
+    budgetCategoryRequiredError: "Budget must have a category",
+    budgetDateRequiredError: "Budget must have a Date",
+    budgetTypeRequiredError: "Budget must have a Type",
   };
 
   const registerSchema = yup.object({
@@ -101,13 +106,28 @@ export const useAuthSchemas = () => {
 
   const categorySchema = yup.object({
     name: yup.string().required(errors.categoryNameRequiredError),
-    price: yup.number().required(errors.categoryPriceRequiredError),
+    limit: yup
+      .number()
+      .typeError("You have to provide a number")
+      .required(errors.categoryPriceRequiredError),
     icon: yup.string().required(errors.categoryIconRequiredError),
+  });
+
+  const budgetSchema = yup.object({
+    name: yup.string().required(errors.budgetNameRequiredError),
+    price: yup
+      .number()
+      .typeError("You have to provide a number")
+      .required(errors.budgetPriceRequiredError),
+    category: yup.string().required(errors.budgetCategoryRequiredError),
+    date: yup.date().required(errors.budgetDateRequiredError),
+    type: yup.string().required(errors.budgetTypeRequiredError),
   });
 
   return {
     registerSchema,
     loginSchema,
     categorySchema,
+    budgetSchema,
   };
 };
