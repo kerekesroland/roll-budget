@@ -5,11 +5,15 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   try {
-    const createdCategory = await prisma.category.create({
+    const createdBudget = await prisma.budget.create({
       data: {
         name: body.name,
-        limit: body.limit,
-        icon: body.icon,
+        price: body.price,
+        type: body.type,
+        date: body.date,
+        category: {
+          connect: { id: body.category },
+        },
         user: {
           connect: { id: body.userId },
         },
@@ -18,7 +22,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       status: 200,
-      message: `Successfully created category ${createdCategory.name}`,
+      message: `Successfully created category ${createdBudget.name}`,
     });
   } catch (error) {
     console.error(error);
