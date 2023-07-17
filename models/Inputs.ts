@@ -12,6 +12,13 @@ export interface IInputController {
   valutaOptions?: Array<Option>;
 }
 
+export interface IIconSelector {
+  label?: string;
+  error: string;
+  register: any;
+  setValue: Function;
+}
+
 type Option = {
   label: string;
   value: string;
