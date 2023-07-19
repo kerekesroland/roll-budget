@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import AddBudgetModal from "./modals/AddBudgetModal";
 import EditBudgetModal from "./modals/EditBudgetModal";
 import { IUser } from "@/models/User";
+import { useState } from "react";
 
 type Props = {
   id: string;
@@ -48,7 +49,7 @@ const BudgetCard = ({
   const priceColor = type === "income" ? "green-500" : "red-500";
 
   const [isBudgetEditModalOpen, setIsBudgetEditModalOpen] =
-    useRecoilState(budgetEditModalOpen);
+    useState<boolean>(false);
 
   //todo Change HUF to dynamic valuta
 
@@ -114,7 +115,6 @@ const BudgetCard = ({
               <EditBudgetModal
                 closeModal={() => setIsBudgetEditModalOpen(false)}
                 userId={user?.id as string}
-                categories={[]}
                 budget={{
                   id,
                   name,

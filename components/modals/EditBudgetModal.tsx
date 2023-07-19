@@ -49,14 +49,12 @@ interface IEditBudget {
   closeModal: () => void;
   handleDeleteBudget: (id: string) => Promise<void>;
   userId: string;
-  categories: Category[];
   budget: Budget;
 }
 
 const EditBudgetModal = ({
   userId,
   closeModal,
-  categories,
   budget,
   handleDeleteBudget,
 }: IEditBudget) => {
