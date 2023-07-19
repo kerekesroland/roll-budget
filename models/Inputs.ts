@@ -10,6 +10,7 @@ export interface IInputController {
   extraStyle?: string;
   valuta?: boolean;
   valutaOptions?: Array<Option>;
+  extraContainerStyle?: string;
 }
 
 export interface IIconSelector {

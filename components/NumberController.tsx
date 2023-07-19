@@ -10,11 +10,14 @@ const NumberController = ({
   placeholder,
   defaultName,
   extraStyle,
+  extraContainerStyle,
   valuta,
   valutaOptions,
 }: IInputController) => {
   return (
-    <div className="flex flex-col w-full max-w-[350px] py-4">
+    <div
+      className={`flex flex-col w-full max-w-[350px] py-4 ${extraContainerStyle}`}
+    >
       <label className="text-textPrimary">{label}</label>
       <div className="w-full flex items-center h-[60px]">
         <input

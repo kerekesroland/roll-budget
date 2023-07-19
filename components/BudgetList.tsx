@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import MobileNavbar from "./MobileNavbar";
-import { budgetCategories, budgetModalOpen } from "@/app/store";
+import { budgetCategories, budgetAddModalOpen } from "@/app/store";
 import { useCallback, useEffect, useMemo } from "react";
 import { useRecoilState } from "recoil";
 import { DatePickerForm } from "./CustomCalendar";
@@ -14,6 +14,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import AddBudgetModal from "./modals/AddBudgetModal";
 import BudgetCard from "./BudgetCard";
 import BudgetInfo from "./BudgetInfo";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user: IUser | null;
@@ -22,9 +25,9 @@ type Props = {
 };
 
 const BudgetList = ({ user, categories, budgets }: Props) => {
-  const [isModalOpened, setIsModalOpened] = useRecoilState(budgetModalOpen);
+  const [isModalOpened, setIsModalOpened] = useRecoilState(budgetAddModalOpen);
   const [bCategories, setBCategories] = useRecoilState(budgetCategories);
-
+  const router = useRouter();
   const toggleState = useCallback(
     (value: boolean) => {
       setIsModalOpened(value);
@@ -59,6 +62,19 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
     }, 0);
   }, [budgets]);
 
+  const handleDeleteBudget = useCallback(
+    async (id: string) => {
+      try {
+        await axios.delete(`/api/budget/${id}`);
+        router.refresh();
+        toast.success("Successfully deleted budget");
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      }
+    },
+    [router]
+  );
+
   return (
     <>
       <div className="fixed top-5 right-5 z-[99999]">
@@ -86,13 +102,15 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
         numberOfTransactions={budgets?.length || 0}
         value={budgetValue || 0}
       />
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-8 max-h-[calc(100vh-416px)] overflow-y-auto scrollbar pr-4 scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700">
         {budgets?.map((budget) => (
           <BudgetCard
             getBudgetCategory={getBudgetCategory}
             key={budget?.id}
             {...budget}
             categoryId={budget.categoryId}
+            handleDeleteBudget={handleDeleteBudget}
+            user={user}
           />
         ))}
       </div>

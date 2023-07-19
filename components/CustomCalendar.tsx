@@ -21,6 +21,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -31,9 +32,11 @@ const FormSchema = z.object({
 export function DatePickerForm({
   extraStyle,
   callback,
+  defaultValue,
 }: {
   extraStyle?: string;
   callback?: any;
+  defaultValue?: Date;
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -49,6 +52,13 @@ export function DatePickerForm({
       ),
     });
   }
+
+  useEffect(() => {
+    if (defaultValue) {
+      form.setValue("dob", defaultValue);
+      callback(defaultValue);
+    }
+  }, [callback, defaultValue, form]);
 
   const handleDateSelect = (date: Date | null) => {
     if (date !== null) {
@@ -71,7 +81,7 @@ export function DatePickerForm({
                     <Button
                       variant={"outline"}
                       className={cn(
-                        `w-[240px] min-h-[50px] pl-3 text-left font-normal !border-[#1C293A] hover:bg-gray-300 ${extraStyle}`,
+                        `w-[240px] min-h-[50px] pl-3 text-left font-normal !border-[#1C293A] border-2 hover:bg-gray-300 ${extraStyle}`,
                         !field.value && "text-muted-foreground"
                       )}
                     >

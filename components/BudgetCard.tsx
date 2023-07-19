@@ -1,31 +1,42 @@
 "use client";
 
-import { Category } from "@prisma/client";
 import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
+import { useRecoilState } from "recoil";
+import { budgetEditModalOpen } from "@/app/store";
+import { AnimatePresence, motion } from "framer-motion";
+import AddBudgetModal from "./modals/AddBudgetModal";
+import EditBudgetModal from "./modals/EditBudgetModal";
+import { IUser } from "@/models/User";
 
 type Props = {
+  id: string;
   name: string;
   price: number;
   date: string;
   categoryId: string | null;
-  getBudgetCategory: (categoryId: string) => any;
   type: string;
+  user: IUser | null;
+  getBudgetCategory: (categoryId: string) => any;
+  handleDeleteBudget: (id: string) => Promise<void>;
 };
 const keyToImage: any = {
   shopping: "/images/Shopping.svg",
   education: "/images/Education.svg",
-  bills: "/images/Money.svg",
+  money: "/images/Money.svg",
   utility: "/images/Utility.svg",
 };
 
 const BudgetCard = ({
+  id,
   name,
   price,
   date,
   categoryId,
-  getBudgetCategory,
   type,
+  getBudgetCategory,
+  handleDeleteBudget,
+  user,
 }: Props) => {
   const category = getBudgetCategory(categoryId as string);
   const dateString = new Date(date);
@@ -34,8 +45,10 @@ const BudgetCard = ({
     month: "long",
     year: "numeric",
   });
-
   const priceColor = type === "income" ? "green-500" : "red-500";
+
+  const [isBudgetEditModalOpen, setIsBudgetEditModalOpen] =
+    useRecoilState(budgetEditModalOpen);
 
   //todo Change HUF to dynamic valuta
 
@@ -48,27 +61,77 @@ const BudgetCard = ({
   }
 
   return (
-    <div className="flex items-center justify-between p-8 bg-[#1C293A] rounded-xl">
-      <div className="flex gap-8">
-        <Image
-          src={keyToImage[category?.name?.toLowerCase()]}
-          alt={name}
-          width={60}
-          height={60}
-        />
-        <div className="flex flex-col justify-between">
-          <h3 className="text-lg font-medium">{name}</h3>
-          <span className="text-md font-medium text-[#79889D]">
-            {formattedDate}
-          </span>
+    <>
+      <div
+        onClick={() => setIsBudgetEditModalOpen(true)}
+        className="flex items-center justify-between p-8 bg-[#1C293A] rounded-xl transition-all duration-300 hover:brightness-110 cursor-pointer"
+      >
+        <div className="flex gap-8">
+          <Image
+            src={keyToImage[category?.icon?.toLowerCase()]}
+            alt={name}
+            width={60}
+            height={60}
+          />
+          <div className="flex flex-col justify-between">
+            <h3 className="text-lg font-medium">{name}</h3>
+            <span className="text-md font-medium text-[#79889D]">
+              {formattedDate}
+            </span>
+          </div>
+        </div>
+
+        <div
+          className={`flex items-center gap-4 text-xl font-medium text-${priceColor}`}
+        >
+          {type === "expense" ? "-" : "+"}
+          {price} HUF
         </div>
       </div>
-
-      <div className={`text-xl font-medium text-${priceColor}`}>
-        {type === "expense" ? "-" : "+"}
-        {price} HUF
-      </div>
-    </div>
+      <AnimatePresence>
+        {isBudgetEditModalOpen && (
+          <div className="bg-gray-900 backdrop-brightness-50 backdrop-blur-sm bg-opacity-50 fixed inset-0 flex items-center justify-center z-[100]">
+            <motion.div
+              initial={{
+                scale: 0,
+                opacity: 0,
+              }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.5,
+                ease: "easeInOut",
+              }}
+              exit={{
+                scale: 0,
+                opacity: 0,
+              }}
+              onClick={() => setIsBudgetEditModalOpen(false)}
+              className="fixed inset-0 flex items-center justify-center z-[100]"
+            >
+              <EditBudgetModal
+                closeModal={() => setIsBudgetEditModalOpen(false)}
+                userId={user?.id as string}
+                categories={[]}
+                budget={{
+                  id,
+                  name,
+                  price,
+                  date: dateString,
+                  category,
+                  type,
+                  getBudgetCategory,
+                  handleDeleteBudget,
+                }}
+                handleDeleteBudget={handleDeleteBudget}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

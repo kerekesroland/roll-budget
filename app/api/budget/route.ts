@@ -22,13 +22,13 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       status: 200,
-      message: `Successfully created category ${createdBudget.name}`,
+      message: `Successfully created budget ${createdBudget.name}`,
     });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
       {
-        message: "Error while creating category",
+        message: "Error while creating budget",
       },
       {
         status: 400,

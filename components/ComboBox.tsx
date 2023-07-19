@@ -23,15 +23,22 @@ interface IComboBox {
   options?: Array<Option>;
   extraStyle?: string;
   callback?: Function;
+  defaultValue?: string;
 }
 type Option = {
   value: string;
   label: string;
 };
 
-export function Combobox({ title, options, extraStyle, callback }: IComboBox) {
+export function Combobox({
+  title,
+  options,
+  extraStyle,
+  callback,
+  defaultValue,
+}: IComboBox) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(defaultValue || "");
 
   const handleSelect = (data: any) => {
     setValue(data === value ? "" : data);
@@ -46,7 +53,7 @@ export function Combobox({ title, options, extraStyle, callback }: IComboBox) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`w-[200px] justify-between py-[1.5rem] ${extraStyle}`}
+          className={`w-[200px] justify-between py-[1.5rem] border-2 ${extraStyle}`}
         >
           {value
             ? options?.find((option) => option.value === value)?.label
