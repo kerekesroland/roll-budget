@@ -12,8 +12,13 @@ export const inviteModalOpen = atom({
   default: false,
 });
 
-export const budgetModalOpen = atom({
-  key: "budgetModalOpen",
+export const budgetAddModalOpen = atom({
+  key: "budgetAddModalOpen",
+  default: false,
+});
+
+export const budgetEditModalOpen = atom({
+  key: "budgetEditModalOpen",
   default: false,
 });
 
