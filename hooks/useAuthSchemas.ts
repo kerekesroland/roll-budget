@@ -124,10 +124,28 @@ export const useAuthSchemas = () => {
     type: yup.string().required(errors.budgetTypeRequiredError),
   });
 
+  const editBudgetSchema = yup.object({
+    name: yup.string().required(errors.budgetNameRequiredError),
+    price: yup
+      .number()
+      .typeError("You have to provide a number")
+      .required(errors.budgetPriceRequiredError),
+    category: yup.object({
+      name: yup.string().required(),
+      limit: yup.number().required(),
+      icon: yup.string().required(),
+      id: yup.string().required(),
+      userId: yup.string().required(),
+    }),
+    date: yup.date().required(errors.budgetDateRequiredError),
+    type: yup.string().required(errors.budgetTypeRequiredError),
+  });
+
   return {
     registerSchema,
     loginSchema,
     categorySchema,
     budgetSchema,
+    editBudgetSchema,
   };
 };
