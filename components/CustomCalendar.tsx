@@ -33,10 +33,12 @@ export function DatePickerForm({
   extraStyle,
   callback,
   defaultValue,
+  filterKey,
 }: {
   extraStyle?: string;
   callback?: any;
   defaultValue?: Date;
+  filterKey?: string;
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -63,7 +65,11 @@ export function DatePickerForm({
   const handleDateSelect = (date: Date | null) => {
     if (date !== null) {
       form.setValue("dob", date);
-      callback(date);
+      if (filterKey) {
+        callback(filterKey, date);
+      } else {
+        callback(date);
+      }
     }
   };
 

@@ -24,6 +24,7 @@ interface IComboBox {
   extraStyle?: string;
   callback?: Function;
   defaultValue?: string;
+  filterKey?: string;
 }
 type Option = {
   value: string;
@@ -36,13 +37,18 @@ export function Combobox({
   extraStyle,
   callback,
   defaultValue,
+  filterKey,
 }: IComboBox) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue || "");
 
   const handleSelect = (data: any) => {
-    setValue(data === value ? "" : data);
-    callback?.(data);
+    setValue((prevValue) => (prevValue === data ? "" : data));
+    if (filterKey) {
+      callback?.(filterKey, data);
+    } else {
+      callback?.(data);
+    }
     setOpen(false);
   };
 

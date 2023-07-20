@@ -2,10 +2,7 @@
 
 import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
-import { useRecoilState } from "recoil";
-import { budgetEditModalOpen } from "@/app/store";
 import { AnimatePresence, motion } from "framer-motion";
-import AddBudgetModal from "./modals/AddBudgetModal";
 import EditBudgetModal from "./modals/EditBudgetModal";
 import { IUser } from "@/models/User";
 import { useState } from "react";

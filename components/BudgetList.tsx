@@ -3,7 +3,7 @@
 import Image from "next/image";
 import MobileNavbar from "./MobileNavbar";
 import { budgetCategories, budgetAddModalOpen } from "@/app/store";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
 import { DatePickerForm } from "./CustomCalendar";
 import { Combobox } from "./ComboBox";
@@ -24,10 +24,109 @@ type Props = {
   budgets: TBudget[] | null;
 };
 
+interface IFilterProps {
+  sortBy: string;
+  type: string;
+  price: string;
+  category: string;
+  date: Date;
+}
+
+type FilterKeys = "sortBy" | "type" | "price" | "category" | "date";
+
 const BudgetList = ({ user, categories, budgets }: Props) => {
+  const router = useRouter();
   const [isModalOpened, setIsModalOpened] = useRecoilState(budgetAddModalOpen);
   const [bCategories, setBCategories] = useRecoilState(budgetCategories);
-  const router = useRouter();
+  const [filters, setFilters] = useState<IFilterProps>({
+    sortBy: "",
+    type: "",
+    price: "",
+    category: "",
+    date: new Date(),
+  });
+  const getBudgetCategory = (categoryId: string) => {
+    return bCategories.find((category) => category.id === categoryId);
+  };
+
+  const useFilteredAndSortedBudgets = (
+    budgets: TBudget[] | null,
+    filters: any
+  ) => {
+    const hasFilters = Object.values(filters).some((value) => value !== "");
+
+    const budgetsWithCategory = useMemo(() => {
+      if (!budgets) return null;
+
+      return budgets.map((budget) => {
+        const category = getBudgetCategory(budget?.categoryId as string);
+        return {
+          ...budget,
+          category: category?.name,
+        };
+      });
+    }, [budgets]);
+
+    const filteredBudgets = useMemo(() => {
+      if (!hasFilters || !budgetsWithCategory) {
+        return budgetsWithCategory;
+      }
+
+      return budgetsWithCategory.filter(
+        (budget) =>
+          (budget.type === filters.type || filters.type === "") &&
+          (budget?.category?.toLowerCase() ===
+            filters?.category?.toLowerCase() ||
+            filters?.category === "") &&
+          (!filters?.date || new Date(budget.date) <= filters?.date)
+      );
+    }, [
+      budgetsWithCategory,
+      filters.type,
+      filters.category,
+      filters.date,
+      hasFilters,
+    ]);
+
+    const sortDirection = useMemo(
+      () => (filters.sortBy === "desc" ? -1 : 1),
+      [filters.sortBy]
+    );
+
+    const sortedBudgets = useMemo(() => {
+      if (!hasFilters) {
+        return filteredBudgets;
+      }
+
+      return filteredBudgets?.sort((a: TBudget, b: TBudget) => {
+        if (filters.price === "low") {
+          return (
+            (a.price - b.price) * sortDirection || a.name.localeCompare(b.name)
+          );
+        } else {
+          return (
+            (b.price - a.price) * sortDirection || a.name.localeCompare(b.name)
+          );
+        }
+      });
+    }, [filteredBudgets, filters.price, sortDirection, hasFilters]);
+
+    return sortedBudgets;
+  };
+
+  const sortedBudgets = useFilteredAndSortedBudgets(budgets, filters);
+
+  const handleSetFilterValue = useCallback(
+    (key: FilterKeys, value: string) => {
+      setFilters((prevFilters) => {
+        const currentValue = prevFilters[key];
+        const newValue = currentValue === value ? "" : value;
+        return { ...prevFilters, [key]: newValue };
+      });
+    },
+    [setFilters]
+  );
+
   const toggleState = useCallback(
     (value: boolean) => {
       setIsModalOpened(value);
@@ -48,19 +147,15 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
     }
   }, [categories, setBCategories]);
 
-  const getBudgetCategory = (categoryId: string) => {
-    return bCategories.find((category) => category.id === categoryId);
-  };
-
   const budgetValue = useMemo(() => {
-    return budgets?.reduce((acc, curr) => {
+    return sortedBudgets?.reduce((acc, curr) => {
       if (curr.type === "income") {
         return acc + curr.price;
       } else {
         return acc - curr.price;
       }
     }, 0);
-  }, [budgets]);
+  }, [sortedBudgets]);
 
   const handleDeleteBudget = useCallback(
     async (id: string) => {
@@ -90,20 +185,41 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
             <Image src={"/images/Plus.svg"} alt="Plus" width={20} height={20} />
           </div>
         </div>
-        <DatePickerForm />
+        <DatePickerForm callback={handleSetFilterValue} filterKey="date" />
       </div>
-      <div className="flex items-center justify-between mt-16">
-        <Combobox title="Sort by" options={BudgetOptions.sortBy} />
-        <Combobox title="Type" options={BudgetOptions.types} />
-        <Combobox title="Price" options={BudgetOptions.price} />
-        <Combobox title="Category" options={categoryLabelValues} />
+      <div className="flex items-center justify-between mt-16 gap-4">
+        <Combobox
+          title="Sort by"
+          options={BudgetOptions.sortBy}
+          callback={handleSetFilterValue}
+          filterKey="sortBy"
+        />
+        <Combobox
+          title="Type"
+          options={BudgetOptions.types}
+          callback={handleSetFilterValue}
+          filterKey="type"
+        />
+        <Combobox
+          title="Price"
+          options={BudgetOptions.price}
+          callback={handleSetFilterValue}
+          filterKey="price"
+        />
+        <Combobox
+          title="Category"
+          options={categoryLabelValues}
+          callback={handleSetFilterValue}
+          filterKey="category"
+        />
       </div>
       <BudgetInfo
-        numberOfTransactions={budgets?.length || 0}
+        numberOfTransactions={sortedBudgets?.length || 0}
         value={budgetValue || 0}
+        date={filters?.date || new Date()}
       />
       <div className="flex flex-col gap-8 max-h-[calc(100vh-416px)] overflow-y-auto scrollbar pr-4 scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700">
-        {budgets?.map((budget) => (
+        {sortedBudgets?.map((budget) => (
           <BudgetCard
             getBudgetCategory={getBudgetCategory}
             key={budget?.id}
