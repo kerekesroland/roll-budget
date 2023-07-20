@@ -6,12 +6,36 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    await prisma.category.delete({
+    // Check if the category has budgets associated
+    const hasBudgets = await prisma.budget.count({
       where: {
-        id: params.id,
+        categoryId: params.id,
       },
     });
 
+    if (hasBudgets) {
+      return NextResponse.json(
+        {
+          message:
+            "Cannot delete a category that has budgets associated with it!",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    // Start a Prisma transaction
+    await prisma.$transaction(async (prisma) => {
+      // Delete the category
+      await prisma.category.delete({
+        where: {
+          id: params.id,
+        },
+      });
+    });
+
+    // Return a success response if the category is deleted
     return NextResponse.json({
       status: 200,
       message: `Successfully deleted category`,

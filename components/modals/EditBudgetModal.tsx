@@ -128,7 +128,9 @@ const EditBudgetModal = ({
   };
 
   const handleDelete = async () => {
+    setIsLoading(true);
     await handleDeleteBudget(budget.id);
+    setIsLoading(false);
   };
 
   return (

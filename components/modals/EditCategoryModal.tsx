@@ -62,7 +62,7 @@ const EditCategoryModal = ({
       router.refresh();
       toggleState(false);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -75,7 +75,7 @@ const EditCategoryModal = ({
       router.refresh();
       toast.success("Category deleted successfully!");
     } catch (error: any) {
-      toast.error(error.data.response.message);
+      toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
