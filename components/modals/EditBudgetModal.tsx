@@ -13,7 +13,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { DatePickerForm } from "../CustomCalendar";
 import { Combobox } from "../ComboBox";
-import { Category } from "@prisma/client";
 import { BudgetOptions } from "@/constants/BudgetOptions";
 import { useRecoilState } from "recoil";
 import { budgetCategories } from "@/app/store";

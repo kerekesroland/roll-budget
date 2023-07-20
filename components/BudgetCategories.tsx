@@ -36,7 +36,7 @@ const BudgetCategories = ({ user, categories }: IBudgetCategories) => {
           <Image src={"/images/Plus.svg"} alt="Plus" width={20} height={20} />
         </div>
       </div>
-      <div className="flex flex-col w-full overflow-y-auto scrollbar scrollbar-thumb-[#563add] scrollbar-track-red-100 p-[1.5rem] xs:p-0 xs:pr-12 xs:pl-12 xs:pb-12  items-start justify-start gap-8">
+      <div className="flex flex-col w-full overflow-y-auto scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700 p-[1.5rem] xs:p-0 xs:pr-12 xs:pl-12 xs:pb-12  items-start justify-start gap-8">
         {categories?.map((category) => (
           <CategoryCard {...category} key={category.id} />
         ))}

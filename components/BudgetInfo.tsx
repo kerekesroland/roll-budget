@@ -1,7 +1,7 @@
 "use client";
 
 type Props = {
-  date?: Date;
+  date?: string;
   numberOfTransactions: number;
   value: number;
 };
@@ -9,7 +9,7 @@ type Props = {
 const BudgetInfo = ({ numberOfTransactions, value, date }: Props) => {
   return (
     <div className="py-12 flex items-center justify-between">
-      <span className="text-lg font-medium">{date?.toLocaleDateString()}</span>
+      <span className="text-lg font-medium">{date}</span>
       <div className="flex items-center gap-8">
         <span className="text-[#79889D] text-lg font-medium">
           Number of transactions: {numberOfTransactions}

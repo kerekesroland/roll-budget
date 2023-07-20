@@ -20,6 +20,7 @@ type Option = {
 
 interface ICustomSelectorProps {
   title: string;
+  defaultValue?: string;
   placeholder?: string;
   options: Array<Option>;
   setValue: Function;
@@ -30,6 +31,7 @@ export function CustomSelector({
   title,
   placeholder,
   setValue,
+  defaultValue,
 }: ICustomSelectorProps) {
   const [selectedElement, setSelectedElement] = useState<string>("");
 
@@ -38,7 +40,10 @@ export function CustomSelector({
   }, [selectedElement, setValue]);
 
   return (
-    <Select onValueChange={(e) => setSelectedElement(e)}>
+    <Select
+      defaultValue={defaultValue}
+      onValueChange={(e) => setSelectedElement(e)}
+    >
       <SelectTrigger className="w-full h-[60px] border-[#1C293A] border-2">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

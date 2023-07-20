@@ -18,6 +18,8 @@ export interface IIconSelector {
   error: string;
   register: any;
   setValue: Function;
+  defaultValue?: string;
+  extraStyle?: string;
 }
 
 type Option = {

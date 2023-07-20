@@ -216,7 +216,7 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
       <BudgetInfo
         numberOfTransactions={sortedBudgets?.length || 0}
         value={budgetValue || 0}
-        date={filters?.date || new Date()}
+        date={filters?.date.toDateString() || new Date().toDateString()}
       />
       <div className="flex flex-col gap-8 max-h-[calc(100vh-416px)] overflow-y-auto scrollbar pr-4 scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700">
         {sortedBudgets?.map((budget) => (
