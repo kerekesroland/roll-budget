@@ -28,7 +28,7 @@ const CategoryCard = ({ id, name, icon, limit }: Props) => {
     <>
       <div
         onClick={() => setIsCategoryEditModalOpen(true)}
-        className="flex items-center rounded-xl gap-6 transition-all duration-300 hover:bg-gray-500/10 p-4 w-[100%] cursor-pointer"
+        className="flex items-center rounded-xl gap-6 transition-all duration-300 hover:bg-gray-500/10 p-0 xl:p-4 w-[100%] cursor-pointer"
       >
         <Image src={keyToImage[icon]} alt={name} width={60} height={60} />
         <div className="flex flex-col items-start justify-center gap-2">

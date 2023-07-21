@@ -31,11 +31,13 @@ const FormSchema = z.object({
 
 export function DatePickerForm({
   extraStyle,
+  extraContainerStyle,
   callback,
   defaultValue,
   filterKey,
 }: {
   extraStyle?: string;
+  extraContainerStyle?: string;
   callback?: any;
   defaultValue?: Date;
   filterKey?: string;
@@ -75,7 +77,10 @@ export function DatePickerForm({
 
   return (
     <Form {...form}>
-      <div onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={`space-y-8 ${extraContainerStyle}`}
+      >
         <FormField
           control={form.control}
           name="dob"

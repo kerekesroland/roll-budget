@@ -3,7 +3,7 @@
 import Image from "next/image";
 import MobileNavbar from "./MobileNavbar";
 import { budgetCategories, budgetAddModalOpen } from "@/app/store";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { DatePickerForm } from "./CustomCalendar";
 import { Combobox } from "./ComboBox";
@@ -147,6 +147,20 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
     }
   }, [categories, setBCategories]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      // Check if the content overflows and apply pr-4 class
+      if (container.scrollHeight > container.clientHeight) {
+        container.classList.add("pr-4");
+      } else {
+        container.classList.remove("pr-4");
+      }
+    }
+  }, [sortedBudgets]); // Add other dependencies if needed
+
   const budgetValue = useMemo(() => {
     return sortedBudgets?.reduce((acc, curr) => {
       if (curr.type === "income") {
@@ -175,7 +189,7 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
       <div className="fixed top-5 right-5 z-[99999]">
         <MobileNavbar />
       </div>
-      <div className="flex items-center justify-between mt-4 mb-4">
+      <div className="flex flex-col lg:flex-row  items-start lg:items-center justify-between gap-4 lg:gap-0 mt-4 mb-4">
         <div className="flex items-center gap-12">
           <h2 className="font-semibold text-2xl">Budgets</h2>
           <div
@@ -185,32 +199,41 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
             <Image src={"/images/Plus.svg"} alt="Plus" width={20} height={20} />
           </div>
         </div>
-        <DatePickerForm callback={handleSetFilterValue} filterKey="date" />
+        <DatePickerForm
+          extraStyle="!w-full !lg:w-[240px]"
+          extraContainerStyle="!w-full lg:!w-[240px]"
+          callback={handleSetFilterValue}
+          filterKey="date"
+        />
       </div>
-      <div className="flex items-center justify-between mt-16 gap-4">
+      <div className="flex flex-col lg:flex-row items-center justify-between mt-16 gap-4">
         <Combobox
           title="Sort by"
           options={BudgetOptions.sortBy}
           callback={handleSetFilterValue}
           filterKey="sortBy"
+          extraStyle="w-full lg:w-[200px]"
         />
         <Combobox
           title="Type"
           options={BudgetOptions.types}
           callback={handleSetFilterValue}
           filterKey="type"
+          extraStyle="w-full lg:w-[200px]"
         />
         <Combobox
           title="Price"
           options={BudgetOptions.price}
           callback={handleSetFilterValue}
           filterKey="price"
+          extraStyle="w-full lg:w-[200px]"
         />
         <Combobox
           title="Category"
           options={categoryLabelValues}
           callback={handleSetFilterValue}
           filterKey="category"
+          extraStyle="w-full lg:w-[200px]"
         />
       </div>
       <BudgetInfo
@@ -218,7 +241,10 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
         value={budgetValue || 0}
         date={filters?.date.toDateString() || new Date().toDateString()}
       />
-      <div className="flex flex-col gap-8 max-h-[calc(100vh-416px)] overflow-y-auto scrollbar pr-4 scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700">
+      <div
+        ref={containerRef}
+        className="flex flex-col gap-8 max-h-[calc(100vh-416px)] overflow-y-auto scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700"
+      >
         {sortedBudgets?.map((budget) => (
           <BudgetCard
             getBudgetCategory={getBudgetCategory}

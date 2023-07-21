@@ -26,8 +26,8 @@ const BudgetCategories = ({ user, categories }: IBudgetCategories) => {
   );
 
   return (
-    <div className="flex flex-col items-center h-screen min-w-[450px] border-l-[1px] border-l-[#1C293A]">
-      <div className="flex items-center w-full justify-between gap-12 mt-4 mb-4 p-[1.5rem] xs:p-12 md:py-8 lg:py-12">
+    <div className="flex flex-col items-center h-screen min-w-0 lg:min-w-[450px] border-t-[1px] border-t-[#1C293A] 3xl:border-l-[1px] 3xl:border-l-[#1C293A]">
+      <div className="flex items-center w-full justify-between gap-12 mt-4 mb-4 3xl:px-12">
         <h2 className="font-semibold text-2xl">Categories</h2>
         <div
           onClick={() => toggleState(true)}
@@ -36,7 +36,7 @@ const BudgetCategories = ({ user, categories }: IBudgetCategories) => {
           <Image src={"/images/Plus.svg"} alt="Plus" width={20} height={20} />
         </div>
       </div>
-      <div className="flex flex-col w-full overflow-y-auto scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700 p-[1.5rem] xs:p-0 xs:pr-12 xs:pl-12 xs:pb-12  items-start justify-start gap-8">
+      <div className="flex flex-col w-full overflow-y-auto scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700 pl-0 xs:p-0 xs:pr-12 3xl:pl-8 3xl:pb-12 items-start justify-start gap-8">
         {categories?.map((category) => (
           <CategoryCard {...category} key={category.id} />
         ))}
