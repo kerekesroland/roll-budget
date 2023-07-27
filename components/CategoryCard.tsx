@@ -32,7 +32,9 @@ const CategoryCard = ({ id, name, icon, limit }: Props) => {
       >
         <Image src={keyToImage[icon]} alt={name} width={60} height={60} />
         <div className="flex flex-col items-start justify-center gap-2">
-          <h3 className="text-xl font-medium">{name}</h3>
+          <h3 className="text-xl font-medium">
+            {name.length > 10 ? name.substring(0, 10).concat("...") : name}
+          </h3>
           <span className="text-xl font-medium text-[#79889D]">
             {limit} HUF
           </span>

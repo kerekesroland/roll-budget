@@ -62,7 +62,7 @@ const BudgetCard = ({
     <>
       <div
         onClick={() => setIsBudgetEditModalOpen(true)}
-        className="flex flex-col s:flex-row items-start s:items-center justify-between gap-4 s:gap-0 p-8 bg-[#1C293A] rounded-xl transition-all duration-300 hover:brightness-110 cursor-pointer"
+        className="flex flex-col s:flex-row items-start s:items-center justify-between gap-4 s:gap-0 p-[1.5rem] sm:p-8 bg-[#1C293A] rounded-xl transition-all duration-300 hover:brightness-110 cursor-pointer"
       >
         <div className="flex gap-8">
           <Image

@@ -17,6 +17,23 @@ export async function POST(req: Request) {
     );
   }
 
+  const alreadySentToken = await prisma.activateToken.findFirst({
+    where: {
+      email: body.email,
+    },
+  });
+
+  if (alreadySentToken) {
+    return NextResponse.json(
+      {
+        message: "You have already sent an invitation to this user!",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
   try {
     const token = await prisma.activateToken.create({
       data: {

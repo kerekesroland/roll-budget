@@ -136,7 +136,7 @@ const EditBudgetModal = ({
   return (
     <div className="flex justify-center items-center h-full w-full absolute z-[200]">
       <div
-        className="min-h-[400px] w-[700px] rounded-2xl p-16 border-2 border-[#1C293A] flex flex-col justify-between items-center bg-bgCustomDark"
+        className="min-h-[400px] w-[700px] max-h-[600px] 2xl:max-h-none overflow-y-auto scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700 rounded-2xl p-8 sm:p-16 border-2 border-[#1C293A] flex flex-col justify-between items-center bg-bgCustomDark"
         onClick={handleModalClick}
       >
         <GeneralHeader

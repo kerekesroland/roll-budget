@@ -101,7 +101,7 @@ const AddBudgetModal = ({
   return (
     <div className="flex justify-center items-center h-full w-full absolute z-[200]">
       <div
-        className="min-h-[400px] w-[500px] rounded-2xl p-16 border-2 border-[#1C293A] flex flex-col justify-between items-center bg-bgCustomDark"
+        className="min-h-[400px] w-[700px] max-h-[600px] 2xl:max-h-none overflow-y-auto scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700 rounded-2xl p-8 sm:p-16 border-2 border-[#1C293A] flex flex-col justify-between items-center bg-bgCustomDark"
         onClick={handleModalClick}
       >
         <GeneralHeader
@@ -109,7 +109,7 @@ const AddBudgetModal = ({
           subtitle="Fill out the information to add a budget!"
           extraSubtitleStyle="!text-xl"
         />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
             label="Name"
             isTouched={false}
@@ -117,6 +117,7 @@ const AddBudgetModal = ({
             register={register("name")}
             placeholder={"Groceries"}
             value={""}
+            extraStyle="!max-w-full"
           />
           <NumberController
             label="Limit"
@@ -128,7 +129,8 @@ const AddBudgetModal = ({
             value={""}
             valuta
             valutaOptions={ValutaOptions}
-            extraStyle="border-r-0 rounded-tr-none rounded-br-none"
+            extraStyle="border-r-0 rounded-tr-none rounded-br-none w-full"
+            extraContainerStyle="max-w-full"
           />
 
           <div className="py-8">
@@ -163,6 +165,7 @@ const AddBudgetModal = ({
             loadingTitle="Creating..."
             title="Add Budget"
             type="submit"
+            extraStyle="max-w-full"
           />
         </form>
       </div>

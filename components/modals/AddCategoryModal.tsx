@@ -62,7 +62,7 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
   return (
     <div className="flex justify-center items-center h-full w-full absolute z-[200]">
       <div
-        className="min-h-[400px]  w-[500px] rounded-2xl p-16 border-2 border-[#1C293A] flex flex-col justify-between items-center bg-bgCustomDark"
+        className="min-h-[400px] w-[700px] rounded-2xl p-16 border-2 border-[#1C293A] flex flex-col justify-between items-center bg-bgCustomDark"
         onClick={handleModalClick}
       >
         <GeneralHeader
@@ -70,7 +70,7 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
           subtitle="Fill out the information to add a category!"
           extraSubtitleStyle="!text-xl"
         />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
             label="Name"
             isTouched={false}
@@ -78,6 +78,8 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
             register={register("name")}
             placeholder={"Shopping"}
             value={""}
+            extraContainerStyle="max-w-full"
+            extraStyle="max-w-full"
           />
           <NumberController
             label="Limit"
@@ -89,19 +91,22 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
             value={""}
             valuta
             valutaOptions={ValutaOptions}
-            extraStyle="border-r-0 rounded-tr-none rounded-br-none"
+            extraStyle="border-r-0 rounded-tr-none rounded-br-none max-w-full"
+            extraContainerStyle="max-w-full"
           />
           <IconSelector
             label="Icon"
             error={errors.icon?.message as string}
             register={register("icon")}
             setValue={setValue}
+            extraStyle="max-w-full"
           />
           <CustomButton
             loading={isLoading}
             loadingTitle="Creating..."
             title="Add Category"
             type="submit"
+            extraStyle="max-w-full"
           />
         </form>
       </div>

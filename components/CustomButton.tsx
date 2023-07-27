@@ -9,6 +9,7 @@ type Props = {
   loadingTitle?: string;
   onClick?: () => void | Promise<void>;
   primary?: boolean;
+  extraStyle?: string;
 };
 
 const CustomButton = ({
@@ -18,13 +19,14 @@ const CustomButton = ({
   loadingTitle,
   type = "button",
   primary = true,
+  extraStyle,
 }: Props) => {
   return (
     <Button
       disabled={loading}
       onClick={onClick}
       type={type}
-      className={`w-full max-w-[350px] py-[28px] px-5 text-[16px] font-medium hover:brightness-110 bg-transparent`}
+      className={`w-full max-w-[350px] ${extraStyle} py-[28px] px-5 text-[16px] font-medium hover:brightness-110 bg-transparent`}
       style={{
         backgroundImage: primary
           ? "linear-gradient(47deg, #4131FF 0%, rgba(142, 91, 249, 0.70) 100%)"

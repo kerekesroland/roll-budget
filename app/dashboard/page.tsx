@@ -133,10 +133,12 @@ const Dashboard = () => {
               {FAKE_FINANCIAL.map((fn) => (
                 <div
                   key={fn.name}
-                  className="flex justify-between items-center"
+                  className="flex justify-between items-center gap-4"
                 >
                   <span className="text-lg font-medium">{fn.name}</span>
-                  <span className={`text-xl font-medium ${fn.color}`}>
+                  <span
+                    className={`text-xl text-right font-medium ${fn.color}`}
+                  >
                     {fn.amount} HUF
                   </span>
                 </div>
