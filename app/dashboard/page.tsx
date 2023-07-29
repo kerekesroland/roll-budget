@@ -4,8 +4,10 @@ import DashboardChart from "@/components/Charts/DashboardChart";
 import CustomProgressbar from "@/components/CustomProgressbar";
 import DashboardItemCard from "@/components/DashboardItemCard";
 import MobileNavbar from "@/components/MobileNavbar";
+import axios from "axios";
 import { Chart, registerables } from "chart.js";
 import Image from "next/image";
+import { useEffect } from "react";
 
 Chart.register(...registerables);
 const Dashboard = () => {
@@ -64,6 +66,12 @@ const Dashboard = () => {
       color: "text-green-500",
     },
   ];
+
+  const fetchCall = async () => {
+    const res = await axios.get("/api/exceededCategories");
+    console.log(res);
+  };
+  fetchCall();
 
   return (
     <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)]">

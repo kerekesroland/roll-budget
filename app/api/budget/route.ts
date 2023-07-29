@@ -20,6 +20,17 @@ export async function POST(req: Request) {
       },
     });
 
+    const category = await prisma.category.findUnique({
+      where: { id: body.category },
+    });
+
+    await prisma.category.update({
+      where: { id: category?.id },
+      data: {
+        current: category?.current + body.price,
+      },
+    });
+
     return NextResponse.json({
       status: 200,
       message: `Successfully created budget ${createdBudget.name}`,

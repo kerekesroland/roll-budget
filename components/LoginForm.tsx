@@ -3,7 +3,7 @@ import Image from "next/image";
 import GeneralHeader from "./GeneralHeader";
 import InputController from "./InputController";
 import CustomButton from "./CustomButton";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useAuthSchemas } from "@/hooks/useAuthSchemas";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,9 +22,8 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     watch,
-    formState: { errors, touchedFields },
+    formState: { errors },
   } = useForm<ILoginFormInputs>({
     resolver: yupResolver(loginSchema),
     reValidateMode: "onChange",

@@ -37,6 +37,7 @@ model Category {
   id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String
   limit         Int
+  current       Int          @default(0)
   icon          String
   userId        String       @db.Uuid
   user          User         @relation(fields: [userId], references: [id])
