@@ -1,22 +1,25 @@
 "use client";
 
+import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import MobileNavbar from "./MobileNavbar";
-import { budgetCategories, budgetAddModalOpen } from "@/app/store";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useRecoilState } from "recoil";
-import { DatePickerForm } from "./CustomCalendar";
-import { Combobox } from "./ComboBox";
+
+import { budgetAddModalOpen, budgetCategories } from "@/app/store";
 import { BudgetOptions } from "@/constants/BudgetOptions";
+import useFilteredBudgets from "@/hooks/useFilteredBudgets";
 import { IUser, TBudget } from "@/models/User";
 import { Category } from "@prisma/client";
-import { AnimatePresence, motion } from "framer-motion";
-import AddBudgetModal from "./modals/AddBudgetModal";
+
 import BudgetCard from "./BudgetCard";
 import BudgetInfo from "./BudgetInfo";
-import axios from "axios";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { Combobox } from "./ComboBox";
+import { DatePickerForm } from "./CustomCalendar";
+import MobileNavbar from "./MobileNavbar";
+import AddBudgetModal from "./modals/AddBudgetModal";
 
 type Props = {
   user: IUser | null;
@@ -45,76 +48,12 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
     category: "",
     date: new Date(),
   });
-  const getBudgetCategory = (categoryId: string) => {
-    return bCategories.find((category) => category.id === categoryId);
-  };
 
-  const useFilteredAndSortedBudgets = (
-    budgets: TBudget[] | null,
-    filters: any
-  ) => {
-    const hasFilters = Object.values(filters).some((value) => value !== "");
-
-    const budgetsWithCategory = useMemo(() => {
-      if (!budgets) return null;
-
-      return budgets.map((budget) => {
-        const category = getBudgetCategory(budget?.categoryId as string);
-        return {
-          ...budget,
-          category: category?.name,
-        };
-      });
-    }, [budgets]);
-
-    const filteredBudgets = useMemo(() => {
-      if (!hasFilters || !budgetsWithCategory) {
-        return budgetsWithCategory;
-      }
-
-      return budgetsWithCategory.filter(
-        (budget) =>
-          (budget.type === filters.type || filters.type === "") &&
-          (budget?.category?.toLowerCase() ===
-            filters?.category?.toLowerCase() ||
-            filters?.category === "") &&
-          (!filters?.date || new Date(budget.date) <= filters?.date)
-      );
-    }, [
-      budgetsWithCategory,
-      filters.type,
-      filters.category,
-      filters.date,
-      hasFilters,
-    ]);
-
-    const sortDirection = useMemo(
-      () => (filters.sortBy === "desc" ? -1 : 1),
-      [filters.sortBy]
-    );
-
-    const sortedBudgets = useMemo(() => {
-      if (!hasFilters) {
-        return filteredBudgets;
-      }
-
-      return filteredBudgets?.sort((a: TBudget, b: TBudget) => {
-        if (filters.price === "low") {
-          return (
-            (a.price - b.price) * sortDirection || a.name.localeCompare(b.name)
-          );
-        } else {
-          return (
-            (b.price - a.price) * sortDirection || a.name.localeCompare(b.name)
-          );
-        }
-      });
-    }, [filteredBudgets, filters.price, sortDirection, hasFilters]);
-
-    return sortedBudgets;
-  };
-
-  const sortedBudgets = useFilteredAndSortedBudgets(budgets, filters);
+  const { sortedBudgets, getBudgetCategory } = useFilteredBudgets({
+    categories,
+    budgets,
+    filters,
+  });
 
   const handleSetFilterValue = useCallback(
     (key: FilterKeys, value: string) => {
@@ -239,7 +178,7 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
       <BudgetInfo
         numberOfTransactions={sortedBudgets?.length || 0}
         value={budgetValue || 0}
-        date={filters?.date.toDateString() || new Date().toDateString()}
+        date={filters?.date?.toDateString() || new Date().toDateString()}
       />
       <div
         ref={containerRef}

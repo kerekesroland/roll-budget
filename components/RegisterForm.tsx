@@ -1,7 +1,7 @@
 "use client";
 
 import InputController from "@/components/InputController";
-import { useAuthSchemas } from "@/hooks/useAuthSchemas";
+import { useSchemas } from "@/hooks/useSchemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,7 +23,7 @@ interface IRegisterFormInputs {
 
 const RegisterForm = ({ accountToken }: IRegisterForm) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { registerSchema } = useAuthSchemas();
+  const { registerSchema } = useSchemas();
   const {
     register,
     handleSubmit,

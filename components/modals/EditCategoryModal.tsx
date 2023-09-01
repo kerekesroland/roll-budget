@@ -6,7 +6,7 @@ import InputController from "../InputController";
 import NumberController from "../NumberController";
 import { ValutaOptions } from "@/constants/ValutaOptions";
 import IconSelector from "../IconSelector";
-import { useAuthSchemas } from "@/hooks/useAuthSchemas";
+import { useSchemas } from "@/hooks/useSchemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -39,7 +39,7 @@ const EditCategoryModal = ({
     e.stopPropagation();
   };
 
-  const { categorySchema } = useAuthSchemas();
+  const { categorySchema } = useSchemas();
   const {
     register,
     handleSubmit,

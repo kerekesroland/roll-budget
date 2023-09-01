@@ -5,7 +5,7 @@ import GeneralHeader from "../GeneralHeader";
 import InputController from "../InputController";
 import NumberController from "../NumberController";
 import { ValutaOptions } from "@/constants/ValutaOptions";
-import { useAuthSchemas } from "@/hooks/useAuthSchemas";
+import { useSchemas } from "@/hooks/useSchemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -76,7 +76,7 @@ const EditBudgetModal = ({
     };
   });
 
-  const { editBudgetSchema } = useAuthSchemas();
+  const { editBudgetSchema } = useSchemas();
   const {
     register,
     handleSubmit,

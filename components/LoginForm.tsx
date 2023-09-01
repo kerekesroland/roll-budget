@@ -5,7 +5,7 @@ import InputController from "./InputController";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useAuthSchemas } from "@/hooks/useAuthSchemas";
+import { useSchemas } from "@/hooks/useSchemas";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,7 @@ interface ILoginFormInputs {
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { loginSchema } = useAuthSchemas();
+  const { loginSchema } = useSchemas();
   const {
     register,
     handleSubmit,
