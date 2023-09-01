@@ -5,6 +5,7 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   try {
+    // Create the budget entry
     const createdBudget = await prisma.budget.create({
       data: {
         name: body.name,
@@ -20,16 +21,20 @@ export async function POST(req: Request) {
       },
     });
 
+    // Fetch the category
     const category = await prisma.category.findUnique({
       where: { id: body.category },
     });
 
-    await prisma.category.update({
-      where: { id: category?.id },
-      data: {
-        current: category?.current + body.price,
-      },
-    });
+    // Update the current amount in the category if it's an "expense"
+    if (createdBudget.type === "expense") {
+      await prisma.category.update({
+        where: { id: category?.id },
+        data: {
+          current: category?.current + body.price,
+        },
+      });
+    }
 
     return NextResponse.json({
       status: 200,
