@@ -9,7 +9,7 @@ export const getBudgets = async (userId: string) => {
       },
     });
 
-    const returnValue = res.map((item) => {
+    const returnValue = res?.map((item) => {
       return {
         ...item,
         date: item?.date?.toISOString(),
