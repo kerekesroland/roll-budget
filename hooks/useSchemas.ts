@@ -4,7 +4,7 @@ import * as yup from "yup";
  @returns {object} {registerSchema} - the schema object for the registration form validation
  @returns {object} : {LoginSchema} - the schema object for the login form validation
  */
-export const useAuthSchemas = () => {
+export const useSchemas = () => {
   const errors = {
     userNameRequiredError: "Username is required",
     userNameMinLengthError: "Username must be at least 6 characters long",
