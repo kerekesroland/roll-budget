@@ -1,11 +1,13 @@
 import { Budget } from "@prisma/client";
 import { prisma } from "./prisma";
+import getCurrentUser from "./getCurrentUser";
 
-export const getBudgets = async (userId: string) => {
+export const getBudgets = async () => {
   try {
+    const user = await getCurrentUser();
     const res: Budget[] = await prisma.budget.findMany({
       where: {
-        userId: userId,
+        userId: user?.id,
       },
     });
 
