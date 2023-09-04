@@ -3,19 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import EditCategoryModal from "./modals/EditCategoryModal";
+import { keyToImage } from "@/lib/utils";
 
 type Props = {
   id: string;
   name: string;
   icon: string;
   limit: number;
-};
-
-const keyToImage: any = {
-  shopping: "/images/Shopping.svg",
-  education: "/images/Education.svg",
-  money: "/images/Money.svg",
-  utility: "/images/Utility.svg",
 };
 
 //todo Add Valuta to the Limit type and every field that has a price, for now I'm leaving it at HUF only
