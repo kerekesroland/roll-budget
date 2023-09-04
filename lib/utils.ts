@@ -7,6 +7,10 @@ type Months = {
 
 type PriceStyle = "decimal" | "currency" | "percent";
 
+type TKeyToImage = {
+  [key: string]: string;
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -47,3 +51,10 @@ export function formatePrice(
 
   return price.toLocaleString("de-DE", options);
 }
+
+export const keyToImage: TKeyToImage = {
+  shopping: "/images/Shopping.svg",
+  education: "/images/Education.svg",
+  money: "/images/Money.svg",
+  utility: "/images/Utility.svg",
+};
