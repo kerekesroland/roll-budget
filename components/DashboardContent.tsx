@@ -1,79 +1,194 @@
 "use client";
 
+import { motion } from "framer-motion";
+import Image from "next/image";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
 import DashboardChart from "@/components/Charts/DashboardChart";
 import CustomProgressbar from "@/components/CustomProgressbar";
 import DashboardItemCard from "@/components/DashboardItemCard";
 import MobileNavbar from "@/components/MobileNavbar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatePrice, mapDateToMonth } from "@/lib/utils";
+import { formatePrice } from "@/lib/utils";
 import { IBudget } from "@/models/Budget";
 import { ICategory } from "@/models/Category";
-import { Budget } from "@prisma/client";
-import Image from "next/image";
-import { Suspense, useMemo, useState } from "react";
+import useCurrencyConverter, {
+  TCurrencies,
+} from "@/hooks/useCurrencyConverter";
+import Reveal from "./Reveal";
 
 interface IProps {
-  topExceededCategories: Array<ICategory>;
+  allExceededCategories: Array<ICategory>;
+  categories: Array<ICategory> | null;
   allIncome: IBudget[] | null;
+  budgets: Array<IBudget> | null;
 }
-const DashboardContent = ({ topExceededCategories, allIncome }: IProps) => {
-  const [exceededBudgets, setExceededBudgets] = useState<Budget[]>([]);
-  const totalBalance = useMemo(
-    () => allIncome?.reduce((curr, acc) => (curr += acc?.price), 0),
-    [allIncome]
-  );
 
-  const FAKE_PROGRESS = [
-    {
-      name: "Food",
-      spent: 1000000,
-    },
-    {
-      name: "Travel",
-      spent: 6000000,
-    },
-    {
-      name: "Clothes",
-      spent: 2000000,
-    },
-  ];
+interface ICurrency {
+  type: TCurrencies;
+  value: number;
+}
 
-  const FAKE_FINANCIAL = [
+const DashboardContent = ({
+  allExceededCategories,
+  allIncome,
+  budgets,
+  categories,
+}: IProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const totalIncome =
+    useMemo(
+      () => allIncome?.reduce((acc, curr) => (acc += curr?.price), 0),
+      [allIncome]
+    ) ?? 0;
+  const totalExpense =
+    useMemo(
+      () =>
+        budgets
+          ?.filter((el) => el?.type !== "income")
+          ?.reduce((acc, curr) => (acc += curr?.price), 0),
+      [budgets]
+    ) ?? 0;
+
+  const topBudgets = budgets
+    ?.filter((budget) => budget?.type !== "income")
+    ?.sort((a, b) => b.price - a.price)
+    .slice(0, 4);
+
+  const totalBalance = totalIncome - totalExpense;
+
+  const totalMonthlyIncome =
+    useMemo(() => {
+      const date = new Date();
+
+      return budgets
+        ?.filter(
+          (budget) =>
+            new Date(budget.date).getMonth() === date.getMonth() &&
+            budget?.type === "income"
+        )
+        .reduce((acc, curr) => (acc += curr?.price), 0);
+    }, [budgets]) ?? 0;
+
+  const totalMonthlyExpense =
+    useMemo(() => {
+      const date = new Date();
+
+      return budgets
+        ?.filter(
+          (budget) =>
+            new Date(budget.date).getMonth() === date.getMonth() &&
+            budget?.type === "expense"
+        )
+        .reduce((acc, curr) => (acc += curr?.price), 0);
+    }, [budgets]) ?? 0;
+
+  const isPositiveMonth =
+    totalMonthlyIncome - totalMonthlyExpense > 0 ? true : false;
+
+  const PROGRESS = allExceededCategories?.map((cat) => {
+    return {
+      name: cat?.name,
+      spent: cat?.current,
+    };
+  });
+
+  const FINANCES = [
     {
       name: "Total income",
-      amount: 600000,
+      amount: totalMonthlyIncome,
       color: "text-green-500",
     },
     {
       name: "Total expense",
-      amount: 280000,
+      amount: totalMonthlyExpense,
       color: "text-red-500",
     },
     {
       name: "Total balance",
-      amount: 320000,
-      color: "text-green-500",
+      amount: totalMonthlyIncome - totalMonthlyExpense,
+      color: isPositiveMonth ? "text-green-500" : "text-red-500",
     },
   ];
 
-  // const fetchDashboardInformation = async () => {
-  //   const requests = [
-  //     axios.get("/api/exceededCategories"),
-  //     axios.get("/api/budget"),
-  //   ];
-  //   try {
-  //     setIsLoading(true);
-  //     await Promise.allSettled([]);
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setTimeout(() => {
-  //       setIsLoading(false);
-  //     }, 100);
-  //   }
-  // };
+  const { value: usdValue } = useCurrencyConverter("USD", "HUF");
 
-  mapDateToMonth(new Date("2023-07-23T22:00:00.000Z"));
+  const [currency, setCurrency] = useState<ICurrency>({
+    type: "HUF",
+    value: totalBalance,
+  });
+
+  const toggleCurrencies = useCallback(() => {
+    currency.type === "HUF"
+      ? setCurrency((prevCurrency) => ({
+          ...prevCurrency,
+          type: "USD",
+          value: totalBalance / Number(usdValue),
+        }))
+      : setCurrency((prevCurrency) => ({
+          ...prevCurrency,
+          type: "HUF",
+          value: totalBalance,
+        }));
+  }, [currency, totalBalance, usdValue]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      // Check if the content overflows and apply pr-4 class
+      if (container.scrollHeight > container.clientHeight) {
+        container.classList.add("pr-4");
+      } else {
+        container.classList.remove("pr-4");
+      }
+    }
+  }, [PROGRESS]);
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const sideInfoVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: 0.8,
+        duration: 0.5,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        delay: custom * 0.2,
+        ease: "easeInOut",
+      },
+    }),
+  };
 
   return (
     <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)]">
@@ -83,19 +198,30 @@ const DashboardContent = ({ topExceededCategories, allIncome }: IProps) => {
       </div>
       <div className="w-full mt-8 rounded-[10px] gap-16 flex flex-col 2xl:flex-row justify-between items-start ">
         <div className="flex flex-col w-full 2xl:w-2/3 ">
-          <section className="h-auto lg:h-[200px] flex flex-row items-center justify-between gap-8 px-8 py-4 bg-[#1C293A] rounded-[15px]">
+          <motion.section
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="h-auto lg:h-[200px] flex flex-row items-center justify-between gap-8 px-8 py-4 bg-[#1C293A] rounded-[15px]"
+          >
             <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row w-full items-center justify-center lg:justify-start gap-8 lg:gap-16">
               <div className="flex flex-col gap-4">
-                <h3 className="text-xl font-semibold text-textPrimary/70">
-                  My Balance
-                </h3>
-                <span className="text-3xl font-semibold">{`${formatePrice(
-                  totalBalance ?? 0
-                )} Ft`}</span>
-                <span>
-                  Show account balance in{" "}
-                  <b className="text-green-500 font-semibold">USD</b>
-                </span>
+                <Reveal delay={0.8}>
+                  <h3 className="text-xl font-semibold text-textPrimary/70">
+                    My Balance
+                  </h3>
+                </Reveal>
+                <Reveal delay={1}>
+                  <span className="text-3xl font-semibold">{`${formatePrice(
+                    currency?.value ?? 0
+                  )} ${currency?.type}`}</span>
+                </Reveal>
+                <Reveal delay={1.2}>
+                  <span className="cursor-pointer" onClick={toggleCurrencies}>
+                    Show account balance in{" "}
+                    <b className="text-green-500 font-semibold">USD</b>
+                  </span>
+                </Reveal>
               </div>
             </div>
             <Image
@@ -105,9 +231,9 @@ const DashboardContent = ({ topExceededCategories, allIncome }: IProps) => {
               width="250"
               height="125"
             />
-          </section>
+          </motion.section>
           <section className="mt-8 flex flex-wrap gap-4 items-center justify-between s:justify-center md:justify-between">
-            {topExceededCategories?.map((item: ICategory) => (
+            {topBudgets?.map((item: IBudget, idx: number) => (
               <Suspense
                 key={item.id}
                 fallback={
@@ -117,21 +243,37 @@ const DashboardContent = ({ topExceededCategories, allIncome }: IProps) => {
                   />
                 }
               >
-                <DashboardItemCard key={item.id} {...item} />
+                <motion.div
+                  key={item.id}
+                  variants={childVariants}
+                  initial="hidden"
+                  animate="visible"
+                  custom={idx}
+                >
+                  <DashboardItemCard categories={categories ?? []} {...item} />
+                </motion.div>
               </Suspense>
             ))}
           </section>
           <section className="flex w-full mt-8">
-            <DashboardChart data={[]} labels={[]} />
+            <DashboardChart data={budgets ?? []} />
           </section>
         </div>
-        <section className="h-auto w-full 2xl:w-1/3 flex flex-col xl:flex-row 2xl:flex-col xl:gap-16 2xl:gap-0 justify-start bg-[#1C293A] p-8 rounded-[10px]">
-          <div className="w-full">
+        <motion.section
+          variants={sideInfoVariants}
+          initial="hidden"
+          animate="visible"
+          className="h-auto w-full 2xl:w-1/3 flex flex-col xl:flex-row 2xl:flex-col xl:gap-16 2xl:gap-0 justify-start bg-[#1C293A] p-8 rounded-[10px]"
+        >
+          <div
+            ref={containerRef}
+            className="w-full overflow-y-auto max-h-[calc(100vh-350px)] scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700 pr-4"
+          >
             <h3 className="text-2xl font-semibold text-textPrimary mb-8">
               Exceeded Budgets
             </h3>
             <div className="flex flex-col gap-8 w-full">
-              {FAKE_PROGRESS.map((progress) => (
+              {PROGRESS.map((progress) => (
                 <CustomProgressbar
                   name={progress.name}
                   value={progress.spent}
@@ -145,7 +287,7 @@ const DashboardContent = ({ topExceededCategories, allIncome }: IProps) => {
               Financial information
             </h3>
             <div className="flex flex-col gap-8 w-full">
-              {FAKE_FINANCIAL.map((fn) => (
+              {FINANCES.map((fn) => (
                 <div
                   key={fn.name}
                   className="flex justify-between items-center gap-4"
@@ -160,7 +302,7 @@ const DashboardContent = ({ topExceededCategories, allIncome }: IProps) => {
               ))}
             </div>
           </section>
-        </section>
+        </motion.section>
       </div>
     </div>
   );
