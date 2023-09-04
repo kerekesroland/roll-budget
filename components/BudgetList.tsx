@@ -123,6 +123,18 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
     [router]
   );
 
+  const childVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: custom * 0.2,
+        ease: "easeInOut",
+      },
+    }),
+  };
+
   return (
     <>
       <div className="fixed top-5 right-5 z-[99999]">
@@ -184,15 +196,22 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
         ref={containerRef}
         className="flex flex-col gap-8 max-h-[calc(100vh-416px)] overflow-y-auto scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700"
       >
-        {sortedBudgets?.map((budget) => (
-          <BudgetCard
-            getBudgetCategory={getBudgetCategory}
+        {sortedBudgets?.map((budget, idx) => (
+          <motion.div
+            variants={childVariants}
+            initial="hidden"
+            animate="visible"
+            custom={idx}
             key={budget?.id}
-            {...budget}
-            categoryId={budget.categoryId}
-            handleDeleteBudget={handleDeleteBudget}
-            user={user}
-          />
+          >
+            <BudgetCard
+              getBudgetCategory={getBudgetCategory}
+              {...budget}
+              categoryId={budget.categoryId}
+              handleDeleteBudget={handleDeleteBudget}
+              user={user}
+            />
+          </motion.div>
         ))}
       </div>
       <AnimatePresence>
