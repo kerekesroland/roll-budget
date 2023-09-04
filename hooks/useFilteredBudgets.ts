@@ -1,4 +1,3 @@
-import { ICategory } from "@/models/Category";
 import { TBudget } from "@/models/User";
 import { Category } from "@prisma/client";
 import { useCallback, useMemo } from "react";
