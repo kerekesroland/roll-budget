@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { IBudget } from "@/models/Budget";
 
 interface IDashboardChartProps {
-  data: Array<number>;
-  labels: Array<string>;
+  data: Array<IBudget>;
 }
 Chart.register(...registerables);
 
-const DashboardChart = ({ labels, data }: IDashboardChartProps) => {
+const DashboardChart = ({ data }: IDashboardChartProps) => {
   const options = {
     responsive: true,
     plugins: {
@@ -22,49 +22,65 @@ const DashboardChart = ({ labels, data }: IDashboardChartProps) => {
     },
   };
 
-  //todo Make the labels dynamic by checking the the date's month with every budget date, then separate them by type and use it in the chart
-  // First we need data like this
-  // data = [
-  //   {
-  //     month: 'jan',
-  //     value: 250000,
-  //     type: 'income'
-  //   },
-  //   {
-  //     month: 'jan',
-  //     value: 50000,
-  //     type: 'expense'
-  //   }
-  // ]
+  const receivedData = useMemo(() => {
+    const parsedData = data.map((entry) => ({
+      date: new Date(entry.date),
+      type: entry.type,
+      price: entry.price,
+    }));
 
-  const chartLabels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+    const monthlyTotals: any = {};
 
-  const generateRandomData = () => {
-    return chartLabels.map(() => Math.floor(Math.random() * 1000) - 0);
-  };
+    parsedData.forEach((entry) => {
+      const monthYear = entry.date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      });
+
+      if (!monthlyTotals[monthYear]) {
+        monthlyTotals[monthYear] = {
+          income: 0,
+          expense: 0,
+        };
+      }
+
+      if (entry.type === "income") {
+        monthlyTotals[monthYear].income += entry.price;
+      } else if (entry.type === "expense") {
+        monthlyTotals[monthYear].expense += entry.price;
+      }
+    });
+    const labels = Object.keys(monthlyTotals).sort((a, b) => {
+      const dateA = new Date(a);
+      const dateB = new Date(b);
+      return dateA.getTime() - dateB.getTime();
+    });
+    const incomeData = labels.map((label) => monthlyTotals[label].income);
+    const expenseData = labels.map((label) => monthlyTotals[label].expense);
+
+    return {
+      incomeData,
+      expenseData,
+      labels,
+    };
+  }, [data]);
+
+  const { labels, incomeData, expenseData } = receivedData;
 
   const chartData = {
-    labels: chartLabels,
+    labels: labels,
     datasets: [
       {
         label: "Income",
-        data: generateRandomData(),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        data: incomeData,
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
       {
         label: "Expense",
-        data: generateRandomData(),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        data: expenseData,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
   };
