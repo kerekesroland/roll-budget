@@ -1,15 +1,21 @@
 import DashboardContent from "@/components/DashboardContent";
+import { getBudgets } from "@/lib/getBudgets";
+import { getCategories } from "@/lib/getCategories";
 import { getExceededCategories } from "@/lib/getExceededCategories";
 import { getIncome } from "@/lib/getIncome";
 
 const Dashboard = async () => {
-  const topExceededCategories = await getExceededCategories();
+  const allExceededCategories = await getExceededCategories();
   const allIncome = await getIncome();
-  // const exceededBudgets = await getExceededBudgets();
+  const budgets = await getBudgets();
+  const categories = await getCategories();
+
   return (
     <DashboardContent
-      topExceededCategories={topExceededCategories}
+      allExceededCategories={allExceededCategories}
       allIncome={allIncome}
+      budgets={budgets}
+      categories={categories}
     />
   );
 };
