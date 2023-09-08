@@ -1,6 +1,7 @@
-import { Category } from "@prisma/client";
-import { prisma } from "./prisma";
-import getCurrentUser from "./getCurrentUser";
+import { Category } from '@prisma/client';
+
+import getCurrentUser from './getCurrentUser';
+import { prisma } from './prisma';
 
 export const getCategories = async (userId?: string) => {
   try {

@@ -1,7 +1,8 @@
 "use client";
-import { Combobox } from "./ComboBox";
-import ErrorInputMessage from "./ErrorInputMessage";
-import { IInputController } from "@/models/Inputs";
+import { IInputController } from '@/models/Inputs';
+
+import { Combobox } from './ComboBox';
+import ErrorInputMessage from './ErrorInputMessage';
 
 const NumberController = ({
   label,

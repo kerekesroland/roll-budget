@@ -1,6 +1,6 @@
-import DataTable, { Status } from "@/components/CustomDataTable";
-import InviteForm from "@/components/InviteForm";
-import { prisma } from "@/lib/prisma";
+import DataTable, { Status } from '@/components/CustomDataTable';
+import InviteForm from '@/components/InviteForm';
+import { prisma } from '@/lib/prisma';
 
 async function getData(): Promise<Status[]> {
   // Fetch data from your API here.

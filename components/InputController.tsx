@@ -1,6 +1,7 @@
 "use client";
-import ErrorInputMessage from "./ErrorInputMessage";
-import { IInputController } from "@/models/Inputs";
+import { IInputController } from '@/models/Inputs';
+
+import ErrorInputMessage from './ErrorInputMessage';
 
 const InputController = ({
   label,

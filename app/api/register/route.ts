@@ -1,6 +1,7 @@
-import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
-import argon2 from "argon2";
+import argon2 from 'argon2';
+import { NextResponse } from 'next/server';
+
+import { prisma } from '@/lib/prisma';
 
 export async function POST(req: Request) {
   const body = await req.json();

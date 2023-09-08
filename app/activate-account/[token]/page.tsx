@@ -1,8 +1,8 @@
-import AlreadyActivated from "@/components/AlreadyActivated";
-import NotFound from "@/components/NotFound";
-import RegisterForm from "@/components/RegisterForm";
-import { prisma } from "@/lib/prisma";
-import { ActivateToken } from "@prisma/client";
+import AlreadyActivated from '@/components/AlreadyActivated';
+import NotFound from '@/components/NotFound';
+import RegisterForm from '@/components/RegisterForm';
+import { prisma } from '@/lib/prisma';
+import { ActivateToken } from '@prisma/client';
 
 interface IActivateParams {
   params: {

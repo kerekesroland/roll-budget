@@ -1,4 +1,4 @@
-import LeftSideBar from "@/components/LeftSideBar";
+import LeftSideBar from '@/components/LeftSideBar';
 
 export const metadata = {
   title: "Reminders|Roll",

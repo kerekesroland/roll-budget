@@ -1,6 +1,7 @@
 "use client";
-import { Category } from "@prisma/client";
-import { atom } from "recoil";
+import { atom } from 'recoil';
+
+import { Category } from '@prisma/client';
 
 export const mobileOpen = atom({
   key: "mobileOpen",

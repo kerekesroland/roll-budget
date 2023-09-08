@@ -1,11 +1,13 @@
 "use client";
-import { inviteModalOpen } from "@/app/store";
-import Image from "next/image";
-import React, { useCallback } from "react";
-import { useRecoilState } from "recoil";
-import InviteModal from "./modals/InviteModal";
-import { AnimatePresence, motion } from "framer-motion";
-import MobileNavbar from "./MobileNavbar";
+import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
+import React, { useCallback } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { inviteModalOpen } from '@/app/store';
+
+import MobileNavbar from './MobileNavbar';
+import InviteModal from './modals/InviteModal';
 
 type Props = {};
 

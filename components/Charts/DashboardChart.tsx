@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
-import { Line } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
-import { IBudget } from "@/models/Budget";
+import { Chart, registerables } from 'chart.js';
+import React, { useMemo } from 'react';
+import { Line } from 'react-chartjs-2';
+
+import { IBudget } from '@/models/Budget';
 
 interface IDashboardChartProps {
   data: Array<IBudget>;

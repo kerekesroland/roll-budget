@@ -1,41 +1,25 @@
 "use client";
 
-import * as React from "react";
-import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import axios from 'axios';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import * as React from 'react';
+import { toast } from 'react-hot-toast';
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+    DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import Image from "next/image";
-import axios from "axios";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
+import { CaretSortIcon, ChevronDownIcon } from '@radix-ui/react-icons';
+import {
+    ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel,
+    getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState
+} from '@tanstack/react-table';
 
 export type Status = {
   id: string;

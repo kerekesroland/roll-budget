@@ -1,9 +1,9 @@
 "use client";
-import { signOut } from "next-auth/react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import { toast } from "react-hot-toast";
+import { signOut } from 'next-auth/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+import { toast } from 'react-hot-toast';
 
 type Props = {
   name: string;

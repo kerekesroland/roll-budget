@@ -1,28 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import DashboardChart from "@/components/Charts/DashboardChart";
-import CustomProgressbar from "@/components/CustomProgressbar";
-import DashboardItemCard from "@/components/DashboardItemCard";
-import MobileNavbar from "@/components/MobileNavbar";
-import { Skeleton } from "@/components/ui/skeleton";
-import { formatePrice } from "@/lib/utils";
-import { IBudget } from "@/models/Budget";
-import { ICategory } from "@/models/Category";
-import useCurrencyConverter, {
-  TCurrencies,
-} from "@/hooks/useCurrencyConverter";
-import Reveal from "./Reveal";
+import DashboardChart from '@/components/Charts/DashboardChart';
+import CustomProgressbar from '@/components/CustomProgressbar';
+import DashboardItemCard from '@/components/DashboardItemCard';
+import MobileNavbar from '@/components/MobileNavbar';
+import { Skeleton } from '@/components/ui/skeleton';
+import useCurrencyConverter, { TCurrencies } from '@/hooks/useCurrencyConverter';
+import { formatePrice } from '@/lib/utils';
+import { IBudget } from '@/models/Budget';
+import { ICategory } from '@/models/Category';
+
+import Reveal from './Reveal';
 
 interface IProps {
   allExceededCategories: Array<ICategory>;

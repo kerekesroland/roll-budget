@@ -1,8 +1,9 @@
 "use client";
-import { keyToImage } from "@/lib/utils";
-import { ICategory } from "@/models/Category";
-import Image from "next/image";
-import { useCallback, useState } from "react";
+import Image from 'next/image';
+import { useCallback, useState } from 'react';
+
+import { keyToImage } from '@/lib/utils';
+import { ICategory } from '@/models/Category';
 
 type Props = {
   name: string;

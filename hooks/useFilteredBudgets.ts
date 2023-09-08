@@ -1,6 +1,7 @@
-import { TBudget } from "@/models/User";
-import { Category } from "@prisma/client";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from 'react';
+
+import { TBudget } from '@/models/User';
+import { Category } from '@prisma/client';
 
 interface IProps {
   categories: Array<Category> | null;

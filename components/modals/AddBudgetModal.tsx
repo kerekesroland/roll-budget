@@ -1,20 +1,22 @@
 "use client";
-import { useState } from "react";
-import CustomButton from "../CustomButton";
-import GeneralHeader from "../GeneralHeader";
-import InputController from "../InputController";
-import NumberController from "../NumberController";
-import { ValutaOptions } from "@/constants/ValutaOptions";
-import { useSchemas } from "@/hooks/useSchemas";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { DatePickerForm } from "../CustomCalendar";
-import { Combobox } from "../ComboBox";
-import { Category } from "@prisma/client";
-import { BudgetOptions } from "@/constants/BudgetOptions";
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+
+import { BudgetOptions } from '@/constants/BudgetOptions';
+import { ValutaOptions } from '@/constants/ValutaOptions';
+import { useSchemas } from '@/hooks/useSchemas';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Category } from '@prisma/client';
+
+import { Combobox } from '../ComboBox';
+import CustomButton from '../CustomButton';
+import { DatePickerForm } from '../CustomCalendar';
+import GeneralHeader from '../GeneralHeader';
+import InputController from '../InputController';
+import NumberController from '../NumberController';
 
 interface ICategory {
   name: string;
@@ -120,7 +122,7 @@ const AddBudgetModal = ({
             extraStyle="!max-w-full"
           />
           <NumberController
-            label="Limit"
+            label="Price"
             isTouched={false}
             type="number"
             error={errors.price?.message as string}

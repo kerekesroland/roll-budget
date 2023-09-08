@@ -1,7 +1,7 @@
 "use client";
 
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import axios, { AxiosResponse } from 'axios';
+import { useEffect, useState } from 'react';
 
 export type TCurrencies = "USD" | "EUR" | "GBP" | "HUF";
 

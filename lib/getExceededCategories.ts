@@ -1,7 +1,8 @@
-import getCurrentUser from "./getCurrentUser";
-import { prisma } from "./prisma";
-import { ICategory } from "@/models/Category";
-import { capitalizeFirstLetter } from "./utils";
+import { ICategory } from '@/models/Category';
+
+import getCurrentUser from './getCurrentUser';
+import { prisma } from './prisma';
+import { capitalizeFirstLetter } from './utils';
 
 export const getExceededCategories = async (take?: number) => {
   const user = await getCurrentUser();

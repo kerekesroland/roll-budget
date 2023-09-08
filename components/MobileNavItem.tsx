@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useCallback } from "react";
-import toast from "react-hot-toast";
+import { motion } from 'framer-motion';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React, { useCallback } from 'react';
+import toast from 'react-hot-toast';
 
 type Props = {
   name: string;

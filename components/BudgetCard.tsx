@@ -1,11 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import { Skeleton } from "./ui/skeleton";
-import { AnimatePresence, motion } from "framer-motion";
-import EditBudgetModal from "./modals/EditBudgetModal";
-import { IUser } from "@/models/User";
-import { useState } from "react";
+import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
+import { useState } from 'react';
+
+import { IUser } from '@/models/User';
+
+import EditBudgetModal from './modals/EditBudgetModal';
+import { Skeleton } from './ui/skeleton';
 
 type Props = {
   id: string;

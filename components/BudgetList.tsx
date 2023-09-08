@@ -1,25 +1,25 @@
 "use client";
 
-import axios from "axios";
-import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
-import { useRecoilState } from "recoil";
+import axios from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { useRecoilState } from 'recoil';
 
-import { budgetAddModalOpen, budgetCategories } from "@/app/store";
-import { BudgetOptions } from "@/constants/BudgetOptions";
-import useFilteredBudgets from "@/hooks/useFilteredBudgets";
-import { IUser, TBudget } from "@/models/User";
-import { Category } from "@prisma/client";
+import { budgetAddModalOpen, budgetCategories } from '@/app/store';
+import { BudgetOptions } from '@/constants/BudgetOptions';
+import useFilteredBudgets from '@/hooks/useFilteredBudgets';
+import { IUser, TBudget } from '@/models/User';
+import { Category } from '@prisma/client';
 
-import BudgetCard from "./BudgetCard";
-import BudgetInfo from "./BudgetInfo";
-import { Combobox } from "./ComboBox";
-import { DatePickerForm } from "./CustomCalendar";
-import MobileNavbar from "./MobileNavbar";
-import AddBudgetModal from "./modals/AddBudgetModal";
+import BudgetCard from './BudgetCard';
+import BudgetInfo from './BudgetInfo';
+import { Combobox } from './ComboBox';
+import { DatePickerForm } from './CustomCalendar';
+import MobileNavbar from './MobileNavbar';
+import AddBudgetModal from './modals/AddBudgetModal';
 
 type Props = {
   user: IUser | null;

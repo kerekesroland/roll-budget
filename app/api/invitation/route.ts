@@ -1,6 +1,8 @@
-import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
+import { NextResponse } from 'next/server';
+
+import { prisma } from '@/lib/prisma';
+
 const nodemailer = require("nodemailer");
 
 export async function POST(req: Request) {

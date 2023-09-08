@@ -1,14 +1,16 @@
 "use client";
 
-import { categoryModalOpen } from "@/app/store";
-import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
-import { useCallback } from "react";
-import { useRecoilState } from "recoil";
-import AddCategoryModal from "./modals/AddCategoryModal";
-import { IUser } from "@/models/User";
-import { Category } from "@prisma/client";
-import CategoryCard from "./CategoryCard";
+import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
+import { useCallback } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { categoryModalOpen } from '@/app/store';
+import { IUser } from '@/models/User';
+import { Category } from '@prisma/client';
+
+import CategoryCard from './CategoryCard';
+import AddCategoryModal from './modals/AddCategoryModal';
 
 interface IBudgetCategories {
   user: IUser | null;
