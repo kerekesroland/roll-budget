@@ -1,13 +1,13 @@
 "use client";
 
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import { toast } from 'react-hot-toast';
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 
-import CustomButton from '../CustomButton';
-import GeneralHeader from '../GeneralHeader';
-import { Input } from '../ui/input';
+import CustomButton from "../CustomButton";
+import GeneralHeader from "../GeneralHeader";
+import { Input } from "../ui/input";
 
 const InviteModal = () => {
   const [email, setEmail] = useState<string>("");

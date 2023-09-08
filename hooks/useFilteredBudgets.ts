@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from "react";
 
-import { TBudget } from '@/models/User';
-import { Category } from '@prisma/client';
+import { TBudget } from "@/models/User";
+import { Category } from "@prisma/client";
 
 interface IProps {
   categories: Array<Category> | null;
@@ -14,7 +14,7 @@ const useFilteredBudgets = ({ categories, budgets, filters }: IProps) => {
     (categoryId: string) => {
       return categories?.find((category) => category.id === categoryId);
     },
-    [categories]
+    [categories],
   );
 
   const hasFilters = Object.values(filters).some((value) => value !== "");
@@ -39,7 +39,7 @@ const useFilteredBudgets = ({ categories, budgets, filters }: IProps) => {
         (budget.type === filters.type || filters.type === "") &&
         (budget?.category?.toLowerCase() === filters?.category?.toLowerCase() ||
           filters?.category === "") &&
-        (!filters?.date || new Date(budget.date) <= filters?.date)
+        (!filters?.date || new Date(budget.date) <= filters?.date),
     );
   }, [
     budgetsWithCategory,

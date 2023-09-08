@@ -1,8 +1,8 @@
-import BudgetCategories from '@/components/BudgetCategories';
-import BudgetList from '@/components/BudgetList';
-import { getBudgets } from '@/lib/getBudgets';
-import { getCategories } from '@/lib/getCategories';
-import getCurrentUser from '@/lib/getCurrentUser';
+import BudgetCategories from "@/components/BudgetCategories";
+import BudgetList from "@/components/BudgetList";
+import { getBudgets } from "@/lib/getBudgets";
+import { getCategories } from "@/lib/getCategories";
+import getCurrentUser from "@/lib/getCurrentUser";
 
 const Budget = async () => {
   const user = await getCurrentUser();

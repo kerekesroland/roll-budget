@@ -1,5 +1,5 @@
 "use client";
-import { Progress } from './ui/progress';
+import { Progress } from "./ui/progress";
 
 type Props = {
   name: string;

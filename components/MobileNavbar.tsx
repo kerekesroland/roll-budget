@@ -1,13 +1,13 @@
 "use client";
-import Image from 'next/image';
-import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
+import Image from "next/image";
+import { useCallback } from "react";
+import { useRecoilState } from "recoil";
 
-import { mobileOpen } from '@/app/store';
-import { SIDENAV_ITEMS } from '@/constants/SideNavItems';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { mobileOpen } from "@/app/store";
+import { SIDENAV_ITEMS } from "@/constants/SideNavItems";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
-import MobileNavItem from './MobileNavItem';
+import MobileNavItem from "./MobileNavItem";
 
 const MobileNavbar = () => {
   const [isMobileOpen, setIsMobileOpen] = useRecoilState(mobileOpen);
@@ -16,7 +16,7 @@ const MobileNavbar = () => {
     (value: boolean) => {
       setIsMobileOpen(value);
     },
-    [setIsMobileOpen]
+    [setIsMobileOpen],
   );
 
   return (

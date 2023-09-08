@@ -1,22 +1,22 @@
 "use client";
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-import { BudgetOptions } from '@/constants/BudgetOptions';
-import { ValutaOptions } from '@/constants/ValutaOptions';
-import { useSchemas } from '@/hooks/useSchemas';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Category } from '@prisma/client';
+import { BudgetOptions } from "@/constants/BudgetOptions";
+import { ValutaOptions } from "@/constants/ValutaOptions";
+import { useSchemas } from "@/hooks/useSchemas";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Category } from "@prisma/client";
 
-import { Combobox } from '../ComboBox';
-import CustomButton from '../CustomButton';
-import { DatePickerForm } from '../CustomCalendar';
-import GeneralHeader from '../GeneralHeader';
-import InputController from '../InputController';
-import NumberController from '../NumberController';
+import { Combobox } from "../ComboBox";
+import CustomButton from "../CustomButton";
+import { DatePickerForm } from "../CustomCalendar";
+import GeneralHeader from "../GeneralHeader";
+import InputController from "../InputController";
+import NumberController from "../NumberController";
 
 interface ICategory {
   name: string;
@@ -89,7 +89,7 @@ const AddBudgetModal = ({
 
   const handleSetCategory = (data: string) => {
     const selectedCategoryId = selectableCategories.find(
-      (c) => c.value === data
+      (c) => c.value === data,
     );
     if (selectedCategoryId) {
       setValue("category", selectedCategoryId.id);

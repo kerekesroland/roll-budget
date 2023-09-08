@@ -1,5 +1,5 @@
 "use client";
-import ProgressBar from '@/components/ProgressBar';
+import ProgressBar from "@/components/ProgressBar";
 
 const Loading = () => {
   return <ProgressBar />;

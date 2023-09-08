@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const ProgressBar = () => {
   const [loading, setLoading] = useState(false);

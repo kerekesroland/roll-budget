@@ -1,20 +1,29 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { motion } from "framer-motion";
+import Image from "next/image";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-import DashboardChart from '@/components/Charts/DashboardChart';
-import CustomProgressbar from '@/components/CustomProgressbar';
-import DashboardItemCard from '@/components/DashboardItemCard';
-import MobileNavbar from '@/components/MobileNavbar';
-import { Skeleton } from '@/components/ui/skeleton';
-import useCurrencyConverter, { TCurrencies } from '@/hooks/useCurrencyConverter';
-import { formatePrice } from '@/lib/utils';
-import { IBudget } from '@/models/Budget';
-import { ICategory } from '@/models/Category';
+import DashboardChart from "@/components/Charts/DashboardChart";
+import CustomProgressbar from "@/components/CustomProgressbar";
+import DashboardItemCard from "@/components/DashboardItemCard";
+import MobileNavbar from "@/components/MobileNavbar";
+import { Skeleton } from "@/components/ui/skeleton";
+import useCurrencyConverter, {
+  TCurrencies,
+} from "@/hooks/useCurrencyConverter";
+import { formatePrice } from "@/lib/utils";
+import { IBudget } from "@/models/Budget";
+import { ICategory } from "@/models/Category";
 
-import Reveal from './Reveal';
+import Reveal from "./Reveal";
 
 interface IProps {
   allExceededCategories: Array<ICategory>;
@@ -39,7 +48,7 @@ const DashboardContent = ({
   const totalIncome =
     useMemo(
       () => allIncome?.reduce((acc, curr) => (acc += curr?.price), 0),
-      [allIncome]
+      [allIncome],
     ) ?? 0;
   const totalExpense =
     useMemo(
@@ -47,7 +56,7 @@ const DashboardContent = ({
         budgets
           ?.filter((el) => el?.type !== "income")
           ?.reduce((acc, curr) => (acc += curr?.price), 0),
-      [budgets]
+      [budgets],
     ) ?? 0;
 
   const topBudgets = budgets
@@ -65,7 +74,7 @@ const DashboardContent = ({
         ?.filter(
           (budget) =>
             new Date(budget.date).getMonth() === date.getMonth() &&
-            budget?.type === "income"
+            budget?.type === "income",
         )
         .reduce((acc, curr) => (acc += curr?.price), 0);
     }, [budgets]) ?? 0;
@@ -78,7 +87,7 @@ const DashboardContent = ({
         ?.filter(
           (budget) =>
             new Date(budget.date).getMonth() === date.getMonth() &&
-            budget?.type === "expense"
+            budget?.type === "expense",
         )
         .reduce((acc, curr) => (acc += curr?.price), 0);
     }, [budgets]) ?? 0;
@@ -205,7 +214,7 @@ const DashboardContent = ({
                 </Reveal>
                 <Reveal delay={1}>
                   <span className="text-3xl font-semibold">{`${formatePrice(
-                    currency?.value ?? 0
+                    currency?.value ?? 0,
                   )} ${currency?.type}`}</span>
                 </Reveal>
                 <Reveal delay={1.2}>

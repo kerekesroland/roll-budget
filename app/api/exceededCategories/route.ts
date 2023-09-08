@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import getCurrentUser from '@/lib/getCurrentUser';
-import { prisma } from '@/lib/prisma';
+import getCurrentUser from "@/lib/getCurrentUser";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(req: Request) {
   const user = await getCurrentUser();
@@ -26,7 +26,7 @@ export async function GET(req: Request) {
       },
       {
         status: 400,
-      }
+      },
     );
   }
 }

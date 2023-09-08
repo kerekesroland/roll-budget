@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import React, { useCallback } from 'react';
-import toast from 'react-hot-toast';
+import { motion } from "framer-motion";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React, { useCallback } from "react";
+import toast from "react-hot-toast";
 
 type Props = {
   name: string;
@@ -22,7 +22,7 @@ const MobileNavItem = ({ name, index, toggleState }: Props) => {
 
   const handleLogout = useCallback(async () => {
     toast.success(
-      "Successfully signed out, you will be redirected to the login page in a second!"
+      "Successfully signed out, you will be redirected to the login page in a second!",
     );
     toggleState(false);
     setTimeout(async () => {

@@ -1,5 +1,5 @@
-import { ClassValue, clsx, type } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { ClassValue, clsx, type } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 type Months = {
   [key: number]: string;
@@ -41,7 +41,7 @@ export function mapDateToMonth(date: Date) {
 export function formatePrice(
   price: number,
   style?: PriceStyle,
-  decimals?: number
+  decimals?: number,
 ) {
   const options = {
     style: style ?? "decimal", // You can also use 'currency', 'percent', etc. depending on your needs

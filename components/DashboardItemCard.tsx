@@ -1,9 +1,9 @@
 "use client";
-import Image from 'next/image';
-import { useCallback, useState } from 'react';
+import Image from "next/image";
+import { useCallback, useState } from "react";
 
-import { keyToImage } from '@/lib/utils';
-import { ICategory } from '@/models/Category';
+import { keyToImage } from "@/lib/utils";
+import { ICategory } from "@/models/Category";
 
 type Props = {
   name: string;
@@ -19,7 +19,7 @@ const DashboardItemCard = ({ name, price, categories, categoryId }: Props) => {
     (categoryId: string) => {
       return categories?.find((category) => category.id === categoryId);
     },
-    [categories]
+    [categories],
   );
 
   const category =

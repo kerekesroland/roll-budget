@@ -1,9 +1,9 @@
 "use client";
-import { signOut } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
-import { toast } from 'react-hot-toast';
+import { signOut } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import { toast } from "react-hot-toast";
 
 type Props = {
   name: string;
@@ -19,7 +19,7 @@ const SideNavItem = ({ name, icon, active }: Props) => {
 
   const handleLogout = useCallback(async () => {
     toast.success(
-      "Successfully signed out, you will be redirected to the login page in a second!"
+      "Successfully signed out, you will be redirected to the login page in a second!",
     );
     setTimeout(async () => {
       await signOut();

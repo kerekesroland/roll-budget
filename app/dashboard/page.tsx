@@ -1,8 +1,8 @@
-import DashboardContent from '@/components/DashboardContent';
-import { getBudgets } from '@/lib/getBudgets';
-import { getCategories } from '@/lib/getCategories';
-import { getExceededCategories } from '@/lib/getExceededCategories';
-import { getIncome } from '@/lib/getIncome';
+import DashboardContent from "@/components/DashboardContent";
+import { getBudgets } from "@/lib/getBudgets";
+import { getCategories } from "@/lib/getCategories";
+import { getExceededCategories } from "@/lib/getExceededCategories";
+import { getIncome } from "@/lib/getIncome";
 
 const Dashboard = async () => {
   const allExceededCategories = await getExceededCategories();

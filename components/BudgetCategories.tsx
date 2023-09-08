@@ -1,16 +1,16 @@
 "use client";
 
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
-import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { useCallback } from "react";
+import { useRecoilState } from "recoil";
 
-import { categoryModalOpen } from '@/app/store';
-import { IUser } from '@/models/User';
-import { Category } from '@prisma/client';
+import { categoryModalOpen } from "@/app/store";
+import { IUser } from "@/models/User";
+import { Category } from "@prisma/client";
 
-import CategoryCard from './CategoryCard';
-import AddCategoryModal from './modals/AddCategoryModal';
+import CategoryCard from "./CategoryCard";
+import AddCategoryModal from "./modals/AddCategoryModal";
 
 interface IBudgetCategories {
   user: IUser | null;
@@ -24,7 +24,7 @@ const BudgetCategories = ({ user, categories }: IBudgetCategories) => {
     (value: boolean) => {
       setIsModalOpened(value);
     },
-    [setIsModalOpened]
+    [setIsModalOpened],
   );
 
   const childVariants = {

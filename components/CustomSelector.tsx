@@ -1,11 +1,17 @@
 "use client";
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import {
-    Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue
-} from '@/components/ui/select';
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Option = {
   label: string;

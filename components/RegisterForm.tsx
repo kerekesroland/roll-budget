@@ -1,18 +1,18 @@
 "use client";
 
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-import InputController from '@/components/InputController';
-import { useSchemas } from '@/hooks/useSchemas';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { ActivateToken } from '@prisma/client';
+import InputController from "@/components/InputController";
+import { useSchemas } from "@/hooks/useSchemas";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ActivateToken } from "@prisma/client";
 
-import CustomButton from './CustomButton';
-import GeneralHeader from './GeneralHeader';
+import CustomButton from "./CustomButton";
+import GeneralHeader from "./GeneralHeader";
 
 interface IRegisterForm {
   accountToken: ActivateToken | null;

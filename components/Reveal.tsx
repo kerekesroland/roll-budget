@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useAnimation } from 'framer-motion';
-import { useEffect } from 'react';
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
 
 const Reveal = ({
   children,

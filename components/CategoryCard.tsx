@@ -1,11 +1,11 @@
 "use client";
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
-import { useState } from 'react';
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
 
-import { keyToImage } from '@/lib/utils';
+import { keyToImage } from "@/lib/utils";
 
-import EditCategoryModal from './modals/EditCategoryModal';
+import EditCategoryModal from "./modals/EditCategoryModal";
 
 type Props = {
   id: string;

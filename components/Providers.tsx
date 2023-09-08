@@ -1,9 +1,9 @@
 "use client";
 
-import { SessionProvider } from 'next-auth/react';
-import { RecoilRoot } from 'recoil';
+import { SessionProvider } from "next-auth/react";
+import { RecoilRoot } from "recoil";
 
-import ToastProvider from './ToastProvider';
+import ToastProvider from "./ToastProvider";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (

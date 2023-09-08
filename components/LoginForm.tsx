@@ -1,17 +1,17 @@
 "use client";
-import { signIn } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { signIn } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-import { useSchemas } from '@/hooks/useSchemas';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useSchemas } from "@/hooks/useSchemas";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import CustomButton from './CustomButton';
-import GeneralHeader from './GeneralHeader';
-import InputController from './InputController';
+import CustomButton from "./CustomButton";
+import GeneralHeader from "./GeneralHeader";
+import InputController from "./InputController";
 
 interface ILoginFormInputs {
   email: string;

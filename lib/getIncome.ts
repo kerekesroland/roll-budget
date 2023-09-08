@@ -1,8 +1,8 @@
-import { IBudget } from '@/models/Budget';
-import { Budget } from '@prisma/client';
+import { IBudget } from "@/models/Budget";
+import { Budget } from "@prisma/client";
 
-import getCurrentUser from './getCurrentUser';
-import { prisma } from './prisma';
+import getCurrentUser from "./getCurrentUser";
+import { prisma } from "./prisma";
 
 export const getIncome = async () => {
   const user = await getCurrentUser();

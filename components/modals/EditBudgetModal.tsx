@@ -1,23 +1,23 @@
 "use client";
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import { useRecoilState } from 'recoil';
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useRecoilState } from "recoil";
 
-import { budgetCategories } from '@/app/store';
-import { BudgetOptions } from '@/constants/BudgetOptions';
-import { ValutaOptions } from '@/constants/ValutaOptions';
-import { useSchemas } from '@/hooks/useSchemas';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { budgetCategories } from "@/app/store";
+import { BudgetOptions } from "@/constants/BudgetOptions";
+import { ValutaOptions } from "@/constants/ValutaOptions";
+import { useSchemas } from "@/hooks/useSchemas";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import { Combobox } from '../ComboBox';
-import CustomButton from '../CustomButton';
-import { DatePickerForm } from '../CustomCalendar';
-import GeneralHeader from '../GeneralHeader';
-import InputController from '../InputController';
-import NumberController from '../NumberController';
+import { Combobox } from "../ComboBox";
+import CustomButton from "../CustomButton";
+import { DatePickerForm } from "../CustomCalendar";
+import GeneralHeader from "../GeneralHeader";
+import InputController from "../InputController";
+import NumberController from "../NumberController";
 
 type Budget = {
   id: string;
@@ -118,7 +118,7 @@ const EditBudgetModal = ({
 
   const handleSetCategory = (data: string) => {
     const selectedCategoryId = selectableCategories.find(
-      (c) => c.value === data
+      (c) => c.value === data,
     );
     if (selectedCategoryId) {
       setValue("category", selectedCategoryId);

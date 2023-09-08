@@ -1,9 +1,9 @@
 "use client";
-import { CategoryIcons } from '@/constants/CategoryIcons';
-import { IIconSelector } from '@/models/Inputs';
+import { CategoryIcons } from "@/constants/CategoryIcons";
+import { IIconSelector } from "@/models/Inputs";
 
-import { CustomSelector } from './CustomSelector';
-import ErrorInputMessage from './ErrorInputMessage';
+import { CustomSelector } from "./CustomSelector";
+import ErrorInputMessage from "./ErrorInputMessage";
 
 const IconSelector = ({
   label,

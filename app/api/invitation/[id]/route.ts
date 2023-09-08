@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/prisma";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const token = await prisma.activateToken.findUnique({
@@ -20,7 +20,7 @@ export async function DELETE(
         },
         {
           status: 404,
-        }
+        },
       );
     }
 
@@ -31,7 +31,7 @@ export async function DELETE(
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -53,7 +53,7 @@ export async function DELETE(
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

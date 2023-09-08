@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import MobileNavbar from '@/components/MobileNavbar';
+import MobileNavbar from "@/components/MobileNavbar";
 
 type Props = {};
 

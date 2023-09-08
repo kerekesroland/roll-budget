@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/prisma";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const budget = await prisma.budget.delete({
@@ -42,14 +42,14 @@ export async function DELETE(
       },
       {
         status: 400,
-      }
+      },
     );
   }
 }
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const body = await req.json();
   try {
@@ -67,7 +67,7 @@ export async function PUT(
         },
         {
           status: 404,
-        }
+        },
       );
     }
 
@@ -100,7 +100,7 @@ export async function PUT(
         },
         {
           status: 404,
-        }
+        },
       );
     }
 
@@ -124,7 +124,7 @@ export async function PUT(
       },
       {
         status: 400,
-      }
+      },
     );
   }
 }

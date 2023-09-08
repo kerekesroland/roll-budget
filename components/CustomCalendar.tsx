@@ -1,17 +1,27 @@
 "use client";
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { toast } from '@/components/ui/use-toast';
-import { cn } from '@/lib/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -83,7 +93,7 @@ export function DatePickerForm({
                       variant={"outline"}
                       className={cn(
                         `w-[240px] min-h-[50px] pl-3 text-left font-normal !border-[#1C293A] border-2 hover:bg-gray-300 ${extraStyle}`,
-                        !field.value && "text-muted-foreground"
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value ? (

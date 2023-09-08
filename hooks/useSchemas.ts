@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from "yup";
 
 /**
  @returns {object} {registerSchema} - the schema object for the registration form validation
@@ -71,7 +71,7 @@ export const useSchemas = () => {
             path,
             message: errors.passwordSpecialCharacterError,
           });
-        }
+        },
       )
       .test(
         "IncludeNumber",
@@ -87,7 +87,7 @@ export const useSchemas = () => {
             path,
             message: errors.passwordNumberRequiredError,
           });
-        }
+        },
       ),
 
     confirmPassword: yup
