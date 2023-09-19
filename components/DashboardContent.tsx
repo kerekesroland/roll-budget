@@ -19,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useCurrencyConverter, {
   TCurrencies,
 } from "@/hooks/useCurrencyConverter";
-import { formatePrice } from "@/lib/utils";
+import { formatePrice, mapDateToMonth } from "@/lib/utils";
 import { IBudget } from "@/models/Budget";
 import { ICategory } from "@/models/Category";
 
@@ -48,7 +48,7 @@ const DashboardContent = ({
   const totalIncome =
     useMemo(
       () => allIncome?.reduce((acc, curr) => (acc += curr?.price), 0),
-      [allIncome],
+      [allIncome]
     ) ?? 0;
   const totalExpense =
     useMemo(
@@ -56,11 +56,16 @@ const DashboardContent = ({
         budgets
           ?.filter((el) => el?.type !== "income")
           ?.reduce((acc, curr) => (acc += curr?.price), 0),
-      [budgets],
+      [budgets]
     ) ?? 0;
 
   const topBudgets = budgets
-    ?.filter((budget) => budget?.type !== "income")
+    ?.filter(
+      (budget) =>
+        budget?.type !== "income" &&
+        mapDateToMonth(new Date(budget?.date as string)) ===
+          mapDateToMonth(new Date())
+    )
     ?.sort((a, b) => b.price - a.price)
     .slice(0, 4);
 
@@ -74,7 +79,7 @@ const DashboardContent = ({
         ?.filter(
           (budget) =>
             new Date(budget.date).getMonth() === date.getMonth() &&
-            budget?.type === "income",
+            budget?.type === "income"
         )
         .reduce((acc, curr) => (acc += curr?.price), 0);
     }, [budgets]) ?? 0;
@@ -87,7 +92,7 @@ const DashboardContent = ({
         ?.filter(
           (budget) =>
             new Date(budget.date).getMonth() === date.getMonth() &&
-            budget?.type === "expense",
+            budget?.type === "expense"
         )
         .reduce((acc, curr) => (acc += curr?.price), 0);
     }, [budgets]) ?? 0;
@@ -214,7 +219,7 @@ const DashboardContent = ({
                 </Reveal>
                 <Reveal delay={1}>
                   <span className="text-3xl font-semibold">{`${formatePrice(
-                    currency?.value ?? 0,
+                    currency?.value ?? 0
                   )} ${currency?.type}`}</span>
                 </Reveal>
                 <Reveal delay={1.2}>

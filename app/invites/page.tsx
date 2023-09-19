@@ -3,7 +3,6 @@ import InviteForm from "@/components/InviteForm";
 import { prisma } from "@/lib/prisma";
 
 async function getData(): Promise<Status[]> {
-  // Fetch data from your API here.
   "use server";
   const tokens = await prisma.activateToken.findMany();
 

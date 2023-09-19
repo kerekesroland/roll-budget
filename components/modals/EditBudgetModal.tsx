@@ -60,7 +60,7 @@ const EditBudgetModal = ({
   handleDeleteBudget,
 }: IEditBudget) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [bCategories, setBCategories] = useRecoilState(budgetCategories);
+  const [bCategories] = useRecoilState(budgetCategories);
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -100,7 +100,6 @@ const EditBudgetModal = ({
       await axios.put(`/api/budget/${budget.id}`, {
         ...data,
         category: data.category.id,
-        userId: userId,
       });
       toast.success(`Successfully edited ${data.name}!`);
       router.refresh();
@@ -118,9 +117,11 @@ const EditBudgetModal = ({
 
   const handleSetCategory = (data: string) => {
     const selectedCategoryId = selectableCategories.find(
-      (c) => c.value === data,
+      (c) => c.value === data
     );
-    if (selectedCategoryId) {
+    if (!selectedCategoryId) {
+      return;
+    } else {
       setValue("category", selectedCategoryId);
     }
   };

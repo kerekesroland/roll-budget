@@ -63,14 +63,14 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
         return { ...prevFilters, [key]: newValue };
       });
     },
-    [setFilters],
+    [setFilters]
   );
 
   const toggleState = useCallback(
     (value: boolean) => {
       setIsModalOpened(value);
     },
-    [setIsModalOpened],
+    [setIsModalOpened]
   );
 
   const categoryLabelValues = categories?.map((category) => {
@@ -120,7 +120,7 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
         toast.error(error.response.data.message);
       }
     },
-    [router],
+    [router]
   );
 
   const childVariants = {
