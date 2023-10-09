@@ -6,8 +6,8 @@ import { useRecoilState } from "recoil";
 
 import { inviteModalOpen } from "@/app/store";
 
-import MobileNavbar from "./MobileNavbar";
-import InviteModal from "./modals/InviteModal";
+import MobileNavbar from "../MobileNavbar";
+import InviteModal from "../modals/InviteModal";
 
 type Props = {};
 
@@ -18,7 +18,7 @@ const InviteForm = (props: Props) => {
     (value: boolean) => {
       setIsModalOpened(value);
     },
-    [setIsModalOpened],
+    [setIsModalOpened]
   );
 
   return (

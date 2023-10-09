@@ -1,5 +1,5 @@
-import BudgetCategories from "@/components/BudgetCategories";
-import BudgetList from "@/components/BudgetList";
+import BudgetCategories from "@/components/budget/BudgetCategories";
+import BudgetList from "@/components/budget/BudgetList";
 import { getBudgets } from "@/lib/getBudgets";
 import { getCategories } from "@/lib/getCategories";
 import getCurrentUser from "@/lib/getCurrentUser";

@@ -6,8 +6,8 @@ import { useState } from "react";
 
 import { IUser } from "@/models/User";
 
-import EditBudgetModal from "./modals/EditBudgetModal";
-import { Skeleton } from "./ui/skeleton";
+import EditBudgetModal from "../modals/EditBudgetModal";
+import { Skeleton } from "../ui/skeleton";
 
 type Props = {
   id: string;

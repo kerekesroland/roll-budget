@@ -13,7 +13,6 @@ import {
 
 import DashboardChart from "@/components/Charts/DashboardChart";
 import CustomProgressbar from "@/components/CustomProgressbar";
-import DashboardItemCard from "@/components/DashboardItemCard";
 import MobileNavbar from "@/components/MobileNavbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import useCurrencyConverter, {
@@ -23,7 +22,8 @@ import { formatePrice, mapDateToMonth } from "@/lib/utils";
 import { IBudget } from "@/models/Budget";
 import { ICategory } from "@/models/Category";
 
-import Reveal from "./Reveal";
+import Reveal from "../Reveal";
+import DashboardItemCard from "./DashboardItemCard";
 
 interface IProps {
   allExceededCategories: Array<ICategory>;

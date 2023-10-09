@@ -1,4 +1,4 @@
-import DashboardContent from "@/components/DashboardContent";
+import DashboardContent from "@/components/dashboard/DashboardContent";
 import { getBudgets } from "@/lib/getBudgets";
 import { getCategories } from "@/lib/getCategories";
 import { getExceededCategories } from "@/lib/getExceededCategories";
