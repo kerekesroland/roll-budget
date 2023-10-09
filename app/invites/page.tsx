@@ -1,6 +1,8 @@
 import DataTable, { Status } from "@/components/CustomDataTable";
-import InviteForm from "@/components/InviteForm";
+import InviteForm from "@/components/invites/InviteForm";
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 async function getData(): Promise<Status[]> {
   "use server";

@@ -1,10 +1,10 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useCallback, useState } from "react";
 
 import { SIDENAV_ITEMS } from "@/constants/SideNavItems";
 
 import SideNavItem from "./SideNavItem";
+import { motion } from "framer-motion";
 
 const LeftSideBar = () => {
   const pathName = usePathname();

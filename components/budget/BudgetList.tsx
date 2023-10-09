@@ -16,10 +16,10 @@ import { Category } from "@prisma/client";
 
 import BudgetCard from "./BudgetCard";
 import BudgetInfo from "./BudgetInfo";
-import { Combobox } from "./ComboBox";
-import { DatePickerForm } from "./CustomCalendar";
-import MobileNavbar from "./MobileNavbar";
-import AddBudgetModal from "./modals/AddBudgetModal";
+import { Combobox } from "../ComboBox";
+import { DatePickerForm } from "../CustomCalendar";
+import MobileNavbar from "../MobileNavbar";
+import AddBudgetModal from "../modals/AddBudgetModal";
 
 type Props = {
   user: IUser | null;
