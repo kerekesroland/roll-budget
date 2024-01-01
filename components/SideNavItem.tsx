@@ -7,13 +7,23 @@ import { useCallback } from "react";
 import { toast } from "react-hot-toast";
 
 type Props = {
+  /**
+   * @param {string} name The name of the SideNavigation item
+   */
   name: string;
+  /**
+   * @param {boolean} active The state representing if the nav item is active
+   */
   active: boolean;
+  /**
+   * @param {string} icon The icon appearing next to the nav item text
+   */
   icon: string;
 };
 
 const SideNavItem = ({ name, icon, active }: Props) => {
   const router = useRouter();
+
   const handleNavigate = useCallback(() => {
     router.replace(`/${name.toLowerCase()}`);
   }, [router, name]);
@@ -26,6 +36,7 @@ const SideNavItem = ({ name, icon, active }: Props) => {
       await signOut();
     }, 2000);
   }, []);
+
   return (
     <div
       onClick={name !== "Logout" ? handleNavigate : handleLogout}
