@@ -125,8 +125,10 @@ export const useSchemas = () => {
   });
 
   const reminderSchema = yup.object({
-    title: yup.string().required(errors.budgetNameRequiredError),
-    date: yup.date().required(errors.budgetDateRequiredError),
+    title: yup
+      .string()
+      .required("You have to provide a title for the reminder"),
+    date: yup.date().required("You have to provide a date"),
     priority: yup
       .number()
       .typeError("You have to provide a correct number")

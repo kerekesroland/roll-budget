@@ -1,22 +1,17 @@
+"use client";
+
 import React, { useCallback, useState } from "react";
-import { Skeleton } from "../ui/skeleton";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { IReminder } from "@/models/Reminder";
 import { AnimatePresence, motion } from "framer-motion";
-import ReminderModal from "../modals/ReminderModal";
+import EditReminderModal from "../modals/EditReminderModal";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-const ReminderCard = ({
-  isComplete,
-  date,
-  id,
-  priority,
-  title,
-  userId,
-  color,
-}: IReminder) => {
+const ReminderCard = (reminder: IReminder) => {
+  const { date, title, color, userId, isComplete, priority, id } = reminder;
+
   const router = useRouter();
   const [isReminderEditModalOpen, setIsReminderEditModalOpen] =
     useState<boolean>(false);
@@ -41,23 +36,22 @@ const ReminderCard = ({
     year: "numeric",
   });
 
-  const handleCheckClick = useCallback((e: React.MouseEvent) => {
-    //todo server side logic here
-    e.stopPropagation();
-    setIsReminderComplete((prev) => !prev);
-  }, []);
-
-  const handleDeleteReminder = useCallback(
-    async (id: string) => {
+  const handleCheckClick = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
       try {
-        await axios.delete(`/api/reminder/${id}`);
+        setIsReminderComplete((prev) => !prev);
+        await axios.put(`/api/reminder/${id}`, {
+          ...reminder,
+          priority: reminder.priority.toString(),
+          isComplete: !isReminderComplete,
+        });
         router.refresh();
-        toast.success("Successfully deleted reminder");
-      } catch (error: any) {
-        toast.error(error.response.data.message);
+      } catch (error) {
+        console.error(error);
       }
     },
-    [router]
+    [id, reminder, isReminderComplete, router]
   );
 
   return (
@@ -112,7 +106,7 @@ const ReminderCard = ({
               onClick={() => setIsReminderEditModalOpen(false)}
               className="fixed inset-0 flex items-center justify-center z-[100]"
             >
-              <ReminderModal
+              <EditReminderModal
                 closeModal={() => setIsReminderEditModalOpen(false)}
                 userId={userId}
                 reminder={{
@@ -124,7 +118,6 @@ const ReminderCard = ({
                   color,
                   userId,
                 }}
-                handleDeleteReminder={handleDeleteReminder}
               />
             </motion.div>
           </div>
