@@ -65,9 +65,10 @@ export function DatePickerForm({
   useEffect(() => {
     if (defaultValue) {
       form.setValue("dob", defaultValue);
-      callback(filterKey, defaultValue);
+      callback(defaultValue);
     }
-  }, [callback, defaultValue, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDateSelect = (date: Date | null) => {
     if (date !== null) {

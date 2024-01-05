@@ -83,6 +83,7 @@ const EditBudgetModal = ({
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<IBudget>({
     resolver: yupResolver(editBudgetSchema),
