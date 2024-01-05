@@ -71,7 +71,7 @@ export const useSchemas = () => {
             path,
             message: errors.passwordSpecialCharacterError,
           });
-        },
+        }
       )
       .test(
         "IncludeNumber",
@@ -87,7 +87,7 @@ export const useSchemas = () => {
             path,
             message: errors.passwordNumberRequiredError,
           });
-        },
+        }
       ),
 
     confirmPassword: yup
@@ -124,6 +124,16 @@ export const useSchemas = () => {
     type: yup.string().required(errors.budgetTypeRequiredError),
   });
 
+  const reminderSchema = yup.object({
+    title: yup.string().required(errors.budgetNameRequiredError),
+    date: yup.date().required(errors.budgetDateRequiredError),
+    priority: yup
+      .number()
+      .typeError("You have to provide a correct number")
+      .required(errors.budgetPriceRequiredError),
+    color: yup.string().required("You have to provide a color"),
+  });
+
   const editBudgetSchema = yup.object({
     name: yup.string().required(errors.budgetNameRequiredError),
     price: yup
@@ -147,5 +157,6 @@ export const useSchemas = () => {
     categorySchema,
     budgetSchema,
     editBudgetSchema,
+    reminderSchema,
   };
 };

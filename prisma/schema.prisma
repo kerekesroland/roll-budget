@@ -16,7 +16,8 @@ model User {
   updatedAt         DateTime      @default(now())
   activateToken     ActivateToken?
   categories        Category[]    
-  budgets           Budget[]      
+  budgets           Budget[]
+  reminders         Reminder[]
 }
 
 model ActivateToken {
@@ -51,4 +52,15 @@ model Budget {
   user          User         @relation(fields: [userId], references: [id])
   categoryId    String?      @db.Uuid
   category      Category?    @relation(fields: [categoryId], references: [id])
+}
+
+model Reminder {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String
+  date        DateTime
+  priority    String
+  color       String   
+  isComplete  Boolean   @default(false)
+  userId      String    @db.Uuid
+  user        User      @relation(fields: [userId], references: [id])
 }

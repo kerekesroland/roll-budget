@@ -20,24 +20,9 @@ import { Combobox } from "../ComboBox";
 import { DatePickerForm } from "../CustomCalendar";
 import MobileNavbar from "../MobileNavbar";
 import AddBudgetModal from "../modals/AddBudgetModal";
+import { BudgetProps, FilterKeys, IFilterProps } from "./types";
 
-type Props = {
-  user: IUser | null;
-  categories: Category[] | null;
-  budgets: TBudget[] | null;
-};
-
-interface IFilterProps {
-  sortBy: string;
-  type: string;
-  price: string;
-  category: string;
-  date: Date;
-}
-
-type FilterKeys = "sortBy" | "type" | "price" | "category" | "date";
-
-const BudgetList = ({ user, categories, budgets }: Props) => {
+const BudgetList = ({ user, categories, budgets }: BudgetProps) => {
   const router = useRouter();
   const [isModalOpened, setIsModalOpened] = useRecoilState(budgetAddModalOpen);
   const [bCategories, setBCategories] = useRecoilState(budgetCategories);
@@ -46,7 +31,7 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
     type: "",
     price: "",
     category: "",
-    date: new Date(),
+    date: undefined,
   });
 
   const { sortedBudgets, getBudgetCategory } = useFilteredBudgets({

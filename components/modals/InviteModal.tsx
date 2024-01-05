@@ -26,7 +26,7 @@ const InviteModal = () => {
       setEmail("");
       router.refresh();
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);

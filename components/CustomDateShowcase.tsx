@@ -1,26 +1,10 @@
 "use client";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Calendar2 } from "./ui/calendar2";
 
@@ -29,9 +13,7 @@ const FormSchema = z.object({
     required_error: "A date is required.",
   }),
 });
-
-export function DatePickerForm({
-  extraStyle,
+export function DatePickerForm2({
   extraContainerStyle,
   calendarAdditionalClasses,
   callback,
@@ -67,7 +49,7 @@ export function DatePickerForm({
       form.setValue("dob", defaultValue);
       callback(filterKey, defaultValue);
     }
-  }, [callback, defaultValue, form]);
+  }, [callback, defaultValue, form, filterKey]);
 
   const handleDateSelect = (date: Date | null) => {
     if (date !== null) {
@@ -89,7 +71,6 @@ export function DatePickerForm({
       return false;
     }
   };
-
   return (
     <Form {...form}>
       <div
@@ -101,36 +82,15 @@ export function DatePickerForm({
           name="dob"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        `w-[240px] min-h-[50px] pl-3 text-left font-normal !border-[#1C293A] border-2 hover:bg-gray-300 ${extraStyle}`,
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    className={`bg-[#1C293A] text-white ${calendarAdditionalClasses}`}
-                    mode="single"
-                    selected={field.value}
-                    onSelect={(date) => handleDateSelect(date as Date)}
-                    disabled={(date) => isDateValid(date, futureDatesOnly)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <Calendar2
+                className={`text-white ${calendarAdditionalClasses}`}
+                mode="single"
+                selected={field.value}
+                onSelect={(date) => handleDateSelect(date as Date)}
+                disabled={(date) => isDateValid(date, futureDatesOnly)}
+                initialFocus
+              />
+
               <FormMessage />
             </FormItem>
           )}
@@ -139,3 +99,5 @@ export function DatePickerForm({
     </Form>
   );
 }
+
+export default DatePickerForm2;
