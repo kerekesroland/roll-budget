@@ -10,7 +10,10 @@ import CustomButton from "../CustomButton";
 import GeneralHeader from "../GeneralHeader";
 import InputController from "../InputController";
 import { Combobox } from "../ComboBox";
-import { DatePickerForm } from "../CustomCalendar";
+import { DateTimePicker } from "../DateTimePicker/date-time-picker";
+import { DateValue } from "react-aria";
+import { CalendarDateTime } from "@internationalized/date";
+import ErrorInputMessage from "../ErrorInputMessage";
 
 interface IProps {
   closeModal: () => void;
@@ -19,7 +22,7 @@ interface IProps {
 }
 
 interface IReminderWithoutIds {
-  date: Date;
+  date: DateValue | any;
   color: string;
   priority: number;
   title: string;
@@ -46,7 +49,7 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
     values: { ...reminder, date: new Date(reminder.date) },
   });
 
-  const handleSetDate = (date: Date) => {
+  const handleSetDate = (date: DateValue) => {
     setValue("date", date);
   };
 
@@ -57,6 +60,8 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
   const handleSetColor = (data: string) => {
     setValue("color", data);
   };
+
+  const reminderDate = new Date(reminder?.date);
 
   const handleDeleteReminder = useCallback(async () => {
     try {
@@ -148,19 +153,30 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
                 </p>
               )}
             </div>
-            <div className="flex flex-col w-1/2 pb-4">
+            <div className="flex flex-col w-1/2">
               <label>Date</label>
-              <DatePickerForm
-                extraStyle="!w-full !h-[60px]"
-                callback={handleSetDate}
-                futureDatesOnly={true}
-                defaultValue={new Date(reminder?.date)}
+              <DateTimePicker
+                error={true}
+                granularity={"minute"}
+                onChange={handleSetDate}
+                errorMessage={errors?.date?.message as any}
+                defaultValue={
+                  reminder.date
+                    ? new CalendarDateTime(
+                        reminderDate?.getFullYear(),
+                        reminderDate?.getMonth() + 1,
+                        reminderDate?.getDate(),
+                        reminderDate?.getHours(),
+                        reminderDate?.getMinutes(),
+                        reminderDate?.getSeconds()
+                      )
+                    : null
+                }
               />
-              {errors.date?.message && (
-                <p className="text-red-500 font-medium text-sm mt-4">
-                  {errors.date.message}
-                </p>
-              )}
+              <ErrorInputMessage
+                extraStyle="relative top-[1rem]"
+                error={errors?.date?.message as any}
+              />
             </div>
           </div>
           <div className="flex items-center gap-4">

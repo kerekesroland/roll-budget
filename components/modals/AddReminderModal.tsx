@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import GeneralHeader from "../GeneralHeader";
 import { useSchemas } from "@/hooks/useSchemas";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IReminder } from "@/models/Reminder";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputController from "../InputController";
-import NumberController from "../NumberController";
 import CustomButton from "../CustomButton";
-import { ValutaOptions } from "@/constants/ValutaOptions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { DatePickerForm } from "../CustomCalendar";
 import { Combobox } from "../ComboBox";
+import { DateTimePicker } from "../DateTimePicker/date-time-picker";
+import { DateValue } from "react-aria";
+import ErrorInputMessage from "../ErrorInputMessage";
 
 interface IProps {
   toggleState: (value: boolean) => void;
@@ -21,7 +20,7 @@ interface IProps {
 
 interface IReminderForm {
   title: string;
-  date: Date;
+  date: Date | any;
   priority: number;
   color: string;
 }
@@ -47,7 +46,7 @@ const AddReminderModal = ({ toggleState, userId }: IProps) => {
     e.stopPropagation();
   };
 
-  const handleSetDate = (date: Date) => {
+  const handleSetDate = (date: DateValue) => {
     setValue("date", date);
   };
 
@@ -60,7 +59,6 @@ const AddReminderModal = ({ toggleState, userId }: IProps) => {
   };
 
   const onSubmit: SubmitHandler<IReminderForm> = async (data) => {
-    console.log(data);
     try {
       setIsLoading(true);
       await axios.post("/api/reminder", {
@@ -120,18 +118,10 @@ const AddReminderModal = ({ toggleState, userId }: IProps) => {
                 </p>
               )}
             </div>
-            <div className="flex flex-col w-1/2 pb-4">
+            <div className="flex flex-col w-1/2">
               <label>Date</label>
-              <DatePickerForm
-                extraStyle="!w-full !h-[60px]"
-                callback={handleSetDate}
-                futureDatesOnly={true}
-              />
-              {errors.date?.message && (
-                <p className="text-red-500 font-medium text-sm mt-4">
-                  {errors.date.message}
-                </p>
-              )}
+              <DateTimePicker granularity={"minute"} onChange={handleSetDate} />
+              <ErrorInputMessage error={errors?.date?.message as any} />
             </div>
           </div>
 
