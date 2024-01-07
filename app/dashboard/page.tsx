@@ -5,10 +5,18 @@ import { getExceededCategories } from "@/lib/getExceededCategories";
 import { getIncome } from "@/lib/getIncome";
 
 const Dashboard = async () => {
-  const allExceededCategories = await getExceededCategories();
-  const allIncome = await getIncome();
-  const budgets = await getBudgets();
-  const categories = await getCategories();
+  const allExceededCategoriesPromise = getExceededCategories();
+  const allIncomePromise = getIncome();
+  const budgetsPromise = getBudgets();
+  const categoriesPromise = getCategories();
+
+  const [allExceededCategories, allIncome, budgets, categories] =
+    await Promise.all([
+      allExceededCategoriesPromise,
+      allIncomePromise,
+      budgetsPromise,
+      categoriesPromise,
+    ]);
 
   return (
     <DashboardContent

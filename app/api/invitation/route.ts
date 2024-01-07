@@ -56,6 +56,7 @@ export async function POST(req: Request) {
       data: {
         token: `${randomUUID()}${randomUUID()}`.replace(/-/g, ""),
         email: body.email as string,
+        senderId: user.id as string,
       },
     });
 

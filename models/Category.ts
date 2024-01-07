@@ -3,6 +3,7 @@ export interface ICategory {
   name: string;
   limit: number;
   current: number;
+  currentPerMonth: number;
   icon: string;
   userId: string;
 }

@@ -103,7 +103,7 @@ const DashboardContent = ({
   const PROGRESS = allExceededCategories?.map((cat) => {
     return {
       name: cat?.name,
-      spent: cat?.current,
+      spent: cat?.currentPerMonth,
     };
   });
 
@@ -279,18 +279,24 @@ const DashboardContent = ({
               Exceeded Budgets
             </h3>
             <div className="flex flex-col gap-8 w-full">
-              {PROGRESS.map((progress) => (
-                <CustomProgressbar
-                  name={progress.name}
-                  value={progress.spent}
-                  key={progress.name}
-                />
-              ))}
+              {PROGRESS.length === 0 ? (
+                <span className="text-lg text-center font-semibold text-blue-400">
+                  No exceeded budgets, good job 👍🏼
+                </span>
+              ) : (
+                PROGRESS?.map((progress) => (
+                  <CustomProgressbar
+                    name={progress.name}
+                    value={progress.spent}
+                    key={progress.name}
+                  />
+                ))
+              )}
             </div>
           </div>
           <section className="w-full">
             <h3 className="text-2xl font-semibold text-textPrimary my-8 2xl:mb-8 xl:mt-0 2xl:my-8">
-              Financial information
+              Financial information (monthly)
             </h3>
             <div className="flex flex-col gap-8 w-full">
               {FINANCES.map((fn) => (

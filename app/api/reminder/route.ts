@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-
 import { prisma } from "@/lib/prisma";
+import { scheduleReminderForUser } from "@/lib/scheduleRemindersForUser";
 
 export async function POST(req: Request) {
   const body = await req.json();
 
-  if (!body.userId) {
+  if (!body.user.id) {
     return NextResponse.json(
       {
         message: "You are not logged in!",
@@ -25,10 +25,17 @@ export async function POST(req: Request) {
         priority: body.priority.toString(),
         date: body.date,
         user: {
-          connect: { id: body.userId },
+          connect: { id: body.user.id },
         },
       },
     });
+
+    await scheduleReminderForUser({
+      user: body.user,
+      reminder: createdReminder,
+    });
+
+    console.log("scheduled reminder for", createdReminder.id);
 
     return NextResponse.json({
       status: 200,

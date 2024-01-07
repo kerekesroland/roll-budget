@@ -13,6 +13,8 @@ export async function POST(req: Request) {
         price: body.price,
         type: body.type,
         date: body.date,
+        createdAt: body.createdAt,
+        updatedAt: body.updatedAt,
         category: {
           connect: { id: body.category },
         },
@@ -27,6 +29,9 @@ export async function POST(req: Request) {
       where: { id: body.category },
     });
 
+    const budgetMonth = createdBudget.date.getMonth() + 1;
+    const currentMonth = new Date().getMonth() + 1;
+
     // Update the current amount in the category if it's an "expense"
     if (createdBudget.type === "expense") {
       await prisma.category.update({
@@ -35,6 +40,14 @@ export async function POST(req: Request) {
           current: category?.current + body.price,
         },
       });
+      if (budgetMonth === currentMonth) {
+        await prisma.category.update({
+          where: { id: category?.id },
+          data: {
+            currentPerMonth: category?.currentPerMonth + body.price,
+          },
+        });
+      }
     }
 
     return NextResponse.json({
@@ -49,7 +62,7 @@ export async function POST(req: Request) {
       },
       {
         status: 400,
-      },
+      }
     );
   }
 }

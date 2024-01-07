@@ -29,17 +29,21 @@ model ActivateToken {
   updatedAt     DateTime     @default(now())
   user          User?        @relation(fields: [userId], references: [id])
   userId        String?      @db.Uuid @unique
+  senderId      String       
 }
 
 model Category {
-  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String
-  limit         Int
-  current       Int          @default(0)
-  icon          String
-  userId        String       @db.Uuid
-  user          User         @relation(fields: [userId], references: [id])
-  budgets       Budget[]    
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  limit           Int
+  current         Int          @default(0)
+  currentPerMonth Int          @default(0)
+  icon            String
+  userId          String       @db.Uuid
+  user            User         @relation(fields: [userId], references: [id])
+  budgets         Budget[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now())    
 }
 
 model Budget {
@@ -52,15 +56,19 @@ model Budget {
   user          User         @relation(fields: [userId], references: [id])
   categoryId    String?      @db.Uuid
   category      Category?    @relation(fields: [categoryId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) 
 }
 
 model Reminder {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title       String
   date        DateTime
   priority    String
   color       String   
-  isComplete  Boolean   @default(false)
-  userId      String    @db.Uuid
-  user        User      @relation(fields: [userId], references: [id])
+  isComplete  Boolean      @default(false)
+  userId      String       @db.Uuid
+  user        User         @relation(fields: [userId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) 
 }

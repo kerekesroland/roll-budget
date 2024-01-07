@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import getCurrentUser from "@/lib/getCurrentUser";
+import {
+  cancelReminder,
+  reScheduleReminder,
+} from "@/lib/scheduleRemindersForUser";
 
 export async function DELETE(
   req: Request,
@@ -37,6 +41,8 @@ export async function DELETE(
         }
       );
     }
+
+    await cancelReminder(reminder?.id);
 
     await prisma.reminder.delete({
       where: {
@@ -82,7 +88,13 @@ export async function PUT(
       );
     }
 
-    await prisma.reminder.update({
+    const reminder = await prisma.reminder.findFirst({
+      where: {
+        id: params.id,
+      },
+    });
+
+    const newReminder = await prisma.reminder.update({
       where: {
         id: params.id,
       },
@@ -94,6 +106,13 @@ export async function PUT(
         isComplete: body.isComplete,
       },
     });
+
+    if (
+      reminder &&
+      reminder?.date.getTime() !== new Date(body.date).getTime()
+    ) {
+      await reScheduleReminder(user, newReminder);
+    }
 
     return NextResponse.json({
       status: 200,

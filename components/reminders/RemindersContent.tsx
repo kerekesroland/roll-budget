@@ -82,10 +82,7 @@ const RemindersContent = ({ user }: IProps) => {
                 onClick={() => toggleState(false)}
                 className="fixed inset-0 flex items-center justify-center z-[100]"
               >
-                <AddReminderModal
-                  toggleState={toggleState}
-                  userId={user?.id as string}
-                />
+                <AddReminderModal toggleState={toggleState} user={user} />
               </motion.div>
             </div>
           )}

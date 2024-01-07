@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
+import { calculateCurrentPerMonth } from "@/helpers/budgetPerMonth";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   try {
     const budget = await prisma.budget.delete({
@@ -20,12 +21,15 @@ export async function DELETE(
 
       // Calculate the new current value for the category after removing the budget's price
       const newCurrent = (category?.current || 0) - budget.price;
+      const newCurrentMonthly =
+        (category?.currentPerMonth || 0) - budget?.price;
 
       // Update the category's current property with the new value
       await prisma.category.update({
         where: { id: budget.categoryId },
         data: {
           current: newCurrent,
+          currentPerMonth: newCurrentMonthly,
         },
       });
     }
@@ -42,14 +46,14 @@ export async function DELETE(
       },
       {
         status: 400,
-      },
+      }
     );
   }
 }
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   const body = await req.json();
   try {
@@ -67,7 +71,7 @@ export async function PUT(
         },
         {
           status: 404,
-        },
+        }
       );
     }
 
@@ -85,6 +89,8 @@ export async function PUT(
         date: body.date,
         categoryId: body.category,
         type: body.type,
+        createdAt: body.createdAt,
+        updatedAt: body.updatedAt,
       },
     });
 
@@ -100,15 +106,18 @@ export async function PUT(
         },
         {
           status: 404,
-        },
+        }
       );
     }
+
+    const sumOfMonthlyBudgets = await calculateCurrentPerMonth(category.id);
 
     // Update the category's current property with the price difference
     await prisma.category.update({
       where: { id: body.category },
       data: {
         current: category.current + priceDifference,
+        currentPerMonth: sumOfMonthlyBudgets,
       },
     });
 
@@ -124,7 +133,7 @@ export async function PUT(
       },
       {
         status: 400,
-      },
+      }
     );
   }
 }

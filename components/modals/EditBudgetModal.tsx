@@ -101,6 +101,8 @@ const EditBudgetModal = ({
       await axios.put(`/api/budget/${budget.id}`, {
         ...data,
         category: data.category.id,
+        createdAt: data.date,
+        updatedAt: data.date,
       });
       toast.success(`Successfully edited ${data.name}!`);
       router.refresh();

@@ -72,6 +72,8 @@ const AddBudgetModal = ({
       await axios.post("/api/budget", {
         ...data,
         userId: userId,
+        createdAt: data.date,
+        updatedAt: data.date,
       });
       toast.success(`Succesfully added added ${data.name} to the budgets!`);
       router.refresh();
@@ -89,7 +91,7 @@ const AddBudgetModal = ({
 
   const handleSetCategory = (data: string) => {
     const selectedCategoryId = selectableCategories.find(
-      (c) => c.value === data,
+      (c) => c.value === data
     );
     if (selectedCategoryId) {
       setValue("category", selectedCategoryId.id);

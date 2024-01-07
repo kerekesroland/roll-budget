@@ -12,10 +12,11 @@ import { Combobox } from "../ComboBox";
 import { DateTimePicker } from "../DateTimePicker/date-time-picker";
 import { DateValue } from "react-aria";
 import ErrorInputMessage from "../ErrorInputMessage";
+import { IUser } from "@/models/User";
 
 interface IProps {
   toggleState: (value: boolean) => void;
-  userId: string;
+  user: IUser | null;
 }
 
 interface IReminderForm {
@@ -25,7 +26,7 @@ interface IReminderForm {
   color: string;
 }
 
-const AddReminderModal = ({ toggleState, userId }: IProps) => {
+const AddReminderModal = ({ toggleState, user }: IProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -34,7 +35,6 @@ const AddReminderModal = ({ toggleState, userId }: IProps) => {
     register,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm<IReminderForm>({
     resolver: yupResolver(reminderSchema),
@@ -63,7 +63,7 @@ const AddReminderModal = ({ toggleState, userId }: IProps) => {
       setIsLoading(true);
       await axios.post("/api/reminder", {
         ...data,
-        userId: userId,
+        user,
       });
       toast.success(`Succesfully added added ${data.title} to the reminders!`);
       router.refresh();

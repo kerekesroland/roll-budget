@@ -1,12 +1,18 @@
 import DataTable, { Status } from "@/components/CustomDataTable";
 import InviteForm from "@/components/invites/InviteForm";
+import getCurrentUser from "@/lib/getCurrentUser";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 async function getData(): Promise<Status[]> {
   "use server";
-  const tokens = await prisma.activateToken.findMany();
+  const user = await getCurrentUser();
+  const tokens = await prisma.activateToken.findMany({
+    where: {
+      senderId: user?.id,
+    },
+  });
 
   return tokens?.map((token) => {
     return {
