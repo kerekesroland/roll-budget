@@ -15,7 +15,6 @@ async function main() {
       activated: true,
     },
   });
-  // console.log(user);
 }
 
 main()

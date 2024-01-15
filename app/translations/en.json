@@ -1,0 +1,194 @@
+{
+  "common": {
+    "signOut": "Successfully signed out, you will be redirected in a second!"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "budget": "Budget",
+    "analytics": "Analytics",
+    "reminders": "Reminders",
+    "invites": "Invites",
+    "logout": "Logout"
+  },
+  "login": {
+    "title": "Welcome to Roll Budget!",
+    "subTitle": "Login to your account",
+    "emailPlaceholder": "roland@gmail.com",
+    "passwordPlaceholder": "******",
+    "btn_signin": "Sign in",
+    "btn_loading": "Signing in...",
+    "toast_messages": {
+      "login_success": "Successfully logged in",
+      "user_not_found": "User not found",
+      "invalid_credentials": "Invalid credentials"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "balance": "My Balance",
+    "show_balance_in_usd": "Show account balance in",
+    "exceeded_budgets": "Exceeded Budgets",
+    "no_exceeded_budgets": "No exceeded budgets, good job",
+    "financial_info": {
+      "title": "Financial information (monthly)",
+      "total_income": "Total income",
+      "total_expense": "Total expense",
+      "balance": "Total balance",
+      "monthly": "Monthly Data (displayed in 1k units)",
+      "income": "Income",
+      "expense": "Expense",
+      "amount": "Amount"
+    }
+  },
+
+  "budgets": {
+    "title": "Budgets",
+    "filters": {
+      "sortBy": "Sort by",
+      "type": "Type",
+      "price": "Price",
+      "category": "Category",
+      "date": "Pick a date"
+    },
+    "no_transactions": "Number of transactions",
+    "value": "Value",
+    "add_budget": {
+      "title": "Add Budget",
+      "subTitle": "Fill out the information to add a budget!",
+      "name": "Name",
+      "price": "Price",
+      "type": "Type",
+      "category": "Category",
+      "date": "Date",
+      "icons": "Icons",
+      "add_btn": "Add Budget",
+      "btn_loading": "Creating...",
+      "toast_messages": {
+        "add_success": "Budget created successfully",
+        "add_error": "Error creating budget"
+      }
+    },
+    "edit_budget": {
+      "title": "Edit Budget",
+      "subTitle": "Fill out the information to edit your budget!",
+      "name": "Name",
+      "price": "Price",
+      "type": "Type",
+      "category": "Category",
+      "date": "Date",
+      "icons": "Icons",
+      "edit_btn": "Edit Budget",
+      "btn_loading": "Editing...",
+      "btn_loading_delete": "Deleting...",
+      "delete_btn": "Delete Budget",
+      "toast_messages": {
+        "edit_success": "Budget edited successfully",
+        "edit_error": "Error editing budget",
+        "delete_success": "Budget deleted successfully",
+        "delete_error": "Error deleting budget"
+      }
+    }
+  },
+  "categories": {
+    "title": "Categories",
+    "add_category": {
+      "title": "Add Category",
+      "subTitle": "Fill out the information to add a category!",
+      "name": "Name",
+      "limit": "Limit",
+      "icon": "Icon",
+      "select_icon": "Select an Icon",
+      "add_btn": "Add Category",
+      "btn_loading": "Creating...",
+      "toast_messages": {
+        "add_success": "Category created successfully",
+        "add_error": "Error creating category"
+      }
+    },
+    "edit_category": {
+      "title": "Edit Category",
+      "subTitle": "Fill out the information to edit a category!",
+      "name": "Name",
+      "limit": "Limit",
+      "icon": "Icon",
+      "select_icon": "Select an Icon",
+      "edit_btn": "Edit Category",
+      "btn_loading": "Editing...",
+      "delete_btn": "Delete Category",
+      "btn_loading_delete": "Deleting...",
+      "toast_messages": {
+        "edit_success": "Category edited successfully",
+        "edit_error": "Error editing category",
+        "delete_success": "Category deleted successfully",
+        "delete_error": "Error deleting category"
+      }
+    }
+  },
+  "reminders": {
+    "title": "Reminders",
+    "active_reminders": "Active Reminders",
+    "priorities": "Priorities",
+    "add_reminder": {
+      "title": "Add Reminder",
+      "subTitle": "Fill out the information to add a reminder!",
+      "name": "Title",
+      "priority": "Priority",
+      "date": "Date",
+      "color": "Color",
+      "add_btn": "Add Reminder",
+      "btn_loading": "Creating...",
+      "toast_messages": {
+        "add_success": "Reminder created successfully",
+        "add_error": "Error creating reminder"
+      }
+    },
+    "edit_reminder": {
+      "title": "Edit Reminder",
+      "subTitle": "Fill out the information to edit the reminder!",
+      "name": "Title",
+      "priority": "Priority",
+      "date": "Date",
+      "color": "Color",
+      "edit_btn": "Edit Reminder",
+      "btn_loading": "Editing...",
+      "delete_btn": "Delete Reminder",
+      "btn_delete_loading": "Törlés...",
+      "toast_messages": {
+        "edit_success": "Reminder edited successfully",
+        "edit_error": "Error editing reminder",
+        "delete_success": "Reminder deleted successfully",
+        "delete_error": "Error deleting reminder"
+      }
+    }
+  },
+  "invites": {
+    "title": "Invites",
+    "searchbar_placeholder": "Filter emails...",
+    "status": "Status",
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "actions": "Actions",
+    "columns": "Columns",
+    "prev": "Previous",
+    "next": "Next",
+    "no_results": "No results.",
+    "email": "Email",
+    "add_invite": {
+      "title": "Invitation",
+      "subTitle": "Send an invitation to your friends!",
+      "toast_messages": {
+        "add_success": "Invitation sent successfully",
+        "add_error": "Error sending invitation"
+      },
+      "add_btn": "Send Invite",
+      "btn_loading": "Sending..."
+    },
+    "delete_invite": {
+      "toast_messages": {
+        "delete_success": "Successfully deleted invitation",
+        "delete_error": "Error deleting invitation",
+        "already_accepted": "Cannot delete already accepted invitations!"
+      }
+    }
+  }
+}

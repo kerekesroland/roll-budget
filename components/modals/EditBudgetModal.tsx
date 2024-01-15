@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 
 import { budgetCategories } from "@/app/store";
-import { BudgetOptions } from "@/constants/BudgetOptions";
+import { translateBudgetOptions } from "@/constants/BudgetOptions";
 import { ValutaOptions } from "@/constants/ValutaOptions";
 import { useSchemas } from "@/hooks/useSchemas";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,6 +18,8 @@ import { DatePickerForm } from "../CustomCalendar";
 import GeneralHeader from "../GeneralHeader";
 import InputController from "../InputController";
 import NumberController from "../NumberController";
+import { useLocale, useTranslations } from "next-intl";
+import { LocaleOptionsType } from "@/constants/locales";
 
 type Budget = {
   id: string;
@@ -59,6 +61,9 @@ const EditBudgetModal = ({
   budget,
   handleDeleteBudget,
 }: IEditBudget) => {
+  const t = useTranslations("budgets.edit_budget");
+  const locale = useLocale();
+  const BudgetOptions = translateBudgetOptions(locale as LocaleOptionsType);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [bCategories] = useRecoilState(budgetCategories);
 
@@ -93,19 +98,32 @@ const EditBudgetModal = ({
 
   const router = useRouter();
 
+  console.log(budget);
+
   const onSubmit: SubmitHandler<IBudget> = async (data) => {
-    console.log(data);
+    const typeConverter = () => {
+      let type = data.type;
+      if (type === "bevétel" || type === "income") {
+        type = "income";
+      } else {
+        type = "expense";
+      }
+      return type;
+    };
     try {
       setIsLoading(true);
       await axios.put(`/api/budget/${budget.id}`, {
         ...data,
+        type: typeConverter(),
         category: data.category.id,
+        createdAt: data.date,
+        updatedAt: data.date,
       });
-      toast.success(`Successfully edited ${data.name}!`);
+      toast.success(t("toast_messages.edit_success"));
       router.refresh();
       closeModal();
     } catch (error: any) {
-      toast.error(error.data.response.message);
+      toast.error(t("toast_messages.edit_error"));
     } finally {
       setIsLoading(false);
     }
@@ -143,13 +161,13 @@ const EditBudgetModal = ({
         onClick={handleModalClick}
       >
         <GeneralHeader
-          title="Edit Budget"
-          subtitle="Fill out the information to edit your budget!"
+          title={t("title")}
+          subtitle={t("subTitle")}
           extraSubtitleStyle="!text-xl"
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
-            label="Name"
+            label={t("name")}
             isTouched={false}
             error={errors.name?.message as string}
             register={register("name")}
@@ -158,7 +176,7 @@ const EditBudgetModal = ({
             extraStyle="max-w-full"
           />
           <NumberController
-            label="Price"
+            label={t("price")}
             isTouched={false}
             type="number"
             error={errors.price?.message as string}
@@ -172,7 +190,7 @@ const EditBudgetModal = ({
           />
 
           <div className="py-8">
-            <label>Type</label>
+            <label>{t("type")}</label>
             <Combobox
               title="Type"
               options={BudgetOptions.types}
@@ -184,7 +202,7 @@ const EditBudgetModal = ({
 
           <div className="flex items-center gap-8">
             <div className="py-8 w-1/2">
-              <label>Date</label>
+              <label>{t("date")}</label>
               <DatePickerForm
                 defaultValue={new Date(budget.date)}
                 extraStyle="!w-full"
@@ -193,9 +211,9 @@ const EditBudgetModal = ({
             </div>
 
             <div className="flex flex-col w-1/2">
-              <label>Category</label>
+              <label>{t("category")}</label>
               <Combobox
-                title="Icons"
+                title={t("icons")}
                 options={selectableCategories}
                 extraStyle="border-[#1C293A] hover:bg-[#1C293A] hover:text-white w-full"
                 callback={handleSetCategory}
@@ -207,14 +225,14 @@ const EditBudgetModal = ({
           <div className="flex items-center gap-8">
             <CustomButton
               loading={isLoading}
-              loadingTitle="Editing..."
-              title="Edit Budget"
+              loadingTitle={t("btn_loading")}
+              title={t("edit_btn")}
               type="submit"
             />
             <CustomButton
               loading={isLoading}
-              loadingTitle="Deleting..."
-              title="Delete Budget"
+              loadingTitle={t("btn_loading_delete")}
+              title={t("delete_btn")}
               type="button"
               primary={false}
               onClick={handleDelete}

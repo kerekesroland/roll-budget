@@ -1,4 +1,5 @@
 import LeftSideBar from "@/components/LeftSideBar";
+import { LocaleOptionsType } from "@/constants/locales";
 
 export const metadata = {
   title: "Budget|Roll",

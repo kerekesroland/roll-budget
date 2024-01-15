@@ -12,6 +12,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "./CustomButton";
 import GeneralHeader from "./GeneralHeader";
 import InputController from "./InputController";
+import { useTranslations } from "use-intl";
+import { useLocale } from "next-intl";
 
 interface ILoginFormInputs {
   email: string;
@@ -19,6 +21,8 @@ interface ILoginFormInputs {
 }
 
 const LoginForm = () => {
+  const t = useTranslations("login");
+  const locale = useLocale();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { loginSchema } = useSchemas();
   const {
@@ -46,12 +50,16 @@ const LoginForm = () => {
       setIsLoading(false);
 
       if (callback?.ok) {
-        toast.success("Logged in");
-        router.replace("/dashboard");
+        toast.success(t("toast_messages.login_success"));
+        router.replace(`/${locale}/dashboard`);
       }
 
       if (callback?.error) {
-        toast.error(callback.error);
+        if (callback?.error === "User not found") {
+          toast.error(t("toast_messages.user_not_found"));
+        } else {
+          toast.error(t("toast_messages.invalid_credentials"));
+        }
       }
     });
   };
@@ -89,14 +97,11 @@ const LoginForm = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="w-72 xxs:w-[350px] xs:w-[400px] s:w-[500px] xl:h-[700px] p-8 xs:p-12 z-10  flex flex-col justify-center items-center bg-bgCustomDark relative rounded-[12px] lg:rounded-none lg:rounded-tr-[12px] lg:rounded-br-[12px]"
         >
-          <GeneralHeader
-            title="Welcome to Roll Budget!"
-            subtitle="Login to your account"
-          />
+          <GeneralHeader title={t("title")} subtitle={t("subTitle")} />
           <div className="w-full mt-[63px] flex flex-col items-center">
             <InputController
               register={register("email")}
-              placeholder="testrolca@gmail.com"
+              placeholder={t("emailPlaceholder")}
               key="email"
               type="text"
               isTouched={false}
@@ -107,7 +112,7 @@ const LoginForm = () => {
 
             <InputController
               register={register("password")}
-              placeholder="*******************"
+              placeholder={t("passwordPlaceholder")}
               key="password"
               type="password"
               isTouched={false}
@@ -119,12 +124,9 @@ const LoginForm = () => {
               <CustomButton
                 loading={isLoading}
                 loadingTitle="Signing in"
-                title="Sign in"
+                title={t("btn_signin")}
                 type="submit"
               />
-              <span className="w-full  max-w-[350px] text-textGray/70 text-sm font-medium cursor-pointer text-left mt-[18px]">
-                Forgot password
-              </span>
             </div>
           </div>
         </form>

@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { Line } from "react-chartjs-2";
 
 import { IBudget } from "@/models/Budget";
+import { useTranslations } from "use-intl";
 
 interface IDashboardChartProps {
   data: Array<IBudget>;
@@ -10,6 +11,7 @@ interface IDashboardChartProps {
 Chart.register(...registerables);
 
 const DashboardChart = ({ data }: IDashboardChartProps) => {
+  const t = useTranslations("dashboard");
   const options = {
     responsive: true,
     plugins: {
@@ -18,7 +20,7 @@ const DashboardChart = ({ data }: IDashboardChartProps) => {
       },
       title: {
         display: true,
-        text: "Monthly Data (displayed in 1k units)",
+        text: t("financial_info.monthly"),
       },
     },
   };
@@ -72,13 +74,13 @@ const DashboardChart = ({ data }: IDashboardChartProps) => {
     labels: labels,
     datasets: [
       {
-        label: "Income",
+        label: t("financial_info.income"),
         data: incomeData,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
       {
-        label: "Expense",
+        label: t("financial_info.expense"),
         data: expenseData,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",

@@ -5,7 +5,10 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-import { BudgetOptions } from "@/constants/BudgetOptions";
+import {
+  translateBudgetOptions,
+  BudgetOptions,
+} from "@/constants/BudgetOptions";
 import { ValutaOptions } from "@/constants/ValutaOptions";
 import { useSchemas } from "@/hooks/useSchemas";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,6 +20,8 @@ import { DatePickerForm } from "../CustomCalendar";
 import GeneralHeader from "../GeneralHeader";
 import InputController from "../InputController";
 import NumberController from "../NumberController";
+import { useLocale, useTranslations } from "next-intl";
+import { LocaleOptionsType } from "@/constants/locales";
 
 interface ICategory {
   name: string;
@@ -37,6 +42,10 @@ const AddBudgetModal = ({
   toggleState,
   categories,
 }: IAddBudgetModal) => {
+  const t = useTranslations("budgets");
+  const locale = useLocale() as LocaleOptionsType;
+  const BudgetOptions2 = translateBudgetOptions(locale);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -66,18 +75,30 @@ const AddBudgetModal = ({
   const router = useRouter();
 
   const onSubmit: SubmitHandler<ICategory> = async (data) => {
-    console.log(data);
+    const typeConverter = () => {
+      let type = data.type;
+      if (type === "bevétel" || type === "income") {
+        type = "income";
+      } else {
+        type = "expense";
+      }
+      return type;
+    };
+
     try {
       setIsLoading(true);
       await axios.post("/api/budget", {
         ...data,
         userId: userId,
+        createdAt: data.date,
+        updatedAt: data.date,
+        type: typeConverter(),
       });
-      toast.success(`Succesfully added added ${data.name} to the budgets!`);
+      toast.success(t("add_budget.toast_messages.add_success"));
       router.refresh();
       toggleState(false);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(t("add_budget.toast_messages.add_error"));
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +110,7 @@ const AddBudgetModal = ({
 
   const handleSetCategory = (data: string) => {
     const selectedCategoryId = selectableCategories.find(
-      (c) => c.value === data,
+      (c) => c.value === data
     );
     if (selectedCategoryId) {
       setValue("category", selectedCategoryId.id);
@@ -107,13 +128,13 @@ const AddBudgetModal = ({
         onClick={handleModalClick}
       >
         <GeneralHeader
-          title="Add Budget"
-          subtitle="Fill out the information to add a budget!"
+          title={t("add_budget.title")}
+          subtitle={t("add_budget.subTitle")}
           extraSubtitleStyle="!text-xl"
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
-            label="Name"
+            label={t("add_budget.name")}
             isTouched={false}
             error={errors.name?.message as string}
             register={register("name")}
@@ -122,7 +143,7 @@ const AddBudgetModal = ({
             extraStyle="!max-w-full"
           />
           <NumberController
-            label="Price"
+            label={t("add_budget.price")}
             isTouched={false}
             type="number"
             error={errors.price?.message as string}
@@ -136,10 +157,10 @@ const AddBudgetModal = ({
           />
 
           <div className="py-8">
-            <label>Type</label>
+            <label>{t("add_budget.type")}</label>
             <Combobox
-              title="Type"
-              options={BudgetOptions.types}
+              title={t("add_budget.type")}
+              options={BudgetOptions2.types}
               extraStyle="border-[#1C293A] hover:bg-[#1C293A] hover:text-white w-full"
               callback={handleSelectType}
             />
@@ -147,14 +168,14 @@ const AddBudgetModal = ({
 
           <div className="flex items-center gap-8">
             <div className="py-8 w-1/2">
-              <label>Date</label>
+              <label>{t("add_budget.date")}</label>
               <DatePickerForm extraStyle="!w-full" callback={handleSetDate} />
             </div>
 
             <div className="flex flex-col w-1/2">
-              <label>Category</label>
+              <label>{t("add_budget.category")}</label>
               <Combobox
-                title="Icons"
+                title={t("add_budget.icons")}
                 options={selectableCategories}
                 extraStyle="border-[#1C293A] hover:bg-[#1C293A] hover:text-white w-full"
                 callback={handleSetCategory}
@@ -164,8 +185,8 @@ const AddBudgetModal = ({
 
           <CustomButton
             loading={isLoading}
-            loadingTitle="Creating..."
-            title="Add Budget"
+            loadingTitle={t("add_budget.btn_loading")}
+            title={t("add_budget.add_btn")}
             type="submit"
             extraStyle="max-w-full"
           />

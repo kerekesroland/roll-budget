@@ -24,6 +24,7 @@ import { ICategory } from "@/models/Category";
 
 import Reveal from "../Reveal";
 import DashboardItemCard from "./DashboardItemCard";
+import { useTranslations } from "next-intl";
 
 interface IProps {
   allExceededCategories: Array<ICategory>;
@@ -43,6 +44,7 @@ const DashboardContent = ({
   budgets,
   categories,
 }: IProps) => {
+  const t = useTranslations("dashboard");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const totalIncome =
@@ -103,23 +105,23 @@ const DashboardContent = ({
   const PROGRESS = allExceededCategories?.map((cat) => {
     return {
       name: cat?.name,
-      spent: cat?.current,
+      spent: cat?.currentPerMonth,
     };
   });
 
   const FINANCES = [
     {
-      name: "Total income",
+      name: t("financial_info.total_income"),
       amount: totalMonthlyIncome,
       color: "text-green-500",
     },
     {
-      name: "Total expense",
+      name: t("financial_info.total_expense"),
       amount: totalMonthlyExpense,
       color: "text-red-500",
     },
     {
-      name: "Total balance",
+      name: t("financial_info.balance"),
       amount: totalMonthlyIncome - totalMonthlyExpense,
       color: isPositiveMonth ? "text-green-500" : "text-red-500",
     },
@@ -199,7 +201,7 @@ const DashboardContent = ({
   return (
     <div className="min-h-screen overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)]">
       <div className="flex justify-between items-center">
-        <h2 className="font-semibold text-2xl">Dashboard</h2>
+        <h2 className="font-semibold text-2xl">{t("title")}</h2>
         <MobileNavbar />
       </div>
       <div className="w-full mt-8 rounded-[10px] gap-16 flex flex-col 2xl:flex-row justify-between items-start ">
@@ -214,7 +216,7 @@ const DashboardContent = ({
               <div className="flex flex-col gap-4">
                 <Reveal delay={0.8}>
                   <h3 className="text-xl font-semibold text-textPrimary/70">
-                    My Balance
+                    {t("balance")}
                   </h3>
                 </Reveal>
                 <Reveal delay={1}>
@@ -224,7 +226,7 @@ const DashboardContent = ({
                 </Reveal>
                 <Reveal delay={1.2}>
                   <span className="cursor-pointer" onClick={toggleCurrencies}>
-                    Show account balance in{" "}
+                    {t("show_balance_in_usd")}{" "}
                     <b className="text-green-500 font-semibold">USD</b>
                   </span>
                 </Reveal>
@@ -276,21 +278,27 @@ const DashboardContent = ({
             className="w-full overflow-y-auto max-h-[calc(100vh-350px)] scrollbar scrollbar-thumb-[#030711bf] scrollbar-track-rounded-xl scrollbar-track-slate-700 pr-4"
           >
             <h3 className="text-2xl font-semibold text-textPrimary mb-8">
-              Exceeded Budgets
+              {t("exceeded_budgets")}
             </h3>
             <div className="flex flex-col gap-8 w-full">
-              {PROGRESS.map((progress) => (
-                <CustomProgressbar
-                  name={progress.name}
-                  value={progress.spent}
-                  key={progress.name}
-                />
-              ))}
+              {PROGRESS.length === 0 ? (
+                <span className="text-lg text-center font-semibold text-blue-400">
+                  {t("no_exceeded_budgets")} 👍🏼
+                </span>
+              ) : (
+                PROGRESS?.map((progress) => (
+                  <CustomProgressbar
+                    name={progress.name}
+                    value={progress.spent}
+                    key={progress.name}
+                  />
+                ))
+              )}
             </div>
           </div>
           <section className="w-full">
             <h3 className="text-2xl font-semibold text-textPrimary my-8 2xl:mb-8 xl:mt-0 2xl:my-8">
-              Financial information
+              {t("financial_info.title")}
             </h3>
             <div className="flex flex-col gap-8 w-full">
               {FINANCES.map((fn) => (

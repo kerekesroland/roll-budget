@@ -8,8 +8,10 @@ import { toast } from "react-hot-toast";
 import CustomButton from "../CustomButton";
 import GeneralHeader from "../GeneralHeader";
 import { Input } from "../ui/input";
+import { useTranslations } from "next-intl";
 
 const InviteModal = () => {
+  const t = useTranslations("invites.add_invite");
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -22,11 +24,11 @@ const InviteModal = () => {
     try {
       setIsLoading(true);
       await axios.post(`/api/invitation`, { email });
-      toast.success("Invitation sent successfully!");
+      toast.success(t("toast_messages.add_success"));
       setEmail("");
       router.refresh();
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);
@@ -44,8 +46,8 @@ const InviteModal = () => {
         onClick={handleModalClick}
       >
         <GeneralHeader
-          title="Invitation"
-          subtitle="Send an invitation to your friends!"
+          title={t("title")}
+          subtitle={t("subTitle")}
           extraSubtitleStyle="!text-xl"
         />
         <Input
@@ -57,8 +59,8 @@ const InviteModal = () => {
         <CustomButton
           onClick={sendInvitation}
           loading={isLoading}
-          loadingTitle="Signing in"
-          title="Send Invite"
+          loadingTitle={t("btn_loading")}
+          title={t("add_btn")}
           type="submit"
         />
       </div>

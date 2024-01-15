@@ -94,3 +94,15 @@
   background-size: 200% 200%;
   animation: gradientAnimation 3s linear infinite;
 }
+
+.calendar-override table {
+  overflow-y: scroll;
+  height: calc(100vh - 10rem);
+}
+.calendar-override tbody {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+}

@@ -4,13 +4,34 @@ import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 
 import ToastProvider from "./ToastProvider";
+import { AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
+import { LocaleOptionsType } from "@/constants/locales";
+import { Timezone } from "node-schedule";
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+interface IProviderProps {
+  children: React.ReactNode;
+  locale: LocaleOptionsType;
+  messages: AbstractIntlMessages;
+  timeZone: Timezone;
+}
+
+const Providers = ({
+  children,
+  locale,
+  messages,
+  timeZone,
+}: IProviderProps) => {
   return (
-    <SessionProvider>
-      <RecoilRoot>{children}</RecoilRoot>
-      <ToastProvider />
-    </SessionProvider>
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages}
+      timeZone={timeZone}
+    >
+      <SessionProvider>
+        <RecoilRoot>{children}</RecoilRoot>
+        <ToastProvider />
+      </SessionProvider>
+    </NextIntlClientProvider>
   );
 };
 

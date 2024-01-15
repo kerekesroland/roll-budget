@@ -9,7 +9,7 @@ export const getExceededCategories = async (take?: number) => {
   try {
     const res = await prisma.category.findMany({
       where: {
-        current: {
+        currentPerMonth: {
           gt: prisma.category.fields.limit,
         },
         userId: user?.id,

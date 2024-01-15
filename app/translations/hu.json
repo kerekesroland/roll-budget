@@ -1,0 +1,193 @@
+{
+  "common": {
+    "signOut": "Sikeres kilépés, egy pillanat és átirányítunk!"
+  },
+  "sidebar": {
+    "dashboard": "Kezdőlap",
+    "budget": "Költségek",
+    "analytics": "Analitika",
+    "reminders": "Emlékeztetők",
+    "invites": "Meghívók",
+    "logout": "Kilépés"
+  },
+  "login": {
+    "title": "Üdvözöllek a Roll Budgetnál!",
+    "subTitle": "Lépj be a fiókodba",
+    "emailPlaceholder": "roland@gmail.com",
+    "passwordPlaceholder": "******",
+    "btn_signin": "Belépés",
+    "btn_loading": "Bejelentkezés...",
+    "toast_messages": {
+      "login_success": "Sikeres bejelentkezés",
+      "user_not_found": "Nem található felhasználó",
+      "invalid_credentials": "Helytelen felhasználónév vagy jelszó"
+    }
+  },
+  "dashboard": {
+    "title": "Kezdőlap",
+    "balance": "Egyenlegem",
+    "show_balance_in_usd": "Egyenleg mutatása",
+    "exceeded_budgets": "Túllépett költségkeretek",
+    "no_exceeded_budgets": "Nincs túllépett költségkeret, ügyes vagy!",
+    "financial_info": {
+      "title": "Pénzügyi információk (havi)",
+      "total_income": "Összes bevétel",
+      "total_expense": "Összes kiadás",
+      "balance": "Egyenlegem",
+      "monthly": "Havi adatok",
+      "income": "Bevétel",
+      "expense": "Kiadás",
+      "amount": "Összeg"
+    }
+  },
+  "budgets": {
+    "title": "Költségek",
+    "filters": {
+      "sortBy": "Szűrés",
+      "type": "Típus",
+      "price": "Ár",
+      "category": "Kategória",
+      "date": "Válassz dátumot"
+    },
+    "no_transactions": "Tranzakciók száma",
+    "value": "Érték",
+    "add_budget": {
+      "title": "Költség hozzáadása",
+      "subTitle": "Töltsd ki az adatokat, hogy hozzáadhasd a költséget!",
+      "name": "Név",
+      "price": "Ár",
+      "type": "Típus",
+      "category": "Kategória",
+      "date": "Dátum",
+      "icons": "Ikonok",
+      "add_btn": "Költség hozzáadása",
+      "btn_loading": "Létrehozás...",
+      "toast_messages": {
+        "add_success": "Költség sikeresen létrehozva",
+        "add_error": "Hiba költség létrehozás közben"
+      }
+    },
+    "edit_budget": {
+      "title": "Költség szerkesztése",
+      "subTitle": "Töltsd ki az adatokat, hogy szerkeszthesd a költséget!",
+      "name": "Név",
+      "price": "Ár",
+      "type": "Típus",
+      "category": "Kategória",
+      "date": "Dátum",
+      "icons": "Ikonok",
+      "edit_btn": "Költség szerkesztése",
+      "btn_loading": "Szerkesztés...",
+      "delete_btn": "Költség törlése",
+      "btn_loading_delete": "Törlés...",
+      "toast_messages": {
+        "edit_success": "Költség sikeresen szerkesztve",
+        "edit_error": "Hiba a költség szerkesztése közben",
+        "delete_success": "Költség sikeresen törölve",
+        "delete_error": "Hiba költség törlés közben"
+      }
+    }
+  },
+  "categories": {
+    "title": "Kategóriák",
+    "add_category": {
+      "title": "Kategória hozzáadása",
+      "subTitle": "Töltsd ki az adatokat, hogy hozzáadhasd a kategóriát!",
+      "name": "Név",
+      "limit": "Limit",
+      "icon": "Ikon",
+      "select_icon": "Válassz egy ikont",
+      "add_btn": "Kategória hozzáadása",
+      "btn_loading": "Létrehozás...",
+      "toast_messages": {
+        "add_success": "Kategória sikeresen létrehozva",
+        "add_error": "Hiba kategória létrehozás közben"
+      }
+    },
+    "edit_category": {
+      "title": "Kategória szerkesztése",
+      "subTitle": "Töltsd ki az adatokat, hogy szerkeszthesd a kategóriát!",
+      "name": "Név",
+      "limit": "Limit",
+      "icon": "Ikon",
+      "select_icon": "Válassz egy ikont",
+      "edit_btn": "Kategória szerkesztése",
+      "btn_loading": "Szerkesztés...",
+      "delete_btn": "Kategória törlése",
+      "btn_loading_delete": "Törlés...",
+      "toast_messages": {
+        "edit_success": "Kategória sikeresen szerkesztve",
+        "edit_error": "Hiba kategória szerkesztése közben",
+        "delete_success": "Kategória sikeresen törölve",
+        "delete_error": "Hiba kategória törlés közben"
+      }
+    }
+  },
+  "reminders": {
+    "title": "Emlékeztetők",
+    "active_reminders": "Aktív Emlékeztetők",
+    "priorities": "Prioritások",
+    "add_reminder": {
+      "title": "Emlékeztető hozzáadása",
+      "subTitle": "Töltsd ki az adatokat, hogy hozzáadhasd az emlékeztetőt!",
+      "name": "Név",
+      "priority": "Prioritás",
+      "date": "Dátum",
+      "color": "Szín",
+      "add_btn": "Emlékeztető hozzáadása",
+      "btn_loading": "Létrehozás...",
+      "toast_messages": {
+        "add_success": "Emlékeztető sikeresen létrehozva",
+        "add_error": "Hiba emlékeztető létrehozás közben"
+      }
+    },
+    "edit_reminder": {
+      "title": "Reminder szerkesztése",
+      "subTitle": "Töltsd ki az adatokat, hogy szerkeszthesd az emlékeztetőt!",
+      "name": "Név",
+      "priority": "Prioritás",
+      "date": "Dátum",
+      "color": "Szín",
+      "edit_btn": "Emlékeztető szerkesztése",
+      "btn_loading": "Szerkesztés...",
+      "delete_btn": "Emlékeztető törlése",
+      "btn_delete_loading": "Törlés...",
+      "toast_messages": {
+        "edit_success": "Emlékeztető sikeresen szerkesztve",
+        "edit_error": "Hiba emlékeztető szerkesztés közben",
+        "delete_success": "Emlékeztető sikeresen törölve",
+        "delete_error": "Hiba emlékeztető törlése közben"
+      }
+    }
+  },
+  "invites": {
+    "title": "Meghívók",
+    "searchbar_placeholder": "Email szűrés...",
+    "status": "Státusz",
+    "pending": "Függőben",
+    "accepted": "Elfogadva",
+    "actions": "Actions",
+    "columns": "Oszlopok",
+    "prev": "Előző",
+    "next": "Következő",
+    "no_results": "Nincs találat.",
+    "email": "Email",
+    "add_invite": {
+      "title": "Meghívó",
+      "subTitle": "Küldj meghívót a barátaidnak!",
+      "toast_messages": {
+        "add_success": "Meghívó sikeresen elküldve",
+        "add_error": "Hiba a meghívó küldése közben"
+      },
+      "add_btn": "Meghívó küldése",
+      "btn_loading": "Küldés..."
+    },
+    "delete_invite": {
+      "toast_messages": {
+        "delete_success": "Meghívó sikeresen törölve",
+        "delete_error": "Hiba meghívó törlése közben",
+        "already_accepted": "Már elfogadott meghívók nem törölhetők!"
+      }
+    }
+  }
+}

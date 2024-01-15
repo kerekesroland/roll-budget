@@ -11,8 +11,6 @@ import { useRecoilState } from "recoil";
 import { budgetAddModalOpen, budgetCategories } from "@/app/store";
 import { BudgetOptions } from "@/constants/BudgetOptions";
 import useFilteredBudgets from "@/hooks/useFilteredBudgets";
-import { IUser, TBudget } from "@/models/User";
-import { Category } from "@prisma/client";
 
 import BudgetCard from "./BudgetCard";
 import BudgetInfo from "./BudgetInfo";
@@ -20,25 +18,12 @@ import { Combobox } from "../ComboBox";
 import { DatePickerForm } from "../CustomCalendar";
 import MobileNavbar from "../MobileNavbar";
 import AddBudgetModal from "../modals/AddBudgetModal";
+import { BudgetProps, FilterKeys, IFilterProps } from "./types";
+import { useTranslations } from "next-intl";
 
-type Props = {
-  user: IUser | null;
-  categories: Category[] | null;
-  budgets: TBudget[] | null;
-};
-
-interface IFilterProps {
-  sortBy: string;
-  type: string;
-  price: string;
-  category: string;
-  date: Date;
-}
-
-type FilterKeys = "sortBy" | "type" | "price" | "category" | "date";
-
-const BudgetList = ({ user, categories, budgets }: Props) => {
+const BudgetList = ({ user, categories, budgets }: BudgetProps) => {
   const router = useRouter();
+  const t = useTranslations("budgets");
   const [isModalOpened, setIsModalOpened] = useRecoilState(budgetAddModalOpen);
   const [bCategories, setBCategories] = useRecoilState(budgetCategories);
   const [filters, setFilters] = useState<IFilterProps>({
@@ -46,7 +31,7 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
     type: "",
     price: "",
     category: "",
-    date: new Date(),
+    date: undefined,
   });
 
   const { sortedBudgets, getBudgetCategory } = useFilteredBudgets({
@@ -142,7 +127,7 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
       </div>
       <div className="flex flex-col lg:flex-row  items-start lg:items-center justify-between gap-4 lg:gap-0 mt-4 mb-4">
         <div className="flex items-center gap-12">
-          <h2 className="font-semibold text-2xl">Budgets</h2>
+          <h2 className="font-semibold text-2xl">{t("title")}</h2>
           <div
             onClick={() => toggleState(true)}
             className="w-[50px] h-[50px] rounded-xl border-dashed border-2 border-white flex justify-center items-center cursor-pointer"
@@ -159,28 +144,28 @@ const BudgetList = ({ user, categories, budgets }: Props) => {
       </div>
       <div className="flex flex-col lg:flex-row items-center justify-between mt-16 gap-4">
         <Combobox
-          title="Sort by"
+          title={t("filters.sortBy")}
           options={BudgetOptions.sortBy}
           callback={handleSetFilterValue}
           filterKey="sortBy"
           extraStyle="w-full lg:w-[200px]"
         />
         <Combobox
-          title="Type"
+          title={t("filters.type")}
           options={BudgetOptions.types}
           callback={handleSetFilterValue}
           filterKey="type"
           extraStyle="w-full lg:w-[200px]"
         />
         <Combobox
-          title="Price"
+          title={t("filters.price")}
           options={BudgetOptions.price}
           callback={handleSetFilterValue}
           filterKey="price"
           extraStyle="w-full lg:w-[200px]"
         />
         <Combobox
-          title="Category"
+          title={t("filters.category")}
           options={categoryLabelValues}
           callback={handleSetFilterValue}
           filterKey="category"

@@ -11,12 +11,13 @@ const IconSelector = ({
   setValue,
   defaultValue,
   extraStyle,
+  placeHolder,
 }: IIconSelector) => {
   return (
     <div className={`flex flex-col w-full max-w-[350px] py-4 ${extraStyle}`}>
       <label className="text-textPrimary">{label}</label>
       <CustomSelector
-        placeholder="Select an Icon"
+        placeholder={placeHolder ?? ""}
         title="Icons"
         options={CategoryIcons}
         setValue={setValue}

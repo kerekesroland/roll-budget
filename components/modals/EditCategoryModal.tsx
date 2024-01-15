@@ -14,6 +14,7 @@ import GeneralHeader from "../GeneralHeader";
 import IconSelector from "../IconSelector";
 import InputController from "../InputController";
 import NumberController from "../NumberController";
+import { useTranslations } from "next-intl";
 
 interface ICategory {
   id: string;
@@ -35,6 +36,7 @@ const EditCategoryModal = ({
   toggleState,
   category,
 }: IEditCategoryModal) => {
+  const t = useTranslations("categories.edit_category");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -60,11 +62,11 @@ const EditCategoryModal = ({
     try {
       setIsLoading(true);
       await axios.put(`/api/category/${category.id}`, data);
-      toast.success(`Successfully modified category!`);
+      toast.success(t("toast_messages.edit_success"));
       router.refresh();
       toggleState(false);
     } catch (error: any) {
-      console.log(error);
+      toast.error(t("toast_messages.edit_error"));
     } finally {
       setIsLoading(false);
     }
@@ -75,9 +77,9 @@ const EditCategoryModal = ({
       setIsLoading(true);
       await axios.delete(`/api/category/${category.id}`);
       router.refresh();
-      toast.success("Category deleted successfully!");
+      toast.success(t("toast_messages.delete_success"));
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(t("toast_messages.delete_error"));
     } finally {
       setIsLoading(false);
     }
@@ -90,13 +92,13 @@ const EditCategoryModal = ({
         onClick={handleModalClick}
       >
         <GeneralHeader
-          title="Edit Category"
-          subtitle="Fill out the information to add a category!"
+          title={t("title")}
+          subtitle={t("subTitle")}
           extraSubtitleStyle="!text-xl"
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
-            label="Name"
+            label={t("name")}
             isTouched={false}
             error={errors.name?.message as string}
             register={register("name")}
@@ -105,7 +107,7 @@ const EditCategoryModal = ({
             extraStyle="max-w-full"
           />
           <NumberController
-            label="Limit"
+            label={t("limit")}
             isTouched={false}
             type="number"
             error={errors.limit?.message as string}
@@ -118,7 +120,7 @@ const EditCategoryModal = ({
             extraContainerStyle="max-w-full"
           />
           <IconSelector
-            label="Icon"
+            label={t("icon")}
             error={errors.icon?.message as string}
             register={register("icon")}
             setValue={setValue}
@@ -128,15 +130,15 @@ const EditCategoryModal = ({
           <div className="flex items-center gap-4">
             <CustomButton
               loading={isLoading}
-              loadingTitle="Creating..."
-              title="Edit Category"
+              loadingTitle={t("btn_loading")}
+              title={t("edit_btn")}
               type="submit"
             />
             <CustomButton
               onClick={handleDelete}
               loading={isLoading}
-              loadingTitle="Deleting..."
-              title="Delete Category"
+              loadingTitle={t("btn_loading_delete")}
+              title={t("delete_btn")}
               type="button"
               primary={false}
             />

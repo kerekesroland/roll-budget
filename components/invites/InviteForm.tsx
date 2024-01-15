@@ -8,10 +8,12 @@ import { inviteModalOpen } from "@/app/store";
 
 import MobileNavbar from "../MobileNavbar";
 import InviteModal from "../modals/InviteModal";
+import { useTranslations } from "next-intl";
 
 type Props = {};
 
 const InviteForm = (props: Props) => {
+  const t = useTranslations("invites");
   const [isModalOpened, setIsModalOpened] = useRecoilState(inviteModalOpen);
 
   const toggleState = useCallback(
@@ -27,7 +29,7 @@ const InviteForm = (props: Props) => {
         <MobileNavbar />
       </div>
       <div className="flex items-center gap-12 mt-4 mb-4">
-        <h2 className="font-semibold text-2xl">Invites</h2>
+        <h2 className="font-semibold text-2xl">{t("title")}</h2>
         <div
           onClick={() => toggleState(true)}
           className="w-[50px] h-[50px] rounded-xl border-dashed border-2 border-white flex justify-center items-center cursor-pointer"
