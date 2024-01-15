@@ -13,6 +13,7 @@ import { DateTimePicker } from "../DateTimePicker/date-time-picker";
 import { DateValue } from "react-aria";
 import ErrorInputMessage from "../ErrorInputMessage";
 import { IUser } from "@/models/User";
+import { useTranslations } from "next-intl";
 
 interface IProps {
   toggleState: (value: boolean) => void;
@@ -27,6 +28,7 @@ interface IReminderForm {
 }
 
 const AddReminderModal = ({ toggleState, user }: IProps) => {
+  const t = useTranslations("reminders");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -65,11 +67,11 @@ const AddReminderModal = ({ toggleState, user }: IProps) => {
         ...data,
         user,
       });
-      toast.success(`Succesfully added added ${data.title} to the reminders!`);
+      toast.success(t("toast_messages.add_success"));
       router.refresh();
       toggleState(false);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(t("toast_messages.add_error"));
     } finally {
       setIsLoading(false);
     }
@@ -82,13 +84,13 @@ const AddReminderModal = ({ toggleState, user }: IProps) => {
         onClick={handleModalClick}
       >
         <GeneralHeader
-          title="Add Reminder"
-          subtitle="Fill out the information to add a reminder!"
+          title={t("add_reminder.title")}
+          subtitle={t("add_reminder.subTitle")}
           extraSubtitleStyle="!text-xl"
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
-            label="Title"
+            label={t("add_reminder.name")}
             isTouched={false}
             error={errors.title?.message as string}
             register={register("title")}
@@ -99,9 +101,9 @@ const AddReminderModal = ({ toggleState, user }: IProps) => {
 
           <div className="py-8 flex items-center gap-4">
             <div className="w-1/2">
-              <label>Priority</label>
+              <label>{t("add_reminder.priority")}</label>
               <Combobox
-                title="Priorities"
+                title={t("priorities")}
                 options={[
                   { label: "1", value: "1" },
                   { label: "2", value: "2" },
@@ -119,15 +121,15 @@ const AddReminderModal = ({ toggleState, user }: IProps) => {
               )}
             </div>
             <div className="flex flex-col w-1/2">
-              <label>Date</label>
+              <label>{t("add_reminder.date")}</label>
               <DateTimePicker granularity={"minute"} onChange={handleSetDate} />
               <ErrorInputMessage error={errors?.date?.message as any} />
             </div>
           </div>
 
-          <label>Color</label>
+          <label>{t("add_reminder.color")}</label>
           <Combobox
-            title="Color"
+            title={t("add_reminder.color")}
             options={[
               { label: "green", value: "green" },
               { label: "purple", value: "purple" },
@@ -141,8 +143,8 @@ const AddReminderModal = ({ toggleState, user }: IProps) => {
           />
           <CustomButton
             loading={isLoading}
-            loadingTitle="Creating..."
-            title="Add Reminder"
+            loadingTitle={t("add_reminder.btn_loading")}
+            title={t("add_reminder.add_btn")}
             type="submit"
             extraStyle="max-w-full"
           />

@@ -6,12 +6,14 @@ import { IReminder } from "@/models/Reminder";
 import { useRecoilState } from "recoil";
 import { remindersFilter } from "@/app/store";
 import { Combobox } from "../ComboBox";
+import { useTranslations } from "next-intl";
 
 interface IProps {
   reminders: IReminder[];
 }
 
 const ActiveReminders = ({ reminders }: IProps) => {
+  const t = useTranslations("reminders");
   const [filters, setFilters] = useRecoilState(remindersFilter);
 
   const childVariants = {
@@ -56,7 +58,7 @@ const ActiveReminders = ({ reminders }: IProps) => {
   return (
     <div className="flex flex-col items-center h-screen min-w-0 lg:min-w-[450px] border-t-[1px] border-t-[#1C293A] 3xl:border-t-0 3xl:border-l-[1px] 3xl:border-l-[#1C293A]">
       <div className="flex items-center w-full justify-between gap-12 mt-4 mb-4 3xl:px-12">
-        <h2 className="font-semibold text-2xl">Active Reminders</h2>
+        <h2 className="font-semibold text-2xl">{t("active_reminders")}</h2>
         <Combobox
           title="priority"
           options={[

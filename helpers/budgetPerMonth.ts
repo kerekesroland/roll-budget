@@ -13,7 +13,11 @@ export async function calculateCurrentPerMonth(categoryId: string) {
     },
   });
 
-  const currentPerMonth = budgetsInCurrentMonth.reduce(
+  const filteredBudgetsByExpense = budgetsInCurrentMonth.filter(
+    (budget) => budget?.type === "expense"
+  );
+
+  const currentPerMonth = filteredBudgetsByExpense.reduce(
     (sum, budget) => sum + budget.price,
     0
   );

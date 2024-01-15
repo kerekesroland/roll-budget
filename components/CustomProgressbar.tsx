@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { Progress } from "./ui/progress";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 };
 
 const CustomProgressbar = ({ name, value, color }: Props) => {
+  const t = useTranslations("dashboard");
   return (
     <div>
       <h4 className="text-lg font-medium">{name}</h4>
@@ -18,7 +20,7 @@ const CustomProgressbar = ({ name, value, color }: Props) => {
         }`}
       />
       <h4 className="mt-4 text-md font-medium text-[#79889D]/50 text-right">
-        Amount: {value} HUF
+        {t("financial_info.amount")}: {value} HUF
       </h4>
     </div>
   );

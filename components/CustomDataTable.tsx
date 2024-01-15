@@ -36,6 +36,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
+import { useTranslations } from "next-intl";
 
 export type Status = {
   id: string;
@@ -43,53 +44,12 @@ export type Status = {
   email: string;
 };
 
-export const columns: ColumnDef<Status>[] = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={table.getIsAllPageRowsSelected()}
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.original.email}</div>,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <div className="capitalize">{row.original.status}</div>,
-  },
-];
-
 interface IDataTable {
   data: Array<Status>;
 }
 
 export default function DataTable({ data }: IDataTable) {
+  const t = useTranslations("invites");
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -100,14 +60,43 @@ export default function DataTable({ data }: IDataTable) {
   const router = useRouter();
   const handleDeleteToken = async (id: string) => {
     try {
-      const res = await axios.delete(`/api/invitation/${id}`);
-      toast.success(res.data.message);
+      await axios.delete(`/api/invitation/${id}`);
+      toast.success(t("delete_invite.toast_messages.delete_success"));
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(
+        t(`delete_invite.toast_messages.${error.response.data.message}`)
+      );
     }
   };
+
+  const columns: ColumnDef<Status>[] = [
+    {
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            {t("email")}
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => <div className="lowercase">{row.original.email}</div>,
+    },
+    {
+      accessorKey: "status",
+      header: t("status"),
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {t(`${row.original.status.toLowerCase()}`)}
+        </div>
+      ),
+    },
+  ];
   const table = useReactTable({
     data,
     columns,
@@ -131,7 +120,7 @@ export default function DataTable({ data }: IDataTable) {
     <div className="w-full scale-90 sm:scale-100">
       <div className="flex items-center py-4 gap-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder={t("searchbar_placeholder")}
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
@@ -141,7 +130,7 @@ export default function DataTable({ data }: IDataTable) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              {t("columns")} <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -158,7 +147,7 @@ export default function DataTable({ data }: IDataTable) {
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {t(column.id)}
                   </DropdownMenuCheckboxItem>
                 );
               })}
@@ -182,7 +171,7 @@ export default function DataTable({ data }: IDataTable) {
                     </TableHead>
                   );
                 })}
-                <TableHead key={"delete"}>Actions</TableHead>
+                <TableHead key={"delete"}> {t("actions")}</TableHead>
               </TableRow>
             ))}
           </TableHeader>
@@ -226,7 +215,7 @@ export default function DataTable({ data }: IDataTable) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("no_results")}
                 </TableCell>
               </TableRow>
             )}
@@ -234,18 +223,14 @@ export default function DataTable({ data }: IDataTable) {
         </Table>
       </div>
       <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 py-4">
-        <div className="text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
+        <div className="space-x-2 w-full flex items-center justify-end">
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            {t("prev")}
           </Button>
           <Button
             variant="outline"
@@ -253,7 +238,7 @@ export default function DataTable({ data }: IDataTable) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            {t("next")}
           </Button>
         </div>
       </div>

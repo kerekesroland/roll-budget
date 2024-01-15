@@ -16,7 +16,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { capitalizeFirstLetter, cn } from "@/lib/utils";
+import { LocaleTranslations } from "@/constants/BudgetOptions";
 
 interface IComboBox {
   title?: string;
@@ -28,7 +29,7 @@ interface IComboBox {
 }
 type Option = {
   value: string | number;
-  label: string;
+  label: string | LocaleTranslations;
 };
 
 export function Combobox({
@@ -52,6 +53,10 @@ export function Combobox({
     setOpen(false);
   };
 
+  const doesValueMatchAnything = options?.find(
+    (el) => el.label === capitalizeFirstLetter(value) || el.value === value
+  );
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -61,9 +66,7 @@ export function Combobox({
           aria-expanded={open}
           className={`w-[200px] justify-between py-[1.5rem] border-2 ${extraStyle}`}
         >
-          {value
-            ? options?.find((option) => option.value === value)?.label
-            : title}
+          {value ? String(doesValueMatchAnything?.label) : title}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -82,10 +85,12 @@ export function Combobox({
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === option?.value ? "opacity-100" : "opacity-0"
+                    doesValueMatchAnything?.label === option?.label
+                      ? "opacity-100"
+                      : "opacity-0"
                   )}
                 />
-                {option?.label}
+                {option?.label as string}
               </CommandItem>
             ))}
           </CommandGroup>

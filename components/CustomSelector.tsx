@@ -34,7 +34,9 @@ export function CustomSelector({
   setValue,
   defaultValue,
 }: ICustomSelectorProps) {
-  const [selectedElement, setSelectedElement] = useState<string>("");
+  const [selectedElement, setSelectedElement] = useState<string>(
+    defaultValue ?? ""
+  );
 
   useEffect(() => {
     setValue("icon", selectedElement);

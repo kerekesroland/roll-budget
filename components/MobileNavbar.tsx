@@ -16,7 +16,7 @@ const MobileNavbar = () => {
     (value: boolean) => {
       setIsMobileOpen(value);
     },
-    [setIsMobileOpen],
+    [setIsMobileOpen]
   );
 
   return (
@@ -28,7 +28,7 @@ const MobileNavbar = () => {
         <Image
           width={30}
           height={30}
-          src={"images/hamburger.svg"}
+          src={"/images/hamburger.svg"}
           alt="hamburger menu"
         />
       </div>

@@ -10,6 +10,7 @@ import { IUser } from "@/models/User";
 import { Category } from "@prisma/client";
 import CategoryCard from "../CategoryCard";
 import AddCategoryModal from "../modals/AddCategoryModal";
+import { useTranslations } from "next-intl";
 
 interface IBudgetCategories {
   user: IUser | null;
@@ -17,6 +18,7 @@ interface IBudgetCategories {
 }
 
 const BudgetCategories = ({ user, categories }: IBudgetCategories) => {
+  const t = useTranslations("categories");
   const [isModalOpened, setIsModalOpened] = useRecoilState(categoryModalOpen);
 
   const toggleState = useCallback(
@@ -41,7 +43,7 @@ const BudgetCategories = ({ user, categories }: IBudgetCategories) => {
   return (
     <div className="flex flex-col items-center h-screen min-w-0 lg:min-w-[450px] border-t-[1px] border-t-[#1C293A] 3xl:border-t-0 3xl:border-l-[1px] 3xl:border-l-[#1C293A]">
       <div className="flex items-center w-full justify-between gap-12 mt-4 mb-4 3xl:px-12">
-        <h2 className="font-semibold text-2xl">Categories</h2>
+        <h2 className="font-semibold text-2xl">{t("title")}</h2>
         <div
           onClick={() => toggleState(true)}
           className="w-[50px] h-[50px] rounded-xl border-dashed border-2 border-white flex justify-center items-center cursor-pointer"

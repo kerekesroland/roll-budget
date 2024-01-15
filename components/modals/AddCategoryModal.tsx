@@ -14,6 +14,7 @@ import GeneralHeader from "../GeneralHeader";
 import IconSelector from "../IconSelector";
 import InputController from "../InputController";
 import NumberController from "../NumberController";
+import { useTranslations } from "next-intl";
 
 interface ICategory {
   name: string;
@@ -27,6 +28,7 @@ interface IAddCategoryModal {
 }
 
 const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
+  const t = useTranslations("categories.add_category");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -51,11 +53,11 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
     try {
       setIsLoading(true);
       await axios.post("/api/category", { ...data, userId: userId });
-      toast.success(`Succesfully added added ${data.name} to the categories!`);
+      toast.success(t("toast_messages.add_success"));
       router.refresh();
       toggleState(false);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(t("toast_messages.add_error"));
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +76,7 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
-            label="Name"
+            label={t("name")}
             isTouched={false}
             error={errors.name?.message as string}
             register={register("name")}
@@ -84,7 +86,7 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
             extraStyle="max-w-full"
           />
           <NumberController
-            label="Limit"
+            label={t("limit")}
             isTouched={false}
             type="number"
             error={errors.limit?.message as string}
@@ -97,16 +99,17 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
             extraContainerStyle="max-w-full"
           />
           <IconSelector
-            label="Icon"
+            label={t("icon")}
             error={errors.icon?.message as string}
             register={register("icon")}
             setValue={setValue}
             extraStyle="max-w-full"
+            placeHolder={t("select_icon")}
           />
           <CustomButton
             loading={isLoading}
-            loadingTitle="Creating..."
-            title="Add Category"
+            loadingTitle={t("btn_loading")}
+            title={t("add_btn")}
             type="submit"
             extraStyle="max-w-full"
           />

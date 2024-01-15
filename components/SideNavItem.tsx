@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
@@ -12,6 +13,10 @@ type Props = {
    */
   name: string;
   /**
+   * @param {string} href The href of the SideNavigation item
+   */
+  href: string;
+  /**
    * @param {boolean} active The state representing if the nav item is active
    */
   active: boolean;
@@ -21,17 +26,16 @@ type Props = {
   icon: string;
 };
 
-const SideNavItem = ({ name, icon, active }: Props) => {
+const SideNavItem = ({ name, href, icon, active }: Props) => {
+  const t = useTranslations("common");
+  const locale = useLocale();
   const router = useRouter();
-
   const handleNavigate = useCallback(() => {
-    router.replace(`/${name.toLowerCase()}`);
+    router.replace(`/${locale}/${href.toLowerCase()}`);
   }, [router, name]);
 
   const handleLogout = useCallback(async () => {
-    toast.success(
-      "Successfully signed out, you will be redirected to the login page in a second!"
-    );
+    toast.success(t("signOut"));
     setTimeout(async () => {
       await signOut();
     }, 2000);
@@ -39,7 +43,9 @@ const SideNavItem = ({ name, icon, active }: Props) => {
 
   return (
     <div
-      onClick={name !== "Logout" ? handleNavigate : handleLogout}
+      onClick={
+        name !== "Logout" && name !== "Kilépés" ? handleNavigate : handleLogout
+      }
       className={`rounded-[15px] relative p-4 py-6 cursor-pointer transition-background-color duration-300 ease-in-out ${
         !active && "hover:!bg-neutral-900"
       }`}

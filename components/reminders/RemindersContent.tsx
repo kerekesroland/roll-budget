@@ -10,12 +10,14 @@ import { IUser } from "@/models/User";
 import MobileNavbar from "../MobileNavbar";
 import AddReminderModal from "../modals/AddReminderModal";
 import DatePickerForm2 from "../CustomDateShowcase";
+import { useTranslations } from "next-intl";
 
 interface IProps {
   user: IUser | null;
 }
 
 const RemindersContent = ({ user }: IProps) => {
+  const t = useTranslations("reminders");
   const [isModalOpened, setIsModalOpened] = useRecoilState(remindersModalOpen);
   const [_, setFilters] = useRecoilState(remindersFilter);
 
@@ -44,7 +46,7 @@ const RemindersContent = ({ user }: IProps) => {
       </div>
       <div className="flex flex-col items-start lg:items-start justify-between gap-4 lg:gap-0 mt-4 mb-4">
         <div className="flex items-center gap-12">
-          <h2 className="font-semibold text-2xl">Reminders</h2>
+          <h2 className="font-semibold text-2xl">{t("title")}</h2>
           <div
             onClick={() => toggleState(true)}
             className="w-[50px] h-[50px] rounded-xl border-dashed border-2 border-white flex justify-center items-center cursor-pointer"

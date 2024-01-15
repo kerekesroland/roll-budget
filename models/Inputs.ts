@@ -20,6 +20,7 @@ export interface IIconSelector {
   setValue: Function;
   defaultValue?: string;
   extraStyle?: string;
+  placeHolder?: string;
 }
 
 type Option = {

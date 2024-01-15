@@ -23,6 +23,7 @@ import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Calendar2 } from "./ui/calendar2";
+import { useTranslations } from "next-intl";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -50,6 +51,8 @@ export function DatePickerForm({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+
+  const t = useTranslations("budgets");
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
@@ -115,7 +118,7 @@ export function DatePickerForm({
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
-                        <span>Pick a date</span>
+                        <span>{t("filters.date")}</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>

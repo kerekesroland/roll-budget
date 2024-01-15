@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   try {
     const token = await prisma.activateToken.findUnique({
@@ -20,18 +20,18 @@ export async function DELETE(
         },
         {
           status: 404,
-        },
+        }
       );
     }
 
     if (token.userId) {
       return NextResponse.json(
         {
-          message: "Cannot delete already accepted invitations!",
+          message: "already_accepted",
         },
         {
           status: 400,
-        },
+        }
       );
     }
 
@@ -49,11 +49,11 @@ export async function DELETE(
     console.error("Error deleting invitation:", error);
     return NextResponse.json(
       {
-        message: "Failed to delete invitation.",
+        message: "delete_error",
       },
       {
         status: 500,
-      },
+      }
     );
   }
 }

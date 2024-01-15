@@ -14,6 +14,7 @@ import { DateTimePicker } from "../DateTimePicker/date-time-picker";
 import { DateValue } from "react-aria";
 import { CalendarDateTime } from "@internationalized/date";
 import ErrorInputMessage from "../ErrorInputMessage";
+import { useTranslations } from "next-intl";
 
 interface IProps {
   closeModal: () => void;
@@ -29,8 +30,9 @@ interface IReminderWithoutIds {
 }
 
 const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const t = useTranslations("reminders.edit_reminder");
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -68,9 +70,9 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
       setIsLoading(true);
       await axios.delete(`/api/reminder/${reminder.id}`);
       router.refresh();
-      toast.success("Successfully deleted reminder");
+      toast.success(t("toast_messages.delete_success"));
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(t("toast_messages.delete_error"));
     } finally {
       setIsLoading(false);
     }
@@ -85,11 +87,11 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
     try {
       setIsLoading(true);
       await axios.put(`/api/reminder/${reminder.id}`, convertedData);
-      toast.success(`Successfully modified reminder!`);
+      toast.success(t("toast_messages.edit_success"));
       router.refresh();
       closeModal();
     } catch (error: any) {
-      console.log(error);
+      console.log(t("toast_messages.edit_error"));
     } finally {
       setIsLoading(false);
     }
@@ -102,13 +104,13 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
         onClick={handleModalClick}
       >
         <GeneralHeader
-          title="Edit Reminder"
-          subtitle="Fill out the information to edit the reminder!"
+          title={t("title")}
+          subtitle={t("subTitle")}
           extraSubtitleStyle="!text-xl"
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <InputController
-            label="Title"
+            label={t("name")}
             isTouched={false}
             error={errors.title?.message as string}
             register={register("title")}
@@ -116,7 +118,7 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
             value={""}
             extraStyle="max-w-full"
           />
-          <label>Color</label>
+          <label>{t("color")}</label>
           <Combobox
             title="Color"
             options={[
@@ -133,7 +135,7 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
           />
           <div className="py-8 flex items-center gap-4">
             <div className="w-1/2">
-              <label>Priority</label>
+              <label>{t("priority")}</label>
               <Combobox
                 title="Priorities"
                 options={[
@@ -154,7 +156,7 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
               )}
             </div>
             <div className="flex flex-col w-1/2">
-              <label>Date</label>
+              <label>{t("date")}</label>
               <DateTimePicker
                 error={true}
                 granularity={"minute"}
@@ -182,15 +184,15 @@ const EditReminderModal = ({ closeModal, userId, reminder }: IProps) => {
           <div className="flex items-center gap-4">
             <CustomButton
               loading={isLoading}
-              loadingTitle="Editing..."
-              title="Edit Reminder"
+              loadingTitle={t("btn_loading")}
+              title={t("edit_btn")}
               type="submit"
             />
             <CustomButton
               onClick={handleDeleteReminder}
               loading={isLoading}
-              loadingTitle="Deleting..."
-              title="Delete Reminder"
+              loadingTitle={t("btn_delete_loading")}
+              title={t("delete_btn")}
               type="button"
               primary={false}
             />
