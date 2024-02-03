@@ -5,14 +5,11 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-import {
-  translateBudgetOptions,
-  BudgetOptions,
-} from "@/constants/BudgetOptions";
+import { translateBudgetOptions } from "@/constants/BudgetOptions";
 import { ValutaOptions } from "@/constants/ValutaOptions";
 import { useSchemas } from "@/hooks/useSchemas";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Category } from "@prisma/client";
+import { Category, CurrencyType } from "@prisma/client";
 
 import { Combobox } from "../ComboBox";
 import CustomButton from "../CustomButton";
@@ -23,12 +20,13 @@ import NumberController from "../NumberController";
 import { useLocale, useTranslations } from "next-intl";
 import { LocaleOptionsType } from "@/constants/locales";
 
-interface ICategory {
+interface IBudget {
   name: string;
   price: number;
   category: string;
   date: Date;
   type: string;
+  currencyType: any;
 }
 
 interface IAddBudgetModal {
@@ -66,7 +64,7 @@ const AddBudgetModal = ({
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICategory>({
+  } = useForm<IBudget>({
     resolver: yupResolver(budgetSchema),
     reValidateMode: "onChange",
     mode: "onChange",
@@ -74,7 +72,7 @@ const AddBudgetModal = ({
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<ICategory> = async (data) => {
+  const onSubmit: SubmitHandler<IBudget> = async (data) => {
     const typeConverter = () => {
       let type = data.type;
       if (type === "bevétel" || type === "income") {
@@ -98,7 +96,11 @@ const AddBudgetModal = ({
       router.refresh();
       toggleState(false);
     } catch (error: any) {
-      toast.error(t("add_budget.toast_messages.add_error"));
+      if (error.response.data.type === "currencyMismatch") {
+        toast.error(t("add_budget.toast_messages.currency_mismatch"));
+      } else {
+        toast.error(t("add_budget.toast_messages.add_error"));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -120,6 +122,12 @@ const AddBudgetModal = ({
   const handleSelectType = (data: string) => {
     setValue("type", data);
   };
+
+  const handleSetValuta = (value: CurrencyType) => {
+    setValue("currencyType", value.toUpperCase());
+  };
+
+  console.log(errors);
 
   return (
     <div className="flex justify-center items-center h-full w-full absolute z-[200]">
@@ -151,6 +159,7 @@ const AddBudgetModal = ({
             placeholder={"40000"}
             value={""}
             valuta
+            setValuta={handleSetValuta}
             valutaOptions={ValutaOptions}
             extraStyle="border-r-0 rounded-tr-none rounded-br-none w-full"
             extraContainerStyle="max-w-full"

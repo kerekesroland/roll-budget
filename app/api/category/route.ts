@@ -11,6 +11,7 @@ export async function POST(req: Request) {
         name: body.name,
         limit: body.limit,
         icon: body.icon,
+        currencyType: body.currencyType,
         user: {
           connect: { id: body.userId },
         },
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
       },
       {
         status: 400,
-      },
+      }
     );
   }
 }

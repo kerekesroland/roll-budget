@@ -15,12 +15,14 @@ import IconSelector from "../IconSelector";
 import InputController from "../InputController";
 import NumberController from "../NumberController";
 import { useTranslations } from "next-intl";
+import { CurrencyType } from "@prisma/client";
 
 interface ICategory {
   id: string;
   name: string;
   limit: number;
   icon: string;
+  currencyType: any;
 }
 
 interface ICategoryWithoutId extends Omit<ICategory, "id"> {}
@@ -57,6 +59,10 @@ const EditCategoryModal = ({
   });
 
   const router = useRouter();
+
+  const handleSetValuta = (value: CurrencyType) => {
+    setValue("currencyType", value.toUpperCase());
+  };
 
   const onSubmit: SubmitHandler<ICategoryWithoutId> = async (data) => {
     try {
@@ -115,6 +121,8 @@ const EditCategoryModal = ({
             placeholder={"2500"}
             value={""}
             valuta
+            defaultValutaValue={category?.currencyType}
+            setValuta={handleSetValuta}
             valutaOptions={ValutaOptions}
             extraStyle="border-r-0 rounded-tr-none rounded-br-none"
             extraContainerStyle="max-w-full"

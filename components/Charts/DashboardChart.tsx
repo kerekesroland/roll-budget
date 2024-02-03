@@ -4,13 +4,20 @@ import { Line } from "react-chartjs-2";
 
 import { IBudget } from "@/models/Budget";
 import { useTranslations } from "use-intl";
+import { CurrencyType } from "@prisma/client";
 
 interface IDashboardChartProps {
   data: Array<IBudget>;
+  currencyType: CurrencyType;
+  usdValue: string;
 }
 Chart.register(...registerables);
 
-const DashboardChart = ({ data }: IDashboardChartProps) => {
+const DashboardChart = ({
+  data,
+  currencyType,
+  usdValue,
+}: IDashboardChartProps) => {
   const t = useTranslations("dashboard");
   const options = {
     responsive: true,
@@ -30,6 +37,7 @@ const DashboardChart = ({ data }: IDashboardChartProps) => {
       date: new Date(entry.date),
       type: entry.type,
       price: entry.price,
+      currencyType: entry.currencyType, // Assuming the data contains currencyType
     }));
 
     const monthlyTotals: any = {};
@@ -47,17 +55,47 @@ const DashboardChart = ({ data }: IDashboardChartProps) => {
         };
       }
 
-      if (entry.type === "income") {
+      // Check if the currency types match
+      const isSameCurrency = entry.currencyType === currencyType;
+
+      // If currency types match, add the price directly to the corresponding accumulator
+      if (entry.type === "income" && isSameCurrency) {
         monthlyTotals[monthYear].income += entry.price;
-      } else if (entry.type === "expense") {
+      } else if (entry.type === "expense" && isSameCurrency) {
         monthlyTotals[monthYear].expense += entry.price;
+      } else if (currencyType === "HUF" && entry.currencyType === "USD") {
+        // Assuming a fixed exchange rate for USD to HUF
+        const exchangeRateUSDtoHUF = Number(usdValue); // Update with your actual exchange rate
+        const convertedPrice = entry.price * exchangeRateUSDtoHUF;
+
+        // Avoid negative or infinite values
+        if (isFinite(convertedPrice)) {
+          monthlyTotals[monthYear].income +=
+            entry.type === "income" ? convertedPrice : 0;
+          monthlyTotals[monthYear].expense +=
+            entry.type === "expense" ? convertedPrice : 0;
+        }
+      } else if (currencyType === "USD" && entry.currencyType === "HUF") {
+        // Assuming a fixed exchange rate for HUF to USD
+        const exchangeRateHUFtoUSD = 1 / Number(usdValue); // Update with your actual exchange rate
+        const convertedPrice = entry.price * exchangeRateHUFtoUSD;
+
+        // Avoid negative or infinite values
+        if (isFinite(convertedPrice)) {
+          monthlyTotals[monthYear].income +=
+            entry.type === "income" ? convertedPrice : 0;
+          monthlyTotals[monthYear].expense +=
+            entry.type === "expense" ? convertedPrice : 0;
+        }
       }
     });
+
     const labels = Object.keys(monthlyTotals).sort((a, b) => {
       const dateA = new Date(a);
       const dateB = new Date(b);
       return dateA.getTime() - dateB.getTime();
     });
+
     const incomeData = labels.map((label) => monthlyTotals[label].income);
     const expenseData = labels.map((label) => monthlyTotals[label].expense);
 
@@ -66,7 +104,7 @@ const DashboardChart = ({ data }: IDashboardChartProps) => {
       expenseData,
       labels,
     };
-  }, [data]);
+  }, [data, usdValue, currencyType]);
 
   const { labels, incomeData, expenseData } = receivedData;
 

@@ -15,11 +15,13 @@ import IconSelector from "../IconSelector";
 import InputController from "../InputController";
 import NumberController from "../NumberController";
 import { useTranslations } from "next-intl";
+import { CurrencyType } from "@prisma/client";
 
 interface ICategory {
   name: string;
   limit: number;
   icon: string;
+  currencyType: any;
 }
 
 interface IAddCategoryModal {
@@ -46,6 +48,10 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
     reValidateMode: "onChange",
     mode: "onChange",
   });
+
+  const handleSetValuta = (value: CurrencyType) => {
+    setValue("currencyType", value.toUpperCase());
+  };
 
   const router = useRouter();
 
@@ -94,6 +100,7 @@ const AddCategoryModal = ({ userId, toggleState }: IAddCategoryModal) => {
             placeholder={"2500"}
             value={""}
             valuta
+            setValuta={handleSetValuta}
             valutaOptions={ValutaOptions}
             extraStyle="border-r-0 rounded-tr-none rounded-br-none max-w-full"
             extraContainerStyle="max-w-full"

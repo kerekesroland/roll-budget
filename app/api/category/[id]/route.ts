@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   try {
     // Check if the category has budgets associated
@@ -22,7 +22,7 @@ export async function DELETE(
         },
         {
           status: 400,
-        },
+        }
       );
     }
 
@@ -49,14 +49,14 @@ export async function DELETE(
       },
       {
         status: 400,
-      },
+      }
     );
   }
 }
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   const body = await req.json();
   try {
@@ -68,6 +68,7 @@ export async function PUT(
         name: body.name,
         icon: body.icon,
         limit: body.limit,
+        currencyType: body.currencyType,
       },
     });
 
@@ -83,7 +84,7 @@ export async function PUT(
       },
       {
         status: 400,
-      },
+      }
     );
   }
 }

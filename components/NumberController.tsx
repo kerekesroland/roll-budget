@@ -3,6 +3,8 @@ import { IInputController } from "@/models/Inputs";
 
 import { Combobox } from "./ComboBox";
 import ErrorInputMessage from "./ErrorInputMessage";
+import { useCallback } from "react";
+import { CurrencyType } from "@prisma/client";
 
 const NumberController = ({
   label,
@@ -14,7 +16,18 @@ const NumberController = ({
   extraContainerStyle,
   valuta,
   valutaOptions,
+  setValuta,
+  defaultValutaValue,
 }: IInputController) => {
+  const handleSetValuta = useCallback(
+    (valuta: CurrencyType) => {
+      if (setValuta) {
+        setValuta(valuta);
+      }
+    },
+    [setValuta]
+  );
+
   return (
     <div
       className={`flex flex-col w-full max-w-[350px] py-4 ${extraContainerStyle}`}
@@ -32,8 +45,10 @@ const NumberController = ({
         />
         {valuta && (
           <Combobox
-            title="HUF"
+            title={defaultValutaValue ?? "HUF"}
             options={valutaOptions}
+            defaultValue={defaultValutaValue}
+            callback={handleSetValuta}
             extraStyle="h-full border-[#1C293A] border-2 border-l-2 hover:bg-[#1C293A] hover:text-white rounded-tl-none rounded-bl-none"
           />
         )}

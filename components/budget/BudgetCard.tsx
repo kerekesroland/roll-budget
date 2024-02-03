@@ -16,6 +16,7 @@ type Props = {
   date: string;
   categoryId: string | null;
   type: string;
+  currencyType: any;
   user: IUser | null;
   getBudgetCategory: (categoryId: string) => any;
   handleDeleteBudget: (id: string) => Promise<void>;
@@ -34,6 +35,7 @@ const BudgetCard = ({
   date,
   categoryId,
   type,
+  currencyType,
   getBudgetCategory,
   handleDeleteBudget,
   user,
@@ -49,8 +51,6 @@ const BudgetCard = ({
 
   const [isBudgetEditModalOpen, setIsBudgetEditModalOpen] =
     useState<boolean>(false);
-
-  //todo Change HUF to dynamic valuta
 
   if (category == undefined) {
     return (
@@ -85,7 +85,7 @@ const BudgetCard = ({
           className={`flex items-center gap-4 text-xl font-medium text-${priceColor}`}
         >
           {type === "expense" ? "-" : "+"}
-          {price} HUF
+          {price} {currencyType}
         </div>
       </div>
       <AnimatePresence>
@@ -123,6 +123,7 @@ const BudgetCard = ({
                   type,
                   getBudgetCategory,
                   handleDeleteBudget,
+                  currencyType,
                 }}
                 handleDeleteBudget={handleDeleteBudget}
               />

@@ -4,28 +4,33 @@ import { useCallback, useState } from "react";
 
 import { keyToImage } from "@/lib/utils";
 import { ICategory } from "@/models/Category";
+import { CurrencyType } from "@prisma/client";
 
 type Props = {
   name: string;
   price: number;
+  currencyType: CurrencyType;
   categoryId: string | null;
   categories: Array<ICategory>;
 };
 
-type TValuta = "HUF" | "USD";
-
-const DashboardItemCard = ({ name, price, categories, categoryId }: Props) => {
+const DashboardItemCard = ({
+  name,
+  price,
+  currencyType,
+  categories,
+  categoryId,
+}: Props) => {
   const getBudgetCategory = useCallback(
     (categoryId: string) => {
       return categories?.find((category) => category.id === categoryId);
     },
-    [categories],
+    [categories]
   );
 
   const category =
     categoryId && (getBudgetCategory(categoryId)?.icon as string);
 
-  const [valuta, setValuta] = useState<TValuta>("HUF");
   return (
     <div className="h-[161px] min-w-full s:h-[251px] s:min-w-[290px] md:h-[161px] md:min-w-[180px] xl:h-[171px] xl:min-w-[200px] bg-textPrimary rounded-[15px] relative">
       <Image
@@ -37,7 +42,7 @@ const DashboardItemCard = ({ name, price, categories, categoryId }: Props) => {
       />
       <div className="flex flex-col h-full px-4 py-8 justify-end items-start">
         <span className="text-[#1C293A] font-medium text-2xl">
-          {price} {valuta}
+          {price} {currencyType}
         </span>
         <h4 className="mt-2 text-[#1C293A]/70 font-medium text-sm">{name}</h4>
       </div>

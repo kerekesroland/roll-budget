@@ -46,20 +46,9 @@ const DashboardContent = ({
 }: IProps) => {
   const t = useTranslations("dashboard");
   const containerRef = useRef<HTMLDivElement>(null);
+  const { value: usdValue } = useCurrencyConverter("USD", "HUF");
 
-  const totalIncome =
-    useMemo(
-      () => allIncome?.reduce((acc, curr) => (acc += curr?.price), 0),
-      [allIncome]
-    ) ?? 0;
-  const totalExpense =
-    useMemo(
-      () =>
-        budgets
-          ?.filter((el) => el?.type !== "income")
-          ?.reduce((acc, curr) => (acc += curr?.price), 0),
-      [budgets]
-    ) ?? 0;
+  const [currencyType, setCurrencyType] = useState<ICurrency["type"]>("HUF");
 
   const topBudgets = budgets
     ?.filter(
@@ -71,33 +60,158 @@ const DashboardContent = ({
     ?.sort((a, b) => b.price - a.price)
     .slice(0, 4);
 
+  const totalIncome: number = useMemo(() => {
+    if (!allIncome || allIncome.length === 0) {
+      return 0;
+    }
+
+    return allIncome.reduce((acc, curr) => {
+      // Check if the currency types match
+      const isSameCurrency = curr?.currencyType === currencyType;
+
+      // If currency types match, add the price directly to the accumulator
+      if (isSameCurrency) {
+        return acc + curr.price;
+      }
+
+      // If the user's selected currency is HUF and the item's currency type is USD
+      if (currencyType === "HUF" && curr?.currencyType === "USD") {
+        // Assuming a fixed exchange rate for USD to HUF
+        const exchangeRateUSDtoHUF = Number(usdValue); // Update with your actual exchange rate
+        return acc + curr.price * exchangeRateUSDtoHUF;
+      }
+
+      // If the user's selected currency is USD and the item's currency type is HUF
+      if (currencyType === "USD" && curr?.currencyType === "HUF") {
+        // Assuming a fixed exchange rate for HUF to USD
+        const exchangeRateHUFtoUSD = 1 / Number(usdValue); // Update with your actual exchange rate
+        return acc + curr.price * exchangeRateHUFtoUSD;
+      }
+
+      // Default case, add the price directly to the accumulator
+      return acc + curr.price;
+    }, 0);
+  }, [allIncome, currencyType, usdValue]);
+
+  const totalExpense: number = useMemo(() => {
+    if (!budgets || budgets.length === 0) {
+      return 0;
+    }
+
+    return budgets.reduce((acc, curr) => {
+      // Check if the budget type is not "income"
+      if (curr?.type !== "income") {
+        // Check if the currency type is HUF
+        if (currencyType === "HUF" && curr?.currencyType === "USD") {
+          // Assuming a fixed exchange rate for HUF to USD
+          const exchangeRateHUFtoUSD = Number(usdValue); // Update with your actual exchange rate
+          const convertedPrice = curr.price * exchangeRateHUFtoUSD;
+
+          // Avoid negative or infinite values
+          return isFinite(convertedPrice) ? acc + convertedPrice : acc;
+        }
+
+        // If the currency type is USD, add the price directly to the accumulator
+        if (currencyType === "USD" && curr?.currencyType === "HUF") {
+          // Assuming a fixed exchange rate for HUF to USD
+          const exchangeRateHUFtoUSD = 1 / Number(usdValue); // Update with your actual exchange rate
+          return acc + curr.price * exchangeRateHUFtoUSD;
+        }
+
+        // If the currency types match or no conversion needed, add the price directly to the accumulator
+        return acc + curr.price;
+      }
+
+      // For "income" type budgets, add nothing to the accumulator
+      return acc;
+    }, 0);
+  }, [budgets, usdValue, currencyType]);
+
   const totalBalance = totalIncome - totalExpense;
 
-  const totalMonthlyIncome =
-    useMemo(() => {
-      const date = new Date();
+  console.log(totalIncome, totalExpense);
 
-      return budgets
-        ?.filter(
-          (budget) =>
-            new Date(budget.date).getMonth() === date.getMonth() &&
-            budget?.type === "income"
-        )
-        .reduce((acc, curr) => (acc += curr?.price), 0);
-    }, [budgets]) ?? 0;
+  const totalMonthlyIncome: number = useMemo(() => {
+    if (!budgets || budgets.length === 0) {
+      return 0;
+    }
 
-  const totalMonthlyExpense =
-    useMemo(() => {
-      const date = new Date();
+    return budgets.reduce((acc, curr) => {
+      const budgetMonth = new Date(curr?.date).getMonth();
+      const currentMonth = new Date().getMonth();
 
-      return budgets
-        ?.filter(
-          (budget) =>
-            new Date(budget.date).getMonth() === date.getMonth() &&
-            budget?.type === "expense"
-        )
-        .reduce((acc, curr) => (acc += curr?.price), 0);
-    }, [budgets]) ?? 0;
+      // Check if the budget is for the current month and has type "income"
+      if (budgetMonth === currentMonth && curr?.type === "income") {
+        // Check if the currency types match
+        const isSameCurrency = curr?.currencyType === currencyType;
+
+        // If currency types match, add the price directly to the accumulator
+        if (isSameCurrency) {
+          return acc + curr.price;
+        }
+
+        // If the user's selected currency is HUF and the item's currency type is USD
+        if (currencyType === "HUF" && curr?.currencyType === "USD") {
+          // Assuming a fixed exchange rate for USD to HUF
+          const exchangeRateUSDtoHUF = Number(usdValue); // Update with your actual exchange rate
+          const convertedPrice = curr.price * exchangeRateUSDtoHUF;
+
+          // Avoid negative or infinite values
+          return isFinite(convertedPrice) ? acc + convertedPrice : acc;
+        }
+
+        // If the user's selected currency is USD and the item's currency type is HUF
+        if (currencyType === "USD" && curr?.currencyType === "HUF") {
+          // Assuming a fixed exchange rate for HUF to USD
+          const exchangeRateHUFtoUSD = 1 / Number(usdValue); // Update with your actual exchange rate
+          return acc + curr.price * exchangeRateHUFtoUSD;
+        }
+
+        // Default case, add the price directly to the accumulator
+        return acc + curr.price;
+      }
+
+      // For non-current month or non-"income" type budgets, add nothing to the accumulator
+      return acc;
+    }, 0);
+  }, [budgets, usdValue, currencyType]);
+
+  const totalMonthlyExpense: number = useMemo(() => {
+    if (!budgets || budgets.length === 0) {
+      return 0;
+    }
+
+    return budgets.reduce((acc, curr) => {
+      const budgetMonth = new Date(curr?.date).getMonth();
+      const currentMonth = new Date().getMonth();
+
+      // Check if the budget is for the current month and has type "expense"
+      if (budgetMonth === currentMonth && curr?.type === "expense") {
+        // Check if the currency type is HUF
+        if (currencyType === "HUF" && curr?.currencyType === "USD") {
+          // Assuming a fixed exchange rate for USD to HUF
+          const exchangeRateUSDtoHUF = Number(usdValue); // Update with your actual exchange rate
+          const convertedPrice = curr.price * exchangeRateUSDtoHUF;
+
+          // Avoid negative or infinite values
+          return isFinite(convertedPrice) ? acc + convertedPrice : acc;
+        }
+
+        // If the currency type is USD, add the price directly to the accumulator
+        if (currencyType === "USD" && curr?.currencyType === "HUF") {
+          // Assuming a fixed exchange rate for HUF to USD
+          const exchangeRateHUFtoUSD = 1 / Number(usdValue); // Update with your actual exchange rate
+          return acc + curr.price * exchangeRateHUFtoUSD;
+        }
+
+        // If the currency types match or no conversion needed, add the price directly to the accumulator
+        return acc + curr.price;
+      }
+
+      // For non-current month or non-"expense" type budgets, add nothing to the accumulator
+      return acc;
+    }, 0);
+  }, [budgets, usdValue, currencyType]);
 
   const isPositiveMonth =
     totalMonthlyIncome - totalMonthlyExpense > 0 ? true : false;
@@ -112,22 +226,29 @@ const DashboardContent = ({
   const FINANCES = [
     {
       name: t("financial_info.total_income"),
-      amount: totalMonthlyIncome,
+      amount:
+        currencyType === "HUF"
+          ? totalMonthlyIncome.toFixed(0)
+          : totalMonthlyIncome.toFixed(2),
       color: "text-green-500",
     },
     {
       name: t("financial_info.total_expense"),
-      amount: totalMonthlyExpense,
+      amount:
+        currencyType === "HUF"
+          ? totalMonthlyExpense.toFixed(0)
+          : totalMonthlyExpense.toFixed(2),
       color: "text-red-500",
     },
     {
       name: t("financial_info.balance"),
-      amount: totalMonthlyIncome - totalMonthlyExpense,
+      amount:
+        currencyType === "HUF"
+          ? (totalMonthlyIncome - totalMonthlyExpense).toFixed(0)
+          : (totalMonthlyIncome - totalMonthlyExpense).toFixed(2),
       color: isPositiveMonth ? "text-green-500" : "text-red-500",
     },
   ];
-
-  const { value: usdValue } = useCurrencyConverter("USD", "HUF");
 
   const [currency, setCurrency] = useState<ICurrency>({
     type: "HUF",
@@ -135,18 +256,20 @@ const DashboardContent = ({
   });
 
   const toggleCurrencies = useCallback(() => {
-    currency.type === "HUF"
-      ? setCurrency((prevCurrency) => ({
-          ...prevCurrency,
-          type: "USD",
-          value: totalBalance / Number(usdValue),
-        }))
-      : setCurrency((prevCurrency) => ({
-          ...prevCurrency,
-          type: "HUF",
-          value: totalBalance,
-        }));
-  }, [currency, totalBalance, usdValue]);
+    if (currency.type === "HUF") {
+      setCurrency((prevCurrency) => ({
+        ...prevCurrency,
+        type: "USD",
+      }));
+      setCurrencyType("USD");
+    } else {
+      setCurrency((prevCurrency) => ({
+        ...prevCurrency,
+        type: "HUF",
+      }));
+      setCurrencyType("HUF");
+    }
+  }, [currency]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -221,7 +344,7 @@ const DashboardContent = ({
                 </Reveal>
                 <Reveal delay={1}>
                   <span className="text-3xl font-semibold">{`${formatePrice(
-                    currency?.value ?? 0
+                    totalBalance ?? 0
                   )} ${currency?.type}`}</span>
                 </Reveal>
                 <Reveal delay={1.2}>
@@ -264,7 +387,11 @@ const DashboardContent = ({
             ))}
           </section>
           <section className="flex w-full mt-8">
-            <DashboardChart data={budgets ?? []} />
+            <DashboardChart
+              data={budgets ?? []}
+              currencyType={currencyType}
+              usdValue={usdValue}
+            />
           </section>
         </div>
         <motion.section
@@ -310,7 +437,7 @@ const DashboardContent = ({
                   <span
                     className={`text-xl text-right font-medium ${fn.color}`}
                   >
-                    {fn.amount} HUF
+                    {fn.amount} {currencyType}
                   </span>
                 </div>
               ))}

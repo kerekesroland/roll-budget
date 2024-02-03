@@ -64,7 +64,8 @@
       "btn_loading": "Létrehozás...",
       "toast_messages": {
         "add_success": "Költség sikeresen létrehozva",
-        "add_error": "Hiba költség létrehozás közben"
+        "add_error": "Hiba költség létrehozás közben",
+        "currency_mismatch": "Hiba történt a költségkeret létrehozásakor, a költségvetés pénznemének követnie kell a kategória pénznemét!"
       }
     },
     "edit_budget": {
@@ -84,7 +85,8 @@
         "edit_success": "Költség sikeresen szerkesztve",
         "edit_error": "Hiba a költség szerkesztése közben",
         "delete_success": "Költség sikeresen törölve",
-        "delete_error": "Hiba költség törlés közben"
+        "delete_error": "Hiba költség törlés közben",
+        "currency_mismatch": "Hiba történt a költségkeret szerkesztésekor, a költségvetés pénznemének követnie kell a kategória pénznemét!"
       }
     }
   },

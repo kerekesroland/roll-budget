@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum CurrencyType {
+  USD
+  HUF
+}
+
 model User {
   id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email             String        @unique
@@ -38,6 +43,7 @@ model Category {
   limit           Int
   current         Int          @default(0)
   currentPerMonth Int          @default(0)
+  currencyType    CurrencyType
   icon            String
   userId          String       @db.Uuid
   user            User         @relation(fields: [userId], references: [id])
@@ -50,7 +56,8 @@ model Budget {
   id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String
   price         Int
-  type          String       
+  type          String    
+  currencyType  CurrencyType 
   date          DateTime     @default(now())
   userId        String       @db.Uuid
   user          User         @relation(fields: [userId], references: [id])

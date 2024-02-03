@@ -1,3 +1,5 @@
+import { CurrencyType } from "@prisma/client";
+
 export interface IInputController {
   label?: string;
   type?: "text" | "number" | "password";
@@ -9,6 +11,8 @@ export interface IInputController {
   value: string | number;
   extraStyle?: string;
   valuta?: boolean;
+  setValuta?: (value: CurrencyType) => void;
+  defaultValutaValue?: CurrencyType;
   valutaOptions?: Array<Option>;
   extraContainerStyle?: string;
 }

@@ -1,3 +1,4 @@
+import { CurrencyType } from "@prisma/client";
 import * as yup from "yup";
 
 /**
@@ -26,6 +27,7 @@ export const useSchemas = () => {
     budgetCategoryRequiredError: "Budget must have a category",
     budgetDateRequiredError: "Budget must have a Date",
     budgetTypeRequiredError: "Budget must have a Type",
+    budgetCurrencyTypeRequiredError: "Budget must have a Currency Type",
   };
 
   const registerSchema = yup.object({
@@ -111,6 +113,13 @@ export const useSchemas = () => {
       .typeError("You have to provide a number")
       .required(errors.categoryPriceRequiredError),
     icon: yup.string().required(errors.categoryIconRequiredError),
+    currencyType: yup
+      .mixed()
+      .oneOf(
+        [CurrencyType.HUF, CurrencyType.USD],
+        errors.budgetCurrencyTypeRequiredError
+      )
+      .required(errors.budgetCurrencyTypeRequiredError),
   });
 
   const budgetSchema = yup.object({
@@ -122,6 +131,13 @@ export const useSchemas = () => {
     category: yup.string().required(errors.budgetCategoryRequiredError),
     date: yup.date().required(errors.budgetDateRequiredError),
     type: yup.string().required(errors.budgetTypeRequiredError),
+    currencyType: yup
+      .mixed()
+      .oneOf(
+        [CurrencyType.HUF, CurrencyType.USD],
+        errors.budgetCurrencyTypeRequiredError
+      )
+      .required(errors.budgetCurrencyTypeRequiredError),
   });
 
   const reminderSchema = yup.object({
@@ -151,6 +167,13 @@ export const useSchemas = () => {
     }),
     date: yup.date().required(errors.budgetDateRequiredError),
     type: yup.string().required(errors.budgetTypeRequiredError),
+    currencyType: yup
+      .mixed()
+      .oneOf(
+        [CurrencyType.HUF, CurrencyType.USD],
+        errors.budgetCurrencyTypeRequiredError
+      )
+      .required(errors.budgetCurrencyTypeRequiredError),
   });
 
   return {

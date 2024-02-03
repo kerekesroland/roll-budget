@@ -12,11 +12,10 @@ type Props = {
   name: string;
   icon: string;
   limit: number;
+  currencyType: any;
 };
 
-//todo Add Valuta to the Limit type and every field that has a price, for now I'm leaving it at HUF only
-
-const CategoryCard = ({ id, name, icon, limit }: Props) => {
+const CategoryCard = ({ id, name, icon, limit, currencyType }: Props) => {
   const [isCategoryEditModalOpen, setIsCategoryEditModalOpen] =
     useState<boolean>(false);
 
@@ -32,7 +31,7 @@ const CategoryCard = ({ id, name, icon, limit }: Props) => {
             {name.length > 10 ? name.substring(0, 10).concat("...") : name}
           </h3>
           <span className="text-xl font-medium text-[#79889D]">
-            {limit} HUF
+            {limit} {currencyType}
           </span>
         </div>
       </div>
@@ -60,7 +59,7 @@ const CategoryCard = ({ id, name, icon, limit }: Props) => {
               className="fixed inset-0 flex items-center justify-center z-[100]"
             >
               <EditCategoryModal
-                category={{ id, name, icon, limit }}
+                category={{ id, name, icon, limit, currencyType }}
                 toggleState={() => setIsCategoryEditModalOpen(false)}
                 userId=""
               />

@@ -6,12 +6,30 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   try {
+    // Fetch the category
+    const category = await prisma.category.findUnique({
+      where: { id: body.category },
+    });
+
+    if (category?.currencyType !== body.currencyType) {
+      return NextResponse.json(
+        {
+          message: `Invalid currencyType for the category. Expected ${category?.currencyType}, got ${body.currencyType}`,
+          type: "currencyMismatch",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
     // Create the budget entry
     const createdBudget = await prisma.budget.create({
       data: {
         name: body.name,
         price: body.price,
         type: body.type,
+        currencyType: body.currencyType,
         date: body.date,
         createdAt: body.createdAt,
         updatedAt: body.updatedAt,
@@ -22,11 +40,6 @@ export async function POST(req: Request) {
           connect: { id: body.userId },
         },
       },
-    });
-
-    // Fetch the category
-    const category = await prisma.category.findUnique({
-      where: { id: body.category },
     });
 
     const budgetMonth = createdBudget.date.getMonth() + 1;

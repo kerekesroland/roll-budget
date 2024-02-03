@@ -20,6 +20,7 @@ import InputController from "../InputController";
 import NumberController from "../NumberController";
 import { useLocale, useTranslations } from "next-intl";
 import { LocaleOptionsType } from "@/constants/locales";
+import { CurrencyType } from "@prisma/client";
 
 type Budget = {
   id: string;
@@ -28,6 +29,7 @@ type Budget = {
   date: Date;
   category: ICategory;
   type: string;
+  currencyType: any;
   getBudgetCategory: (categoryId: string) => any;
   handleDeleteBudget: (id: string) => Promise<void>;
 };
@@ -38,6 +40,7 @@ interface IBudget {
   category: ICategory;
   date: Date;
   type: string;
+  currencyType: any;
 }
 
 interface ICategory {
@@ -98,8 +101,6 @@ const EditBudgetModal = ({
 
   const router = useRouter();
 
-  console.log(budget);
-
   const onSubmit: SubmitHandler<IBudget> = async (data) => {
     const typeConverter = () => {
       let type = data.type;
@@ -123,7 +124,11 @@ const EditBudgetModal = ({
       router.refresh();
       closeModal();
     } catch (error: any) {
-      toast.error(t("toast_messages.edit_error"));
+      if (error.response.data.type === "currencyMismatch") {
+        toast.error(t("toast_messages.currency_mismatch"));
+      } else {
+        toast.error(t("toast_messages.edit_error"));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -152,6 +157,10 @@ const EditBudgetModal = ({
     setIsLoading(true);
     await handleDeleteBudget(budget.id);
     setIsLoading(false);
+  };
+
+  const handleSetValuta = (value: CurrencyType) => {
+    setValue("currencyType", value.toUpperCase());
   };
 
   return (
@@ -184,6 +193,8 @@ const EditBudgetModal = ({
             placeholder={"40000"}
             value={""}
             valuta
+            setValuta={handleSetValuta}
+            defaultValutaValue={budget.currencyType}
             valutaOptions={ValutaOptions}
             extraStyle="border-r-0 rounded-tr-none rounded-br-none max-w-full"
             extraContainerStyle="max-w-full"

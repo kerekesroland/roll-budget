@@ -65,7 +65,8 @@
       "btn_loading": "Creating...",
       "toast_messages": {
         "add_success": "Budget created successfully",
-        "add_error": "Error creating budget"
+        "add_error": "Error creating budget",
+        "currency_mismatch": "Error while creating budget, a budget's currency should follow it's category's currency!"
       }
     },
     "edit_budget": {
@@ -85,7 +86,8 @@
         "edit_success": "Budget edited successfully",
         "edit_error": "Error editing budget",
         "delete_success": "Budget deleted successfully",
-        "delete_error": "Error deleting budget"
+        "delete_error": "Error deleting budget",
+        "currency_mismatch": "Error while editing budget, a budget's currency should follow it's category's currency!"
       }
     }
   },

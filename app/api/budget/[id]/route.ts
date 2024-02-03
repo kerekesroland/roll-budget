@@ -74,6 +74,33 @@ export async function PUT(
         }
       );
     }
+    // Fetch the category from the database
+    const category = await prisma.category.findUnique({
+      where: { id: body.category },
+    });
+
+    if (!category) {
+      return NextResponse.json(
+        {
+          message: "Category not found",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    if (category?.currencyType !== body.currencyType) {
+      return NextResponse.json(
+        {
+          message: `Invalid currencyType for the category. Expected ${category?.currencyType}, got ${body.currencyType}`,
+          type: "currencyMismatch",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
     // Calculate the difference in price (new - old)
     const priceDifference = body.price - existingBudget.price;
@@ -91,24 +118,9 @@ export async function PUT(
         type: body.type,
         createdAt: body.createdAt,
         updatedAt: body.updatedAt,
+        currencyType: body.currencyType,
       },
     });
-
-    // Fetch the category from the database
-    const category = await prisma.category.findUnique({
-      where: { id: body.category },
-    });
-
-    if (!category) {
-      return NextResponse.json(
-        {
-          message: "Category not found",
-        },
-        {
-          status: 404,
-        }
-      );
-    }
 
     const sumOfMonthlyBudgets = await calculateCurrentPerMonth(category.id);
 
