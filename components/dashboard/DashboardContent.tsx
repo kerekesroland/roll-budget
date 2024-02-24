@@ -129,8 +129,6 @@ const DashboardContent = ({
 
   const totalBalance = totalIncome - totalExpense;
 
-  console.log(totalIncome, totalExpense);
-
   const totalMonthlyIncome: number = useMemo(() => {
     if (!budgets || budgets.length === 0) {
       return 0;

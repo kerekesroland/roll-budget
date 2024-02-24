@@ -35,8 +35,6 @@ export async function POST(req: Request) {
       reminder: createdReminder,
     });
 
-    console.log("scheduled reminder for", createdReminder.id);
-
     return NextResponse.json({
       status: 200,
       message: `Successfully created reminder ${createdReminder.title}`,

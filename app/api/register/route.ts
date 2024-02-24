@@ -6,7 +6,6 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  // console.log(body);
   if (!body) {
     return NextResponse.json(
       {
@@ -14,7 +13,7 @@ export async function POST(req: Request) {
       },
       {
         status: 400,
-      },
+      }
     );
   }
 
@@ -43,7 +42,7 @@ export async function POST(req: Request) {
       },
       {
         status: 400,
-      },
+      }
     );
   }
 }
