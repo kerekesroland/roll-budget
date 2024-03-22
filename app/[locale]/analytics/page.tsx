@@ -12,7 +12,7 @@ const Analytics = async () => {
   ]);
 
   return (
-    <div className="h-screen flex flex-col 3xl:flex-row items-start gap-12 overflow-y-auto 3xl:overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)] mt-8 s:mt-0">
+    <div className="h-screen flex flex-col 3xl:flex-row items-start gap-12 overflow-y-auto p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)] mt-8 s:mt-0">
       <AnalyticsContent
         budgets={budgets}
         allExceededCategories={allExceededCategories}
