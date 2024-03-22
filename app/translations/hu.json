@@ -42,6 +42,7 @@
   },
   "budgets": {
     "title": "Költségek",
+    "currency": "Valuta",
     "filters": {
       "sortBy": "Szűrés",
       "type": "Típus",
@@ -70,6 +71,7 @@
     },
     "edit_budget": {
       "title": "Költség szerkesztése",
+      "currency": "Valuta",
       "subTitle": "Töltsd ki az adatokat, hogy szerkeszthesd a költséget!",
       "name": "Név",
       "price": "Ár",
@@ -94,6 +96,7 @@
     "title": "Kategóriák",
     "add_category": {
       "title": "Kategória hozzáadása",
+      "currency": "Valuta",
       "subTitle": "Töltsd ki az adatokat, hogy hozzáadhasd a kategóriát!",
       "name": "Név",
       "limit": "Limit",
@@ -108,6 +111,7 @@
     },
     "edit_category": {
       "title": "Kategória szerkesztése",
+      "currency": "Valuta",
       "subTitle": "Töltsd ki az adatokat, hogy szerkeszthesd a kategóriát!",
       "name": "Név",
       "limit": "Limit",
@@ -191,5 +195,16 @@
         "already_accepted": "Már elfogadott meghívók nem törölhetők!"
       }
     }
+  },
+  "analytics": {
+    "title": "Analitika",
+    "currency": "Valuta",
+    "income_expense": "Bevétel / Kiadás",
+    "budget_vs_limit": "Költségkeret vs Havi Kiadások",
+    "biggest_expenses": "Legnagyobb Kiadások",
+    "biggest_categories": "A hónap legdrágább kategóriái",
+    "budget_limit": "Költségkeret",
+    "current_expenses": "Havi kiadások",
+    "monthly": "Havi adatok"
   }
 }

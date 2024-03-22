@@ -1,3 +1,4 @@
+"use client";
 import { Chart, registerables } from "chart.js";
 import React, { useMemo } from "react";
 import { Line } from "react-chartjs-2";

@@ -2,6 +2,7 @@ import { CurrencyType } from "@prisma/client";
 
 export interface IInputController {
   label?: string;
+  valutaLabel?: string;
   type?: "text" | "number" | "password";
   isTouched: boolean;
   error: string;

@@ -26,6 +26,7 @@ interface IComboBox {
   callback?: Function;
   defaultValue?: string;
   filterKey?: string;
+  searchable?: boolean;
 }
 type Option = {
   value: string | number;
@@ -39,6 +40,7 @@ export function Combobox({
   callback,
   defaultValue,
   filterKey,
+  searchable = true,
 }: IComboBox) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue || "");
@@ -72,7 +74,7 @@ export function Combobox({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search..." />
+          {searchable && <CommandInput placeholder="Search..." />}
           <CommandEmpty>No results.</CommandEmpty>
           <CommandGroup>
             {options?.map((option) => (

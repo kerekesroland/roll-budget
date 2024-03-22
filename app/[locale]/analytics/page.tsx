@@ -1,17 +1,23 @@
-import React from "react";
+import AnalyticsContent from "@/components/analytics/AnalyticsContent";
+import { getBudgets } from "@/lib/getBudgets";
+import { getExceededCategories } from "@/lib/getExceededCategories";
 
-import MobileNavbar from "@/components/MobileNavbar";
+const Analytics = async () => {
+  const allExceededCategoriesPromise = getExceededCategories();
+  const budgetsPromise = getBudgets();
 
-type Props = {};
+  const [allExceededCategories, budgets] = await Promise.all([
+    allExceededCategoriesPromise,
+    budgetsPromise,
+  ]);
 
-const Analytics = (props: Props) => {
   return (
-    <>
-      <div className="fixed top-5 right-5 z-[99999]">
-        <MobileNavbar />
-      </div>
-      <div>Analytics</div>
-    </>
+    <div className="h-screen flex flex-col 3xl:flex-row items-start gap-12 overflow-y-auto 3xl:overflow-hidden p-[1.5rem] xs:p-12 md:py-8 lg:py-12 w-full md:w-[calc(100%-300px)] mt-8 s:mt-0">
+      <AnalyticsContent
+        budgets={budgets}
+        allExceededCategories={allExceededCategories}
+      />
+    </div>
   );
 };
 

@@ -43,6 +43,7 @@
 
   "budgets": {
     "title": "Budgets",
+    "currency": "Currency",
     "filters": {
       "sortBy": "Sort by",
       "type": "Type",
@@ -71,6 +72,7 @@
     },
     "edit_budget": {
       "title": "Edit Budget",
+      "currency": "Currency",
       "subTitle": "Fill out the information to edit your budget!",
       "name": "Name",
       "price": "Price",
@@ -95,6 +97,7 @@
     "title": "Categories",
     "add_category": {
       "title": "Add Category",
+      "currency": "Currency",
       "subTitle": "Fill out the information to add a category!",
       "name": "Name",
       "limit": "Limit",
@@ -109,6 +112,7 @@
     },
     "edit_category": {
       "title": "Edit Category",
+      "currency": "Currency",
       "subTitle": "Fill out the information to edit a category!",
       "name": "Name",
       "limit": "Limit",
@@ -192,5 +196,16 @@
         "already_accepted": "Cannot delete already accepted invitations!"
       }
     }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "currency": "Currency",
+    "income_expense": "Income / Expense",
+    "budget_vs_limit": "Budget Limit vs Monthly Expenses",
+    "biggest_expenses": "Biggest spending",
+    "biggest_categories": "Top Category Expenses of the Month",
+    "budget_limit": "Budget Limit",
+    "current_expenses": "Current Expenses",
+    "monthly": "Monthly Data"
   }
 }
