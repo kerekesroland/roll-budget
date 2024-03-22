@@ -63,7 +63,7 @@ const AnalyticsContent = ({ budgets, allExceededCategories }: IProps) => {
           ]}
           callback={handleSetCurrency}
           defaultValue={currency}
-          extraStyle="lg:w-[200px]"
+          extraStyle="w-full lg:w-[200px]"
           searchable={false}
         />
       </div>
