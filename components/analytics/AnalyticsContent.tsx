@@ -67,7 +67,7 @@ const AnalyticsContent = ({ budgets, allExceededCategories }: IProps) => {
           searchable={false}
         />
       </div>
-      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-6 mt-16">
+      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-9 mt-16">
         <div>
           <h3 className="text-xl font-semibold mb-2">{t("income_expense")}</h3>
           <DashboardChart
