@@ -158,7 +158,7 @@
       "edit_btn": "Edit Reminder",
       "btn_loading": "Editing...",
       "delete_btn": "Delete Reminder",
-      "btn_delete_loading": "Törlés...",
+      "btn_delete_loading": "Deleting...",
       "toast_messages": {
         "edit_success": "Reminder edited successfully",
         "edit_error": "Error editing reminder",
