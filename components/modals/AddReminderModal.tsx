@@ -67,11 +67,11 @@ const AddReminderModal = ({ toggleState, user }: IProps) => {
         ...data,
         user,
       });
-      toast.success(t("toast_messages.add_success"));
+      toast.success(t("add_reminder.toast_messages.add_success"));
       router.refresh();
       toggleState(false);
     } catch (error: any) {
-      toast.error(t("toast_messages.add_error"));
+      toast.error(t("add_reminder.toast_messages.add_error"));
     } finally {
       setIsLoading(false);
     }
