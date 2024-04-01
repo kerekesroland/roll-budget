@@ -196,6 +196,14 @@
       }
     }
   },
+  "already_activated": {
+    "title": "Már aktiválva",
+    "subTitle": "A fiókja már aktiválva van."
+  },
+  "not_found": {
+    "title": "Nem található",
+    "subTitle": "Az aktivációs kód nem létezik."
+  },
   "analytics": {
     "title": "Analitika",
     "currency": "Valuta",

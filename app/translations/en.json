@@ -197,6 +197,14 @@
       }
     }
   },
+  "already_activated": {
+    "title": "Already Activated",
+    "subTitle": "You have already activated your account."
+  },
+  "not_found": {
+    "title": "Not Found",
+    "subTitle": "The activation link isn't correct"
+  },
   "analytics": {
     "title": "Analytics",
     "currency": "Currency",

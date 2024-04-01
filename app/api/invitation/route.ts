@@ -70,7 +70,7 @@ export async function POST(req: Request) {
 
     let sendSmtpEmail = new EmailApiSdk.SendSmtpEmail();
 
-    const activateLink = `${process.env.WEBSITE_URL}/activate-account/${token.token}`;
+    const activateLink = `${process.env.WEBSITE_URL}/${body.locale}/activate-account/${token.token}`;
 
     const emailData = emailBuilder({
       subject: "Activate your account!",

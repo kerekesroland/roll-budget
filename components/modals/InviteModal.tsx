@@ -8,12 +8,13 @@ import { toast } from "react-hot-toast";
 import CustomButton from "../CustomButton";
 import GeneralHeader from "../GeneralHeader";
 import { Input } from "../ui/input";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const InviteModal = () => {
   const t = useTranslations("invites.add_invite");
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const locale = useLocale();
   const router = useRouter();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the email state
@@ -23,7 +24,7 @@ const InviteModal = () => {
   const sendInvitation = async () => {
     try {
       setIsLoading(true);
-      await axios.post(`/api/invitation`, { email });
+      await axios.post(`/api/invitation`, { email, locale });
       toast.success(t("toast_messages.add_success"));
       setEmail("");
       router.refresh();
