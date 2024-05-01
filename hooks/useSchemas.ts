@@ -1,4 +1,5 @@
 import { CurrencyType } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import * as yup from "yup";
 
 /**
@@ -6,28 +7,31 @@ import * as yup from "yup";
  @returns {object} : {LoginSchema} - the schema object for the login form validation
  */
 export const useSchemas = () => {
+  const t = useTranslations("errors");
   const errors = {
-    userNameRequiredError: "Username is required",
-    userNameMinLengthError: "Username must be at least 6 characters long",
-    userEmailRequiredError: "Email is required",
-    userEmailFormatError: "Not a valid email",
-    passwordRequiredError: "Password is required",
-    confirmPasswordRequiredError: "Confirm Password is required",
-    passwordMismatchError: "Passwords do not match",
-    passwordMinLengthError: "Password must be at least 6 characters long",
-    passwordUpperCaseError: "Password must have an upper case character",
-    passwordLowerCaseError: "Password must have an lower case character",
-    passwordSpecialCharacterError: "Password must have a special character",
-    passwordNumberRequiredError: "Password must have a number included",
-    categoryNameRequiredError: "Category name is required",
-    categoryPriceRequiredError: "Category price is required",
-    categoryIconRequiredError: "Category icon is required",
-    budgetNameRequiredError: "Budget Name is required",
-    budgetPriceRequiredError: "Budget price is required",
-    budgetCategoryRequiredError: "Budget must have a category",
-    budgetDateRequiredError: "Budget must have a Date",
-    budgetTypeRequiredError: "Budget must have a Type",
-    budgetCurrencyTypeRequiredError: "Budget must have a Currency Type",
+    userNameRequiredError: t("userNameRequiredError"),
+    userNameMinLengthError: t("userNameMinLengthError"),
+    userEmailRequiredError: t("userEmailRequiredError"),
+    userEmailFormatError: t("userEmailFormatError"),
+    passwordRequiredError: t("passwordRequiredError"),
+    confirmPasswordRequiredError: t("confirmPasswordRequiredError"),
+    passwordMismatchError: t("passwordMismatchError"),
+    passwordMinLengthError: t("passwordMinLengthError"),
+    passwordUpperCaseError: t("passwordUpperCaseError"),
+    passwordLowerCaseError: t("passwordLowerCaseError"),
+    passwordSpecialCharacterError: t("passwordSpecialCharacterError"),
+    passwordNumberRequiredError: t("passwordNumberRequiredError"),
+    categoryNameRequiredError: t("categoryNameRequiredError"),
+    categoryPriceRequiredError: t("categoryPriceRequiredError"),
+    categoryIconRequiredError: t("categoryIconRequiredError"),
+    budgetNameRequiredError: t("budgetNameRequiredError"),
+    budgetPriceRequiredError: t("budgetPriceRequiredError"),
+    budgetCategoryRequiredError: t("budgetCategoryRequiredError"),
+    budgetDateRequiredError: t("budgetDateRequiredError"),
+    budgetTypeRequiredError: t("budgetTypeRequiredError"),
+    budgetCurrencyTypeRequiredError: t("budgetCurrencyTypeRequiredError"),
+    requiredFieldError: t("requiredFieldError"),
+    numberFieldError: t("numberFieldError"),
   };
 
   const registerSchema = yup.object({
@@ -110,7 +114,7 @@ export const useSchemas = () => {
     name: yup.string().required(errors.categoryNameRequiredError),
     limit: yup
       .number()
-      .typeError("You have to provide a number")
+      .typeError(errors.numberFieldError)
       .required(errors.categoryPriceRequiredError),
     icon: yup.string().required(errors.categoryIconRequiredError),
     currencyType: yup
@@ -126,7 +130,7 @@ export const useSchemas = () => {
     name: yup.string().required(errors.budgetNameRequiredError),
     price: yup
       .number()
-      .typeError("You have to provide a number")
+      .typeError(errors.numberFieldError)
       .required(errors.budgetPriceRequiredError),
     category: yup.string().required(errors.budgetCategoryRequiredError),
     date: yup.date().required(errors.budgetDateRequiredError),
@@ -141,22 +145,20 @@ export const useSchemas = () => {
   });
 
   const reminderSchema = yup.object({
-    title: yup
-      .string()
-      .required("You have to provide a title for the reminder"),
-    date: yup.date().required("You have to provide a date"),
+    title: yup.string().required(errors.requiredFieldError),
+    date: yup.date().required(errors.requiredFieldError),
     priority: yup
       .number()
-      .typeError("You have to provide a correct number")
+      .typeError(errors.numberFieldError)
       .required(errors.budgetPriceRequiredError),
-    color: yup.string().required("You have to provide a color"),
+    color: yup.string().required(errors.requiredFieldError),
   });
 
   const editBudgetSchema = yup.object({
     name: yup.string().required(errors.budgetNameRequiredError),
     price: yup
       .number()
-      .typeError("You have to provide a number")
+      .typeError(errors.numberFieldError)
       .required(errors.budgetPriceRequiredError),
     category: yup.object({
       name: yup.string().required(),
