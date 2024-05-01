@@ -214,5 +214,30 @@
     "budget_limit": "Költségkeret",
     "current_expenses": "Havi kiadások",
     "monthly": "Havi adatok"
+  },
+  "errors": {
+    "userNameRequiredError": "Felhasználónév szükséges",
+    "userNameMinLengthError": "A felhasználónévnek legalább 6 karakter hosszúnak kell lennie",
+    "userEmailRequiredError": "Az email cím szükséges",
+    "userEmailFormatError": "Nem érvényes email cím",
+    "passwordRequiredError": "Jelszó szükséges",
+    "confirmPasswordRequiredError": "Jelszó megerősítése szükséges",
+    "passwordMismatchError": "A jelszavak nem egyeznek",
+    "passwordMinLengthError": "A jelszónak legalább 6 karakter hosszúnak kell lennie",
+    "passwordUpperCaseError": "A jelszónak tartalmaznia kell nagybetűt",
+    "passwordLowerCaseError": "A jelszónak tartalmaznia kell kisbetűt",
+    "passwordSpecialCharacterError": "A jelszónak tartalmaznia kell speciális karaktert",
+    "passwordNumberRequiredError": "A jelszónak tartalmaznia kell számot",
+    "categoryNameRequiredError": "A kategória neve szükséges",
+    "categoryPriceRequiredError": "A kategória ára szükséges",
+    "categoryIconRequiredError": "A kategória ikonja szükséges",
+    "budgetNameRequiredError": "A költségvetés neve szükséges",
+    "budgetPriceRequiredError": "A költségvetés ára szükséges",
+    "budgetCategoryRequiredError": "A költségvetésnek rendelkeznie kell kategóriával",
+    "budgetDateRequiredError": "A költségvetésnek rendelkeznie kell dátummal",
+    "budgetTypeRequiredError": "A költségvetésnek rendelkeznie kell típussal",
+    "budgetCurrencyTypeRequiredError": "A költségvetésnek rendelkeznie kell valuta típussal",
+    "requiredFieldError": "Ez a mező kötelező",
+    "numberFieldError": "Meg kell adnod egy számot"
   }
 }

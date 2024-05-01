@@ -215,5 +215,30 @@
     "budget_limit": "Budget Limit",
     "current_expenses": "Current Expenses",
     "monthly": "Monthly Data"
+  },
+  "errors": {
+    "userNameRequiredError": "Username is required",
+    "userNameMinLengthError": "Username must be at least 6 characters long",
+    "userEmailRequiredError": "Email is required",
+    "userEmailFormatError": "Not a valid email",
+    "passwordRequiredError": "Password is required",
+    "confirmPasswordRequiredError": "Confirm Password is required",
+    "passwordMismatchError": "Passwords do not match",
+    "passwordMinLengthError": "Password must be at least 6 characters long",
+    "passwordUpperCaseError": "Password must have an upper case character",
+    "passwordLowerCaseError": "Password must have an lower case character",
+    "passwordSpecialCharacterError": "Password must have a special character",
+    "passwordNumberRequiredError": "Password must have a number included",
+    "categoryNameRequiredError": "Category name is required",
+    "categoryPriceRequiredError": "Category price is required",
+    "categoryIconRequiredError": "Category icon is required",
+    "budgetNameRequiredError": "Budget Name is required",
+    "budgetPriceRequiredError": "Budget price is required",
+    "budgetCategoryRequiredError": "Budget must have a category",
+    "budgetDateRequiredError": "Budget must have a Date",
+    "budgetTypeRequiredError": "Budget must have a Type",
+    "budgetCurrencyTypeRequiredError": "Budget must have a Currency Type",
+    "requiredFieldError": "This field is required",
+    "numberFieldError": "You have to provide a number"
   }
 }
