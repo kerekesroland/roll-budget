@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import getCurrentUser from "@/lib/getCurrentUser";
 import { emailBuilder } from "@/helpers/emailBuilder";
+import { invitationTemplate } from "@/helpers/email-templates";
 
 const EmailApiSdk = require("@getbrevo/brevo");
 
@@ -74,84 +75,7 @@ export async function POST(req: Request) {
 
     const emailData = emailBuilder({
       subject: "Activate your account!",
-      htmlContent: `<!DOCTYPE html>
-      <html lang="en">
-      
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Account Confirmation</title>
-          <style>
-              body {
-                  font-family: 'Arial', sans-serif;
-                  margin: 0;
-                  padding: 0;
-                  background-color: #f5f5f5;
-              }
-      
-              .container {
-                  max-width: 600px;
-                  margin: 0 auto;
-                  padding: 30px;
-                  background-color: #ffffff;
-                  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                  margin-top: 50px;
-                  border-radius: 10px;
-              }
-      
-              h1 {
-                  color: #007BFF;
-                  text-align: center;
-              }
-      
-              p {
-                  font-size: 16px;
-                  line-height: 1.6;
-              }
-      
-              a {
-                  display: inline-block;
-                  padding: 12px 25px;
-                  background-color: #007BFF;
-                  color: #fff !important;
-                  text-decoration: none;
-                  border-radius: 5px;
-                  margin-top: 20px;
-              }
-
-              span {
-                color: #007BFF !important;
-                background-color: #fff !important;
-              }
-      
-              .footer {
-                  margin-top: 30px;
-                  text-align: center;
-                  color: #777;
-              }
-          </style>
-      </head>
-      
-      <body>
-          <div class="container">
-              <h1>Welcome to Roll budget!</h1>
-              <p>Dear ${body.email}</p>
-              <p>Congratulations! You're just one step away from unlocking a world of possibilities with Roll budget. To activate your account, simply click the button below:</p>
-              <a href="${activateLink}">Activate Your Account</a>
-              <p>If the button above doesn't work, you can also copy and paste the following URL into your browser:</p>
-              <span>${activateLink}</span>
-              <p>Thank you for choosing Roll budget. We can't wait to see what amazing things you'll achieve with us!</p>
-              <div class="footer">
-                  <p>If you have any questions or need assistance, please don't hesitate to contact us at <span>rollbudget.info@gmail.com.</span>
-                  <p>Best regards,<br>Roll budget</p>
-                  </p>
-              </div>
-          </div>
-      </body>
-      
-      </html>
-      
-      `,
+      htmlContent: invitationTemplate({ activateLink, email: body.email }),
       sender: { email: user.email },
       to: [{ email: body.email }],
     });
