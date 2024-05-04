@@ -76,7 +76,6 @@ export async function GET(req: Request) {
     if (isAnyPastDue) {
       const randomIndex = Math.floor(Math.random() * reminders.length);
       const randomReminder = reminders[randomIndex];
-      console.log("edited");
 
       await prisma.reminder.update({
         where: { id: randomReminder.id },
