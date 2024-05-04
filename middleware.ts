@@ -20,7 +20,9 @@ export const config = {
 
 export function middleware(req: NextRequest) {
   // get the authentication cookie, the default locale
-  const authCookie = req.cookies.get("next-auth.session-token");
+  const authCookie =
+    req.cookies.get("next-auth.session-token") ||
+    req.cookies.get("__Secure-next-auth.session-token");
   //localeOptions 0 is `en`
   const defaultLocale =
     (req.headers.get("x-default-locale") as LocaleOptionsType) ||
