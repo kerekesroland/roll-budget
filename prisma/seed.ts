@@ -11,7 +11,7 @@ async function main() {
     create: {
       email: "rolltest@gmail.com",
       password:
-        "$argon2id$v=19$m=65536,t=3,p=4$PjYhxr2+5QepkVuhYvv2xA$80pLh3cM3vwGuWEPih6i91Ki6Uey0234qoDynGnNe5Q",
+        "$argon2id$v=19$m=65536,t=3,p=4$wP3y7oRgtXMX2+a9ENZRng$900Fey+89DKNB0C0EyVn8wVB6MEziXs7v5G3nSBLUPU",
       activated: true,
     },
   });
