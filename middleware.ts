@@ -9,29 +9,30 @@ export const config = {
      * - api
      * - _next/static
      * - _next/image
+     * - images
      * - favicon.ico
      * - fonts
      */
     "/",
-    "/((?!api|_next/static|_next/image|images|favicon.ico|fonts)(?!.*activate-account).*)",
+    "/((?!api|_next/static|_next/image|images|favicon.ico|fonts|activate-account)(?!/[a-z]{2}/activate-account).*)",
     "/(hu|en)/:path*",
   ],
 };
 
 export function middleware(req: NextRequest) {
   // get the authentication cookie, the default locale
-  const authCookie =
-    req.cookies.get("next-auth.session-token") ||
-    req.cookies.get("__Secure-next-auth.session-token");
-  //localeOptions 0 is `en`
+  const authCookie = req.cookies.get("next-auth.session-token");
   const defaultLocale =
     (req.headers.get("x-default-locale") as LocaleOptionsType) ||
     (localeOptions[0] as LocaleOptionsType);
 
   const url = req.nextUrl.clone();
 
+  const path = req.nextUrl.pathname;
+
   if (
     !authCookie &&
+    !path.includes("/activate-account") &&
     ![`/${defaultLocale}`, `/hu`].includes(req.nextUrl.pathname)
   ) {
     url.pathname = `/${defaultLocale}`;
