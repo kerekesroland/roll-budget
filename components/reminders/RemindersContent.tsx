@@ -11,6 +11,8 @@ import MobileNavbar from "../MobileNavbar";
 import AddReminderModal from "../modals/AddReminderModal";
 import DatePickerForm2 from "../CustomDateShowcase";
 import { useTranslations } from "next-intl";
+import useInterval from "@/hooks/useInterval";
+import axios from "axios";
 
 interface IProps {
   user: IUser | null;
@@ -20,6 +22,12 @@ const RemindersContent = ({ user }: IProps) => {
   const t = useTranslations("reminders");
   const [isModalOpened, setIsModalOpened] = useRecoilState(remindersModalOpen);
   const [_, setFilters] = useRecoilState(remindersFilter);
+
+  const fetchReminders = async () => {
+    await fetch("/api/reminder");
+  };
+
+  useInterval(fetchReminders, 60000);
 
   const toggleState = useCallback(
     (value: boolean) => {

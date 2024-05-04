@@ -2,11 +2,8 @@ import ActiveReminders from "@/components/reminders/ActiveReminders";
 import RemindersContent from "@/components/reminders/RemindersContent";
 import getCurrentUser from "@/lib/getCurrentUser";
 import { getReminders } from "@/lib/getReminders";
-import { IReminder } from "@/models/Reminder";
 
-type Props = {};
-
-const Reminders = async (props: Props) => {
+const Reminders = async () => {
   const userPromise = getCurrentUser();
   const remindersPromise = getReminders();
 

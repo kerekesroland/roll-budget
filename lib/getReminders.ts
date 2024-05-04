@@ -1,28 +1,48 @@
 import { Reminder } from "@prisma/client";
 import getCurrentUser from "./getCurrentUser";
 import { prisma } from "./prisma";
-import { ColorType, ReminderPriorityType } from "@/models/Reminder";
+import { ReminderPriorityType, ColorType } from "@/models/Reminder";
 
 export const getReminders = async () => {
   try {
     const user = await getCurrentUser();
-    const res: Reminder[] = await prisma.reminder.findMany({
+    const reminders: Reminder[] = await prisma.reminder.findMany({
       where: {
         userId: user?.id,
       },
     });
 
-    const returnValue = res?.map((item) => {
-      return {
-        ...item,
-        date: item?.date?.toISOString() as string,
-        priority: Number(item?.priority) as ReminderPriorityType,
-        color: item?.color as ColorType,
-      };
-    });
-    return returnValue;
+    let isAnyPastDue = false;
+
+    for (const reminder of reminders) {
+      if (reminder.date < new Date()) {
+        isAnyPastDue = true;
+        break;
+      }
+    }
+
+    if (isAnyPastDue) {
+      const randomIndex = Math.floor(Math.random() * reminders.length);
+      const randomReminder = reminders[randomIndex];
+
+      await prisma.reminder.update({
+        where: { id: randomReminder.id },
+        data: {
+          title: randomReminder.title,
+          date: randomReminder.date,
+        },
+      });
+    }
+
+    const formattedReminders = reminders.map((reminder) => ({
+      ...reminder,
+      date: reminder.date.toISOString() as string,
+      priority: Number(reminder.priority) as ReminderPriorityType,
+      color: reminder.color as ColorType,
+    }));
+    return formattedReminders;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching reminders:", error);
     return null;
   }
 };
