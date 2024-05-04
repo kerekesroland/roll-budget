@@ -13,7 +13,7 @@ export const config = {
      * - fonts
      */
     "/",
-    "/((?!api|_next/static|_next/image|images|favicon.ico|fonts|activate-account).*)",
+    "/((?!api|_next/static|_next/image|images|favicon.ico|fonts)(?!.*activate-account).*)",
     "/(hu|en)/:path*",
   ],
 };
